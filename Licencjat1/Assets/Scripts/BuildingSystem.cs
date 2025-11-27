@@ -9,6 +9,8 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private BuildingData buildingData1;
     [SerializeField] private BuildingData buildingData2;
     [SerializeField] private BuildingData buildingData3;
+    [SerializeField] private BuildingData buildingData4;
+    [SerializeField] private BuildingData buildingData5;
 
     [SerializeField] private BuildingPreview previewPrefab;
     [SerializeField] private Building buildingPrefab;
@@ -29,7 +31,7 @@ public class BuildingSystem : MonoBehaviour
         inventory = FindObjectOfType<BuildingEQ>();
         if (inventory != null)
         {
-            inventory.Initialize(new List<BuildingData> { buildingData1, buildingData2, buildingData3 });
+            inventory.Initialize(new List<BuildingData> { buildingData1, buildingData2, buildingData3, buildingData4, buildingData5});
         }
     }
 
