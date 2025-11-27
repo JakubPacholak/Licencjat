@@ -9,6 +9,8 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private BuildingData buildingData1;
     [SerializeField] private BuildingData buildingData2;
     [SerializeField] private BuildingData buildingData3;
+    [SerializeField] private BuildingData buildingData4;
+    [SerializeField] private BuildingData buildingData5;
 
     [SerializeField] private BuildingPreview previewPrefab;
     [SerializeField] private Building buildingPrefab;
@@ -22,61 +24,60 @@ public class BuildingSystem : MonoBehaviour
     private Vector3 oldCenterPos;
     private List<Vector3> oldPositions;
 
+    private BuildingEQ inventory;
+
+    private void Start()
+    {
+        inventory = FindObjectOfType<BuildingEQ>();
+        if (inventory != null)
+        {
+            inventory.Initialize(new List<BuildingData> { buildingData1, buildingData2, buildingData3, buildingData4, buildingData5});
+        }
+    }
+
     private void Update()
     {
         Vector3 mousePos = GetMouseWorldPosition();
 
         if (preview != null)
         {
+
             HandlePreview(mousePos);
+
+
+            if (Input.GetKeyDown(KeyCode.R))
+                preview.AddRotation(90);
 
             if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1))
             {
                 CancelCurrentPreview();
+                return;
             }
-            else if (isMovingBuilding)
+
+            if (isMovingBuilding)
             {
                 if (Input.GetMouseButtonUp(0))
                 {
                     if (preview.State == BuildingPreview.BuildingPreviewState.POSITIVE)
                     {
-                        List<Vector3> finalBuildPosition = preview.BuildingModels.GetRotatedShapeUnitOffsets()
-                            .Select(offset => preview.transform.position + offset).ToList();
-                        PlaceBuilding(finalBuildPosition);
+                        List<Vector3> positions = preview.BuildingModels.GetRotatedShapeUnitOffsets()
+                            .Select(o => preview.transform.position + o).ToList();
+                        PlaceBuilding(positions);
                     }
                     else
                     {
                         CancelCurrentPreview();
                     }
                 }
+                return;
             }
-            else
-            {
-
-                if (Input.GetMouseButtonDown(0))
-                {
-                    if (preview.State == BuildingPreview.BuildingPreviewState.POSITIVE)
-                    {
-                        List<Vector3> finalBuildPosition = preview.BuildingModels.GetRotatedShapeUnitOffsets()
-                            .Select(offset => preview.transform.position + offset).ToList();
-                        PlaceBuilding(finalBuildPosition);
-                    }
-                }
-            }
-        }
-        else
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha1)) preview = CreatePreview(buildingData1, mousePos);
-            else if (Input.GetKeyDown(KeyCode.Alpha2)) preview = CreatePreview(buildingData2, mousePos);
-            else if (Input.GetKeyDown(KeyCode.Alpha3)) preview = CreatePreview(buildingData3, mousePos);
         }
     }
 
-    private void CancelCurrentPreview()
+    public void CancelCurrentPreview()
     {
         if (isMovingBuilding)
         {
-
             Building restoredBuilding = Instantiate(buildingPrefab, oldCenterPos, Quaternion.identity);
             restoredBuilding.Setup(oldData, oldRotation);
             grid.SetBuilding(restoredBuilding, oldPositions);
@@ -110,11 +111,6 @@ public class BuildingSystem : MonoBehaviour
             preview.transform.position = mouseWorldPosition;
             preview.ChangeState(BuildingPreview.BuildingPreviewState.NEGATIVE);
         }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            preview.AddRotation(90);
-        }
     }
 
     private void PlaceBuilding(List<Vector3> buildingPositions)
@@ -139,7 +135,7 @@ public class BuildingSystem : MonoBehaviour
         return new Vector3(centerX, grid.transform.position.y, centerZ);
     }
 
-    private Vector3 GetMouseWorldPosition()
+    public Vector3 GetMouseWorldPosition()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
@@ -171,6 +167,7 @@ public class BuildingSystem : MonoBehaviour
     {
         if (preview != null) return;
 
+
         oldPositions = buildingToMove.Data.Model.GetAllBuldingPosition();
         oldRotation = buildingToMove.Rotation;
         oldCenterPos = buildingToMove.transform.position;
@@ -201,5 +198,45 @@ public class BuildingSystem : MonoBehaviour
         preview.SetRotation(oldRotation);
 
         isMovingBuilding = true;
+    }
+
+    public BuildingPreview CreatePreviewFromInventory(BuildingData data, Vector3 position)
+    {
+        if (preview != null) Destroy(preview.gameObject);
+        preview = CreatePreview(data, position);
+        return preview;
+    }
+
+    public void UpdatePreviewPosition(Vector3 worldPosition)
+    {
+        if (preview != null)
+        {
+            List<Vector3> rotatedOffsets = preview.BuildingModels.GetRotatedShapeUnitOffsets();
+            List<Vector3> worldPositions = rotatedOffsets.Select(offset => worldPosition + offset).ToList();
+
+            bool canBuild = grid.CanBuild(worldPositions);
+
+            if (canBuild)
+            {
+                Vector3 snapped = GetSnappedCenterPosition(worldPositions);
+                preview.transform.position = snapped;
+                preview.ChangeState(BuildingPreview.BuildingPreviewState.POSITIVE);
+            }
+            else
+            {
+                preview.transform.position = worldPosition;
+                preview.ChangeState(BuildingPreview.BuildingPreviewState.NEGATIVE);
+            }
+        }
+    }
+
+    public void PlaceCurrentPreview()
+    {
+        if (preview != null && preview.State == BuildingPreview.BuildingPreviewState.POSITIVE)
+        {
+            List<Vector3> offsets = preview.BuildingModels.GetRotatedShapeUnitOffsets();
+            List<Vector3> positions = offsets.Select(o => preview.transform.position + o).ToList();
+            PlaceBuilding(positions);
+        }
     }
 }
