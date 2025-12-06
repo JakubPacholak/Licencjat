@@ -5,10 +5,8 @@ public class Building : MonoBehaviour
     public string Description => data.Description;
     public int Cost => data.Cost;
 
-    // --- DODAJ TE DWIE LINIE ---
     public BuildingData Data => data;
     public float Rotation => model.Rotation;
-    // ----------------------------
 
     private BuildingModels model;
     private BuildingData data;
@@ -17,12 +15,6 @@ public class Building : MonoBehaviour
     {
         this.data = data;
         model = Instantiate(data.Model, transform.position, Quaternion.identity, transform);
-
-        // --- ZMIE? T? LINI? ---
-        // Z:
-        // model.Rotate(rotation);
-        // Na:
-        model.SetRotation(rotation); // U?yjemy nowej metody do ustawiania rotacji
-        // -------------------------
+        model.SetRotation(rotation);
     }
 }
