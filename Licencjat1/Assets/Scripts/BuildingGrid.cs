@@ -4,8 +4,12 @@ using System.Collections.Generic;
 
 public class BuildingGrid : MonoBehaviour
 {
-    [SerializeField] private int width;
-    [SerializeField] private int height;
+    [SerializeField] private Renderer groundMeshRenderer;
+    [SerializeField] private Terrain groundTerrain;
+
+    private int width;
+    private int height;
+    private Vector3 gridOrigin;
 
     private BuildingGridCell[,] grid;
     public BuildingGridCell[,] GetGrid() => grid;
@@ -14,6 +18,75 @@ public class BuildingGrid : MonoBehaviour
 
     private void Start()
     {
+        bool foundGround = false;
+        float surfaceY = 0f;
+
+        if (groundTerrain != null)
+        {
+            Vector3 terrainSize = groundTerrain.terrainData.size;
+            width = Mathf.FloorToInt(terrainSize.x / BuildingSystem.CellSize);
+            height = Mathf.FloorToInt(terrainSize.z / BuildingSystem.CellSize);
+            gridOrigin = groundTerrain.transform.position;
+            surfaceY = gridOrigin.y;
+            foundGround = true;
+        }
+        else if (groundMeshRenderer != null)
+        {
+            var bounds = groundMeshRenderer.bounds;
+            width = Mathf.FloorToInt(bounds.size.x / BuildingSystem.CellSize);
+            height = Mathf.FloorToInt(bounds.size.z / BuildingSystem.CellSize);
+            surfaceY = bounds.max.y;
+            gridOrigin = new Vector3(bounds.min.x, surfaceY, bounds.min.z);
+            foundGround = true;
+        }
+        else
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position + Vector3.up * 10f, Vector3.down, out hit, 20f))
+            {
+                Terrain ter = hit.collider.GetComponent<Terrain>();
+                Renderer ren = hit.collider.GetComponent<Renderer>();
+
+                if (ren == null)
+                {
+                    ren = hit.collider.GetComponentInParent<Renderer>();
+                }
+
+                if (ter != null)
+                {
+                    groundTerrain = ter;
+                    Vector3 terrainSize = groundTerrain.terrainData.size;
+                    width = Mathf.FloorToInt(terrainSize.x / BuildingSystem.CellSize);
+                    height = Mathf.FloorToInt(terrainSize.z / BuildingSystem.CellSize);
+                    gridOrigin = groundTerrain.transform.position;
+                    surfaceY = hit.point.y;
+                    foundGround = true;
+                }
+                else if (ren != null)
+                {
+                    groundMeshRenderer = ren;
+                    var bounds = groundMeshRenderer.bounds;
+                    width = Mathf.FloorToInt(bounds.size.x / BuildingSystem.CellSize);
+                    height = Mathf.FloorToInt(bounds.size.z / BuildingSystem.CellSize);
+                    surfaceY = hit.point.y;
+                    gridOrigin = new Vector3(bounds.min.x, surfaceY, bounds.min.z);
+                    foundGround = true;
+                }
+            }
+        }
+
+        if (!foundGround)
+        {
+            Debug.LogError("No ground (Terrain or MeshRenderer) detected or assigned!");
+            return;
+        }
+
+        if (width <= 0 || height <= 0)
+        {
+            Debug.LogError("Invalid grid dimensions calculated from ground!");
+            return;
+        }
+
         grid = new BuildingGridCell[width, height];
 
         for (int x = 0; x < grid.GetLength(0); x++)
@@ -52,8 +125,8 @@ public class BuildingGrid : MonoBehaviour
 
     private (int x, int y) WorldToGridPosition(Vector3 worldPosition)
     {
-        int x = Mathf.FloorToInt((worldPosition - transform.position).x / BuildingSystem.CellSize);
-        int y = Mathf.FloorToInt((worldPosition - transform.position).z / BuildingSystem.CellSize);
+        int x = Mathf.FloorToInt((worldPosition.x - gridOrigin.x) / BuildingSystem.CellSize);
+        int y = Mathf.FloorToInt((worldPosition.z - gridOrigin.z) / BuildingSystem.CellSize);
         return (x, y);
     }
 
@@ -61,22 +134,52 @@ public class BuildingGrid : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
 
-        if (BuildingSystem.CellSize <= 0 || width <= 0 || height <= 0)
+        if (BuildingSystem.CellSize <= 0)
             return;
 
-        Vector3 origin = transform.position;
+        Vector3 origin = Vector3.zero;
+        float gizWidth = 0f;
+        float gizHeight = 0f;
+        bool foundGround = false;
 
-        for (int y = 0; y <= height; y++)
+        if (groundTerrain != null)
         {
-            Vector3 start = origin + new Vector3(0, 0.01f, y * BuildingSystem.CellSize);
-            Vector3 end = origin + new Vector3(width * BuildingSystem.CellSize, 0.01f, y * BuildingSystem.CellSize);
+            var ts = groundTerrain.terrainData.size;
+            gizWidth = ts.x;
+            gizHeight = ts.z;
+            origin = groundTerrain.transform.position;
+            origin.y += 0.01f;
+            foundGround = true;
+        }
+        else if (groundMeshRenderer != null)
+        {
+            var b = groundMeshRenderer.bounds;
+            gizWidth = b.size.x;
+            gizHeight = b.size.z;
+            origin = new Vector3(b.min.x, b.max.y + 0.01f, b.min.z);
+            foundGround = true;
+        }
+
+        if (!foundGround)
+            return;
+
+        int w = Mathf.FloorToInt(gizWidth / BuildingSystem.CellSize);
+        int h = Mathf.FloorToInt(gizHeight / BuildingSystem.CellSize);
+
+        if (w <= 0 || h <= 0)
+            return;
+
+        for (int y = 0; y <= h; y++)
+        {
+            Vector3 start = origin + new Vector3(0, 0, y * BuildingSystem.CellSize);
+            Vector3 end = origin + new Vector3(w * BuildingSystem.CellSize, 0, y * BuildingSystem.CellSize);
             Gizmos.DrawLine(start, end);
         }
 
-        for (int x = 0; x <= width; x++)
+        for (int x = 0; x <= w; x++)
         {
-            Vector3 start = origin + new Vector3(x * BuildingSystem.CellSize, 0.01f, 0);
-            Vector3 end = origin + new Vector3(x * BuildingSystem.CellSize, 0.01f, height * BuildingSystem.CellSize);
+            Vector3 start = origin + new Vector3(x * BuildingSystem.CellSize, 0, 0);
+            Vector3 end = origin + new Vector3(x * BuildingSystem.CellSize, 0, h * BuildingSystem.CellSize);
             Gizmos.DrawLine(start, end);
         }
     }
