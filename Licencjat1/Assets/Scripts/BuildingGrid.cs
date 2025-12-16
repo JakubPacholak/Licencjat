@@ -16,6 +16,8 @@ public class BuildingGrid : MonoBehaviour
     public int GetLength(int dimension) => grid.GetLength(dimension);
     public BuildingGridCell GetCell(int x, int y) => grid[x, y];
 
+    public void SetGroundMeshRenderer(Renderer ren) { groundMeshRenderer = ren; }
+
     private void Start()
     {
         bool foundGround = false;
