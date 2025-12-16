@@ -6,10 +6,15 @@ public class BuildingGrid : MonoBehaviour
 {
     [SerializeField] private Renderer groundMeshRenderer;
     [SerializeField] private Terrain groundTerrain;
+    public void SetGroundMeshRenderer(Renderer ren) { groundMeshRenderer = ren; }
 
     private int width;
     private int height;
     private Vector3 gridOrigin;
+
+    public int Width => width;
+    public int Height => height;
+    public Vector3 GridOrigin => gridOrigin;
 
     private BuildingGridCell[,] grid;
     public BuildingGridCell[,] GetGrid() => grid;
