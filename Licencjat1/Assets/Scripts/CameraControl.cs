@@ -133,27 +133,21 @@ public class CameraControl : MonoBehaviour
 
     private void UpdateCameraPosition()
     {
-        // Oblicz pozycjê kamery na podstawie k¹ta obrotu wokó³ osi y i odleg³oœci zoomu
         Vector3 pos;
         pos.x = target.position.x + Mathf.Cos(Mathf.Deg2Rad * YRotation) * zoomDistance;
         pos.z = target.position.z + Mathf.Sin(Mathf.Deg2Rad * YRotation) * zoomDistance;
         pos.y = target.position.y + yPosition;
         transform.position = pos;
 
-        // Obróæ kamerê, aby patrzy³a na cel
         transform.LookAt(target.position, Vector3.up);
     }
 
     public void FocusOn(Vector3 worldPoint)
     {
-        //target.position = worldPoint;
     }
 
     public void FocusOnBuilding(Building building)
     {
-        /*if (building != null)
-        {
-            FocusOn(building.transform.position);
-        }*/
+
     }
 }

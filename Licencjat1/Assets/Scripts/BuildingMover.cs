@@ -1,10 +1,8 @@
 using UnityEngine;
 
-// Wymaga, aby na tym samym obiekcie znajdowa? si? BuildingSystem
 [RequireComponent(typeof(BuildingSystem))]
 public class BuildingMover : MonoBehaviour
 {
-    // Przeci?gnij tutaj obiekt BuildingGrid z edytora Unity
     [SerializeField] private BuildingGrid grid;
 
     private BuildingSystem buildingSystem;
