@@ -4,6 +4,8 @@ using UnityEngine;
 public class PauseMenuController : MonoBehaviour
 {
     public Canvas pauseMenuCanvas;
+    public static bool IsPaused { get; private set; } = false;
+
 
     void Start()
     {
@@ -24,10 +26,12 @@ public class PauseMenuController : MonoBehaviour
         if (pauseMenuCanvas.enabled)
         {
             Time.timeScale = 0f; // Pause the game
+            IsPaused = true;
         }
         else
         {
             Time.timeScale = 1f; // Resume the game
+            IsPaused = false;
         }
     }
 }

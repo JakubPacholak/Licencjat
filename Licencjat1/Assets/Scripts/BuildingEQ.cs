@@ -57,6 +57,8 @@ public class BuildingEQ : MonoBehaviour
 
     public void BeginDrag(BuildingData data)
     {
+        if(PauseMenuController.IsPaused)
+            return;
         draggedData = data;
 
         draggingIcon = new GameObject("EQ_DraggingIcon");

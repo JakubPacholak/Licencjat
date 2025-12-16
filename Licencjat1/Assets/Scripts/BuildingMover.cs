@@ -16,6 +16,8 @@ public class BuildingMover : MonoBehaviour
 
     private void Update()
     {
+        if (PauseMenuController.IsPaused)
+            return;
         if (Input.GetMouseButtonDown(0) && !buildingSystem.HasActivePreview())
         {
             SelectBuildingToMove();
