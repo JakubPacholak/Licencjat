@@ -28,6 +28,8 @@ public class BuildingSystem : MonoBehaviour
 
     private BuildingEQ inventory;
 
+    private List<Building> undoStack = new List<Building>();
+
     private void Start()
     {
         inventory = FindObjectOfType<BuildingEQ>();
@@ -133,7 +135,11 @@ public class BuildingSystem : MonoBehaviour
         {
             grid.SetBuilding(building, buildingPositions);
         }
-
+        undoStack.Add(building);
+        if (undoStack.Count > 3)
+        {
+            undoStack.RemoveAt(0);
+        }
         Destroy(preview.gameObject);
         preview = null;
         isMovingBuilding = false;
@@ -144,8 +150,13 @@ public class BuildingSystem : MonoBehaviour
         List<int> xs = allBuildingPosition.Select(p => Mathf.FloorToInt(p.x)).ToList();
         List<int> zs = allBuildingPosition.Select(p => Mathf.FloorToInt(p.z)).ToList();
 
-        float centerX = (xs.Min() + xs.Max()) / 2f + CellSize / 2f;
-        float centerZ = (zs.Min() + zs.Max()) / 2f + CellSize / 2f;
+        int minX = xs.Min();
+        int maxX = xs.Max();
+        float centerX = minX + (maxX - minX) / 2f + CellSize / 2f;
+
+        int minZ = zs.Min();
+        int maxZ = zs.Max();
+        float centerZ = minZ + (maxZ - minZ) / 2f + CellSize / 2f;
 
         return new Vector3(centerX, grid.transform.position.y, centerZ);
     }
@@ -186,6 +197,7 @@ public class BuildingSystem : MonoBehaviour
         oldRotation = buildingToMove.Rotation;
         oldCenterPos = buildingToMove.transform.position;
         oldData = buildingToMove.Data;
+        undoStack.Remove(buildingToMove);
 
         if (useGrid)
         {
@@ -248,7 +260,7 @@ public class BuildingSystem : MonoBehaviour
             else
             {
                 bool canBuild = CheckCollisionWithoutGrid(worldPositions);
-                preview.transform.position = worldPosition;  // Bez snappingu
+                preview.transform.position = worldPosition;
                 preview.ChangeState(canBuild ? BuildingPreview.BuildingPreviewState.POSITIVE : BuildingPreview.BuildingPreviewState.NEGATIVE);
             }
         }
@@ -279,5 +291,45 @@ public class BuildingSystem : MonoBehaviour
             }
         }
         return true;
+    }
+
+    public void UndoLastBuilding()
+    {
+        if (undoStack.Count > 0)
+        {
+            Building lastBuilding = undoStack[undoStack.Count - 1];
+            RemoveBuilding(lastBuilding);
+            undoStack.RemoveAt(undoStack.Count - 1);
+            Debug.Log("Cofni?to ostatni budynek");
+        }
+        else
+        {
+            Debug.Log("Brak budynków do cofni?cia");
+        }
+    }
+
+    private void RemoveBuilding(Building buildingToRemove)
+    {
+        if (useGrid)
+        {
+            List<BuildingGridCell> cellsToClear = new List<BuildingGridCell>();
+            for (int x = 0; x < grid.GetLength(0); x++)
+            {
+                for (int y = 0; y < grid.GetLength(1); y++)
+                {
+                    var cell = grid.GetCell(x, y);
+                    if (cell.GetBuilding() == buildingToRemove)
+                    {
+                        cellsToClear.Add(cell);
+                    }
+                }
+            }
+            foreach (var cell in cellsToClear)
+            {
+                cell.Clear();
+            }
+        }
+
+        Destroy(buildingToRemove.gameObject);
     }
 }

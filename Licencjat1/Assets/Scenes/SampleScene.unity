@@ -697,6 +697,7 @@ GameObject:
   - component: {fileID: 492118882}
   - component: {fileID: 492118884}
   - component: {fileID: 492118885}
+  - component: {fileID: 492118886}
   m_Layer: 0
   m_Name: BuildingSystem
   m_TagString: Untagged
@@ -721,10 +722,10 @@ MonoBehaviour:
   buildingData3: {fileID: 11400000, guid: 3dac280fb93e8da49be002fe12030ca5, type: 2}
   buildingData4: {fileID: 11400000, guid: abe4ef336c634c74c86491509a196c78, type: 2}
   buildingData5: {fileID: 11400000, guid: 1b2bc0450edc0874281002631072f32a, type: 2}
-  useGrid: 0
   previewPrefab: {fileID: 4920903304589599503, guid: 2ca2548672d18ec4ca955bbc4db830ed, type: 3}
   buildingPrefab: {fileID: 3443775306770702568, guid: 4d118115f0eb42144aa7fc5aa50be3f5, type: 3}
   grid: {fileID: 1008489680}
+  useGrid: 0
 --- !u!4 &492118883
 Transform:
   m_ObjectHideFlags: 0
@@ -766,6 +767,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ba543d0fac570e42875b8a13c31e444, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  grid: {fileID: 1008489680}
+--- !u!114 &492118886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492118881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 206762c1e99d9ab4b9febff0eb861818, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  undoKey: 113
   grid: {fileID: 1008489680}
 --- !u!1 &586492915
 GameObject:
