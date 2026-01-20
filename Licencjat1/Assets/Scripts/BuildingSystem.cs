@@ -16,6 +16,8 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private Building buildingPrefab;
     [SerializeField] private BuildingGrid grid;
 
+    [SerializeField] private bool useGrid = true;
+
     private BuildingPreview preview;
     private bool isMovingBuilding = false;
 
@@ -31,7 +33,7 @@ public class BuildingSystem : MonoBehaviour
         inventory = FindObjectOfType<BuildingEQ>();
         if (inventory != null)
         {
-            inventory.Initialize(new List<BuildingData> { buildingData1, buildingData2, buildingData3, buildingData4, buildingData5});
+            inventory.Initialize(new List<BuildingData> { buildingData1, buildingData2, buildingData3, buildingData4, buildingData5 });
         }
     }
 
@@ -80,7 +82,10 @@ public class BuildingSystem : MonoBehaviour
         {
             Building restoredBuilding = Instantiate(buildingPrefab, oldCenterPos, Quaternion.identity);
             restoredBuilding.Setup(oldData, oldRotation);
-            grid.SetBuilding(restoredBuilding, oldPositions);
+            if (useGrid)
+            {
+                grid.SetBuilding(restoredBuilding, oldPositions);
+            }
             isMovingBuilding = false;
         }
 
@@ -94,22 +99,28 @@ public class BuildingSystem : MonoBehaviour
     private void HandlePreview(Vector3 mouseWorldPosition)
     {
         List<Vector3> rotatedOffsets = preview.BuildingModels.GetRotatedShapeUnitOffsets();
-
         List<Vector3> worldPositionsBasedOnMouse = rotatedOffsets.Select(offset => mouseWorldPosition + offset).ToList();
 
-        bool canBuild = grid.CanBuild(worldPositionsBasedOnMouse);
-
-        if (canBuild)
+        if (useGrid)
         {
-            Vector3 snappedCenterPosition = GetSnappedCenterPosition(worldPositionsBasedOnMouse);
-
-            preview.transform.position = snappedCenterPosition;
-            preview.ChangeState(BuildingPreview.BuildingPreviewState.POSITIVE);
+            bool canBuild = grid.CanBuild(worldPositionsBasedOnMouse);
+            if (canBuild)
+            {
+                Vector3 snappedCenterPosition = GetSnappedCenterPosition(worldPositionsBasedOnMouse);
+                preview.transform.position = snappedCenterPosition;
+                preview.ChangeState(BuildingPreview.BuildingPreviewState.POSITIVE);
+            }
+            else
+            {
+                preview.transform.position = mouseWorldPosition;
+                preview.ChangeState(BuildingPreview.BuildingPreviewState.NEGATIVE);
+            }
         }
         else
         {
+            bool canBuild = CheckCollisionWithoutGrid(worldPositionsBasedOnMouse);
             preview.transform.position = mouseWorldPosition;
-            preview.ChangeState(BuildingPreview.BuildingPreviewState.NEGATIVE);
+            preview.ChangeState(canBuild ? BuildingPreview.BuildingPreviewState.POSITIVE : BuildingPreview.BuildingPreviewState.NEGATIVE);
         }
     }
 
@@ -117,7 +128,11 @@ public class BuildingSystem : MonoBehaviour
     {
         Building building = Instantiate(buildingPrefab, preview.transform.position, Quaternion.identity);
         building.Setup(preview.Data, preview.BuildingModels.Rotation);
-        grid.SetBuilding(building, buildingPositions);
+
+        if (useGrid)
+        {
+            grid.SetBuilding(building, buildingPositions);
+        }
 
         Destroy(preview.gameObject);
         preview = null;
@@ -167,28 +182,29 @@ public class BuildingSystem : MonoBehaviour
     {
         if (preview != null) return;
 
-
         oldPositions = buildingToMove.Data.Model.GetAllBuldingPosition();
         oldRotation = buildingToMove.Rotation;
         oldCenterPos = buildingToMove.transform.position;
         oldData = buildingToMove.Data;
 
-        List<BuildingGridCell> cellsToClear = new List<BuildingGridCell>();
-        for (int x = 0; x < grid.GetLength(0); x++)
+        if (useGrid)
         {
-            for (int y = 0; y < grid.GetLength(1); y++)
+            List<BuildingGridCell> cellsToClear = new List<BuildingGridCell>();
+            for (int x = 0; x < grid.GetLength(0); x++)
             {
-                var cell = grid.GetCell(x, y);
-                if (cell.GetBuilding() == buildingToMove)
+                for (int y = 0; y < grid.GetLength(1); y++)
                 {
-                    cellsToClear.Add(cell);
+                    var cell = grid.GetCell(x, y);
+                    if (cell.GetBuilding() == buildingToMove)
+                    {
+                        cellsToClear.Add(cell);
+                    }
                 }
             }
-        }
-
-        foreach (var cell in cellsToClear)
-        {
-            cell.Clear();
+            foreach (var cell in cellsToClear)
+            {
+                cell.Clear();
+            }
         }
 
         Destroy(buildingToMove.gameObject);
@@ -214,18 +230,26 @@ public class BuildingSystem : MonoBehaviour
             List<Vector3> rotatedOffsets = preview.BuildingModels.GetRotatedShapeUnitOffsets();
             List<Vector3> worldPositions = rotatedOffsets.Select(offset => worldPosition + offset).ToList();
 
-            bool canBuild = grid.CanBuild(worldPositions);
-
-            if (canBuild)
+            if (useGrid)
             {
-                Vector3 snapped = GetSnappedCenterPosition(worldPositions);
-                preview.transform.position = snapped;
-                preview.ChangeState(BuildingPreview.BuildingPreviewState.POSITIVE);
+                bool canBuild = grid.CanBuild(worldPositions);
+                if (canBuild)
+                {
+                    Vector3 snapped = GetSnappedCenterPosition(worldPositions);
+                    preview.transform.position = snapped;
+                    preview.ChangeState(BuildingPreview.BuildingPreviewState.POSITIVE);
+                }
+                else
+                {
+                    preview.transform.position = worldPosition;
+                    preview.ChangeState(BuildingPreview.BuildingPreviewState.NEGATIVE);
+                }
             }
             else
             {
-                preview.transform.position = worldPosition;
-                preview.ChangeState(BuildingPreview.BuildingPreviewState.NEGATIVE);
+                bool canBuild = CheckCollisionWithoutGrid(worldPositions);
+                preview.transform.position = worldPosition;  // Bez snappingu
+                preview.ChangeState(canBuild ? BuildingPreview.BuildingPreviewState.POSITIVE : BuildingPreview.BuildingPreviewState.NEGATIVE);
             }
         }
     }
@@ -238,5 +262,22 @@ public class BuildingSystem : MonoBehaviour
             List<Vector3> positions = offsets.Select(o => preview.transform.position + o).ToList();
             PlaceBuilding(positions);
         }
+    }
+
+    private bool CheckCollisionWithoutGrid(List<Vector3> worldPositions)
+    {
+        float halfCell = CellSize / 2f;
+        foreach (var pos in worldPositions)
+        {
+            Collider[] hits = Physics.OverlapBox(pos, new Vector3(halfCell, halfCell, halfCell));
+            foreach (var hit in hits)
+            {
+                if (hit.GetComponentInParent<Building>() != null)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
