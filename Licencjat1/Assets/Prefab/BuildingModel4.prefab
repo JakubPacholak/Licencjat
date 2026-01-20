@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1737441447386876583}
   - component: {fileID: 592990783288659432}
   - component: {fileID: 385515169434625230}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BuildingModel4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 2944389143570114533}
   - component: {fileID: 2266236153072740416}
   - component: {fileID: 4077937512672959626}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: F_Tree mushroom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,7 +182,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3676932291826173209}
   - component: {fileID: 4164047308832299945}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BuildingShapeUnit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -226,7 +226,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1129809245212938188}
   - component: {fileID: 4781309068025713661}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BuildingShapeUnit (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -269,7 +269,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2941630990541300275}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Wrapper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -305,7 +305,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7305573022774893776}
   - component: {fileID: 2924497740131254497}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BuildingShapeUnit (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

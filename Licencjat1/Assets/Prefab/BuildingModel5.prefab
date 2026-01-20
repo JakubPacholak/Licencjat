@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8917883775612646048}
   - component: {fileID: 323816506128369559}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BuildingShapeUnit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 6111900066883612902}
   - component: {fileID: 6258930608298741818}
   - component: {fileID: 680568478992397755}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BuildingModel5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,7 +139,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3475874663193487658}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Wrapper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -218,6 +218,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: cc8060b087cdb214ebf42fc1792a6b12, type: 3}
       propertyPath: m_Name
       value: F_Small_Tree Plant
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: cc8060b087cdb214ebf42fc1792a6b12, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

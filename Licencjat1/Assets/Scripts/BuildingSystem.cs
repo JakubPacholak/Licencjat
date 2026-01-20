@@ -18,9 +18,13 @@ public class BuildingSystem : MonoBehaviour
 
     [SerializeField] private bool useGrid = true;
 
+    [Header("Stacking settings (free placement)")]
+    [SerializeField] private float stackOffset = 0.05f;
+    [SerializeField] private float maxStackSearchHeight = 10f;
+    [SerializeField] private LayerMask buildingLayer;
+
     private BuildingPreview preview;
     private bool isMovingBuilding = false;
-    private bool isNewBuildingPlacement = false;
 
     private BuildingData oldData;
     private float oldRotation;
@@ -46,9 +50,7 @@ public class BuildingSystem : MonoBehaviour
 
         if (preview != null)
         {
-
             HandlePreview(mousePos);
-
 
             if (Input.GetKeyDown(KeyCode.R))
                 preview.AddRotation(90);
@@ -104,6 +106,13 @@ public class BuildingSystem : MonoBehaviour
         List<Vector3> rotatedOffsets = preview.BuildingModels.GetRotatedShapeUnitOffsets();
         List<Vector3> worldPositionsBasedOnMouse = rotatedOffsets.Select(offset => mouseWorldPosition + offset).ToList();
 
+        Vector3 targetPosition = mouseWorldPosition;
+
+        if (!useGrid && preview.Data.AllowStacking)
+        {
+            targetPosition = GetStackTopPosition(mouseWorldPosition);
+        }
+
         if (useGrid)
         {
             bool canBuild = grid.CanBuild(worldPositionsBasedOnMouse);
@@ -122,10 +131,11 @@ public class BuildingSystem : MonoBehaviour
         else
         {
             bool canBuild = CheckCollisionWithoutGrid(worldPositionsBasedOnMouse);
-            preview.transform.position = mouseWorldPosition;
+            preview.transform.position = targetPosition;
             preview.ChangeState(canBuild ? BuildingPreview.BuildingPreviewState.POSITIVE : BuildingPreview.BuildingPreviewState.NEGATIVE);
         }
     }
+
     private void PlaceBuilding(List<Vector3> buildingPositions)
     {
         Building building = Instantiate(buildingPrefab, preview.transform.position, Quaternion.identity);
@@ -136,16 +146,11 @@ public class BuildingSystem : MonoBehaviour
             grid.SetBuilding(building, buildingPositions);
         }
 
-        if (isNewBuildingPlacement)
+        undoStack.Add(building);
+        if (undoStack.Count > 3)
         {
-            undoStack.Add(building);
-
-            if (undoStack.Count > 3)
-            {
-                undoStack.RemoveAt(0);
-            }
+            undoStack.RemoveAt(0);
         }
-        isNewBuildingPlacement = false;
 
         Destroy(preview.gameObject);
         preview = null;
@@ -195,6 +200,7 @@ public class BuildingSystem : MonoBehaviour
     {
         CancelCurrentPreview();
     }
+
     public void StartMovingBuilding(Building buildingToMove, BuildingGrid grid)
     {
         if (preview != null) return;
@@ -203,6 +209,7 @@ public class BuildingSystem : MonoBehaviour
         oldRotation = buildingToMove.Rotation;
         oldCenterPos = buildingToMove.transform.position;
         oldData = buildingToMove.Data;
+
         if (useGrid)
         {
             List<BuildingGridCell> cellsToClear = new List<BuildingGridCell>();
@@ -231,14 +238,11 @@ public class BuildingSystem : MonoBehaviour
 
         isMovingBuilding = true;
     }
+
     public BuildingPreview CreatePreviewFromInventory(BuildingData data, Vector3 position)
     {
         if (preview != null) Destroy(preview.gameObject);
         preview = CreatePreview(data, position);
-
-        isNewBuildingPlacement = true;
-        isMovingBuilding = false;
-
         return preview;
     }
 
@@ -248,6 +252,13 @@ public class BuildingSystem : MonoBehaviour
         {
             List<Vector3> rotatedOffsets = preview.BuildingModels.GetRotatedShapeUnitOffsets();
             List<Vector3> worldPositions = rotatedOffsets.Select(offset => worldPosition + offset).ToList();
+
+            Vector3 targetPosition = worldPosition;
+
+            if (!useGrid && preview.Data.AllowStacking)
+            {
+                targetPosition = GetStackTopPosition(worldPosition);
+            }
 
             if (useGrid)
             {
@@ -267,7 +278,7 @@ public class BuildingSystem : MonoBehaviour
             else
             {
                 bool canBuild = CheckCollisionWithoutGrid(worldPositions);
-                preview.transform.position = worldPosition;
+                preview.transform.position = targetPosition;
                 preview.ChangeState(canBuild ? BuildingPreview.BuildingPreviewState.POSITIVE : BuildingPreview.BuildingPreviewState.NEGATIVE);
             }
         }
@@ -285,6 +296,11 @@ public class BuildingSystem : MonoBehaviour
 
     private bool CheckCollisionWithoutGrid(List<Vector3> worldPositions)
     {
+        if (preview != null && preview.Data.AllowStacking)
+        {
+            return true;
+        }
+
         float halfCell = CellSize / 2f;
         foreach (var pos in worldPositions)
         {
@@ -300,43 +316,30 @@ public class BuildingSystem : MonoBehaviour
         return true;
     }
 
+    private Vector3 GetStackTopPosition(Vector3 mousePos)
+    {
+        Vector3 rayOrigin = mousePos + Vector3.up * maxStackSearchHeight;
+        Ray ray = new Ray(rayOrigin, Vector3.down);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, maxStackSearchHeight * 2f, buildingLayer))
+        {
+            Renderer rend = hit.collider.GetComponentInChildren<Renderer>();
+            if (rend != null)
+            {
+                return new Vector3(mousePos.x, rend.bounds.max.y + stackOffset, mousePos.z);
+            }
+            return new Vector3(mousePos.x, hit.point.y + stackOffset, mousePos.z);
+        }
+        return mousePos;
+    }
+
     public void UndoLastBuilding()
     {
         if (undoStack.Count > 0)
         {
-            Building lastBuilding = undoStack[undoStack.Count - 1];
-            RemoveBuilding(lastBuilding);
+            Building last = undoStack[undoStack.Count - 1];
+            Destroy(last.gameObject);
             undoStack.RemoveAt(undoStack.Count - 1);
-            Debug.Log("Cofni?to ostatni budynek");
         }
-        else
-        {
-            Debug.Log("Brak budynków do cofni?cia");
-        }
-    }
-
-    private void RemoveBuilding(Building buildingToRemove)
-    {
-        if (useGrid)
-        {
-            List<BuildingGridCell> cellsToClear = new List<BuildingGridCell>();
-            for (int x = 0; x < grid.GetLength(0); x++)
-            {
-                for (int y = 0; y < grid.GetLength(1); y++)
-                {
-                    var cell = grid.GetCell(x, y);
-                    if (cell.GetBuilding() == buildingToRemove)
-                    {
-                        cellsToClear.Add(cell);
-                    }
-                }
-            }
-            foreach (var cell in cellsToClear)
-            {
-                cell.Clear();
-            }
-        }
-
-        Destroy(buildingToRemove.gameObject);
     }
 }

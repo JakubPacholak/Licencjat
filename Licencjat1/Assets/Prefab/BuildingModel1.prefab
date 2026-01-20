@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2677127948833250382}
   - component: {fileID: 7552656874678616191}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BuildingShapeUnit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: -7511558181221131132}
   - component: {fileID: 4174264521121572301}
   - component: {fileID: 5571412344053920676}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: F_Barrel_6listopada
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,7 +180,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 135969179057626054}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Wrapper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 2003333251761730352}
   - component: {fileID: 6784093326360866280}
   - component: {fileID: -4856591685655178647}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BuildingModel1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

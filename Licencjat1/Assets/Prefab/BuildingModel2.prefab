@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2677127948833250382}
   - component: {fileID: 7552656874678616191}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BuildingShapeUnit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: -8679921383154817045}
   - component: {fileID: -5754084199372789682}
   - component: {fileID: -7511558181221131132}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: F_Small mushroom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,7 +139,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 135969179057626054}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Wrapper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,7 +175,7 @@ GameObject:
   - component: {fileID: 6784093326360866280}
   - component: {fileID: 5238587526280975438}
   - component: {fileID: 1915067868435110251}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BuildingModel2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
