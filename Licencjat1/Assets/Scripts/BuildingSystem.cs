@@ -20,6 +20,7 @@ public class BuildingSystem : MonoBehaviour
 
     private BuildingPreview preview;
     private bool isMovingBuilding = false;
+    private bool isNewBuildingPlacement = false;
 
     private BuildingData oldData;
     private float oldRotation;
@@ -125,7 +126,6 @@ public class BuildingSystem : MonoBehaviour
             preview.ChangeState(canBuild ? BuildingPreview.BuildingPreviewState.POSITIVE : BuildingPreview.BuildingPreviewState.NEGATIVE);
         }
     }
-
     private void PlaceBuilding(List<Vector3> buildingPositions)
     {
         Building building = Instantiate(buildingPrefab, preview.transform.position, Quaternion.identity);
@@ -135,11 +135,18 @@ public class BuildingSystem : MonoBehaviour
         {
             grid.SetBuilding(building, buildingPositions);
         }
-        undoStack.Add(building);
-        if (undoStack.Count > 3)
+
+        if (isNewBuildingPlacement)
         {
-            undoStack.RemoveAt(0);
+            undoStack.Add(building);
+
+            if (undoStack.Count > 3)
+            {
+                undoStack.RemoveAt(0);
+            }
         }
+        isNewBuildingPlacement = false;
+
         Destroy(preview.gameObject);
         preview = null;
         isMovingBuilding = false;
@@ -188,7 +195,6 @@ public class BuildingSystem : MonoBehaviour
     {
         CancelCurrentPreview();
     }
-
     public void StartMovingBuilding(Building buildingToMove, BuildingGrid grid)
     {
         if (preview != null) return;
@@ -197,8 +203,6 @@ public class BuildingSystem : MonoBehaviour
         oldRotation = buildingToMove.Rotation;
         oldCenterPos = buildingToMove.transform.position;
         oldData = buildingToMove.Data;
-        undoStack.Remove(buildingToMove);
-
         if (useGrid)
         {
             List<BuildingGridCell> cellsToClear = new List<BuildingGridCell>();
@@ -227,11 +231,14 @@ public class BuildingSystem : MonoBehaviour
 
         isMovingBuilding = true;
     }
-
     public BuildingPreview CreatePreviewFromInventory(BuildingData data, Vector3 position)
     {
         if (preview != null) Destroy(preview.gameObject);
         preview = CreatePreview(data, position);
+
+        isNewBuildingPlacement = true;
+        isMovingBuilding = false;
+
         return preview;
     }
 
