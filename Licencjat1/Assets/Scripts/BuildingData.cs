@@ -20,7 +20,7 @@ public class BuildingData : ScriptableObject
     [CreateAssetMenu(menuName = "Data/MergeRecipe")]
     public class MergeRecipe : ScriptableObject
     {
-        public List<BuildingData> Ingredients; // Lista budynków potrzebnych do merga
-        public BuildingData Result;             // Co powstanie w wyniku
+        public List<BuildingData> Ingredients;
+        public BuildingData Result;
     }
 }

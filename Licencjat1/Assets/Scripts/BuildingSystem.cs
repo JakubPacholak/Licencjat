@@ -6,22 +6,28 @@ public class BuildingSystem : MonoBehaviour
 {
     public const float CellSize = 1f;
 
+    [Header("Data References")]
     [SerializeField] private BuildingData buildingData1;
     [SerializeField] private BuildingData buildingData2;
     [SerializeField] private BuildingData buildingData3;
     [SerializeField] private BuildingData buildingData4;
     [SerializeField] private BuildingData buildingData5;
 
+    [Header("System Prefabs")]
     [SerializeField] private BuildingPreview previewPrefab;
     [SerializeField] private Building buildingPrefab;
     [SerializeField] private BuildingGrid grid;
 
     [SerializeField] private bool useGrid = true;
 
-    [Header("Stacking settings (free placement)")]
+    [Header("Stacking & Collision")]
     [SerializeField] private float stackOffset = 0.05f;
     [SerializeField] private float maxStackSearchHeight = 10f;
     [SerializeField] private LayerMask buildingLayer;
+
+    [Header("Ground Restriction")]
+    [Tooltip("Ustaw tutaj warstw? (Layer), któr? ma Twoja platforma/ziemia")]
+    [SerializeField] private LayerMask placementLayer;
 
     [Header("Merge System")]
     [SerializeField] private List<MergeRecipe> mergeRecipes;
@@ -42,7 +48,6 @@ public class BuildingSystem : MonoBehaviour
     private List<Building> undoStack = new List<Building>();
     private Dictionary<MergeRecipe, int> recipeUsageHistory = new Dictionary<MergeRecipe, int>();
 
-
     private Building potentialMergeTarget = null;
     private MergeRecipe activeRecipe = null;
     private bool hasMerged = false;
@@ -55,7 +60,6 @@ public class BuildingSystem : MonoBehaviour
             inventory.Initialize(new List<BuildingData> { buildingData1, buildingData2, buildingData3, buildingData4, buildingData5 });
         }
 
-
         if (mergeIndicatorPrefab != null)
         {
             currentIndicator = Instantiate(mergeIndicatorPrefab);
@@ -67,10 +71,23 @@ public class BuildingSystem : MonoBehaviour
     {
         Vector3 mousePos = GetMouseWorldPosition();
 
+        bool isValidPosition = !mousePos.Equals(Vector3.negativeInfinity);
+
         if (preview != null)
         {
-            HandlePreview(mousePos);
+            if (!isValidPosition)
+            {
+                preview.gameObject.SetActive(false);
+                if (currentIndicator != null) currentIndicator.Hide();
+                return;
+            }
 
+            if (!preview.gameObject.activeSelf)
+            {
+                preview.gameObject.SetActive(true);
+            }
+
+            HandlePreview(mousePos);
             CheckForMergePossibility();
 
             if (potentialMergeTarget != null && Input.GetKeyDown(mergeKey))
@@ -117,6 +134,21 @@ public class BuildingSystem : MonoBehaviour
         }
     }
 
+    public Vector3 GetMouseWorldPosition()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, 2000f, placementLayer))
+        {
+            if (Vector3.Angle(hit.normal, Vector3.up) < 45f)
+            {
+                return hit.point;
+            }
+        }
+
+        return Vector3.negativeInfinity;
+    }
+
     private void CheckForMergePossibility()
     {
         if (hasMerged)
@@ -126,10 +158,6 @@ public class BuildingSystem : MonoBehaviour
             return;
         }
 
-        potentialMergeTarget = null;
-        activeRecipe = null;
-
-        if (preview == null) return;
         potentialMergeTarget = null;
         activeRecipe = null;
 
@@ -184,12 +212,11 @@ public class BuildingSystem : MonoBehaviour
     private void PerformMerge()
     {
         if (potentialMergeTarget == null || activeRecipe == null) return;
-        if (potentialMergeTarget == null || activeRecipe == null) return;
+
         Vector3 mergePosition = (potentialMergeTarget.transform.position + preview.transform.position) / 2f;
 
         if (useGrid)
         {
-
         }
         Destroy(potentialMergeTarget.gameObject);
 
@@ -218,8 +245,6 @@ public class BuildingSystem : MonoBehaviour
         }
 
         isMovingBuilding = false;
-
-
     }
 
     public void CancelCurrentPreview()
@@ -318,19 +343,6 @@ public class BuildingSystem : MonoBehaviour
         return new Vector3(centerX, grid.transform.position.y, centerZ);
     }
 
-    public Vector3 GetMouseWorldPosition()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
-
-        if (groundPlane.Raycast(ray, out float distance))
-        {
-            return ray.GetPoint(distance);
-        }
-
-        return Vector3.zero;
-    }
-
     private BuildingPreview CreatePreview(BuildingData data, Vector3 position)
     {
         BuildingPreview buildingPreview = Instantiate(previewPrefab, position, Quaternion.identity);
@@ -378,6 +390,11 @@ public class BuildingSystem : MonoBehaviour
         Destroy(buildingToMove.gameObject);
 
         Vector3 mousePos = GetMouseWorldPosition();
+        if (mousePos.Equals(Vector3.negativeInfinity))
+        {
+            mousePos = oldCenterPos;
+        }
+
         preview = CreatePreview(oldData, mousePos);
         preview.SetRotation(oldRotation);
 

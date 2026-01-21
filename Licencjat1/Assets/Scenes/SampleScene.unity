@@ -806,6 +806,9 @@ MonoBehaviour:
   buildingLayer:
     serializedVersion: 2
     m_Bits: 8
+  placementLayer:
+    serializedVersion: 2
+    m_Bits: 64
   mergeRecipes:
   - {fileID: 11400000, guid: 28b0e5031b721bc42b39d057fd222329, type: 2}
   - {fileID: 11400000, guid: ab4064fa0b5fc1c449d353c79ccdfa2f, type: 2}
@@ -2250,6 +2253,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: af401436667eb41409f4ee493b521c67, type: 3}
       propertyPath: m_Name
       value: F_Cube
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: af401436667eb41409f4ee493b521c67, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: af401436667eb41409f4ee493b521c67, type: 3}
       propertyPath: m_IsActive
