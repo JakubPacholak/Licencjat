@@ -175,6 +175,7 @@ GameObject:
   - component: {fileID: 6784093326360866280}
   - component: {fileID: 8536165238619537269}
   - component: {fileID: 4887430667680229748}
+  - component: {fileID: -4520251808329438778}
   m_Layer: 3
   m_Name: BuildingModel3
   m_TagString: Untagged
@@ -249,3 +250,25 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.48, z: 0}
   m_TimeToStationary: 0.5
+--- !u!95 &-4520251808329438778
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7383744860529973481}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a5cb5ff320c236949ad94a849bf78249, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
