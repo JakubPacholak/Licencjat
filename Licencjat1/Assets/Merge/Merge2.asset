@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72a6a7147864f93479afd8ffc9e2323e, type: 3}
-  m_Name: Merge1
+  m_Name: Merge2
   m_EditorClassIdentifier: 
-  InputA: {fileID: 11400000, guid: 8ad87d3f1821cfc40ac7d85b2b837bf1, type: 2}
-  InputB: {fileID: 11400000, guid: 3dac280fb93e8da49be002fe12030ca5, type: 2}
-  Result: {fileID: 11400000, guid: 75897eeab7801954a9c1b68a9d280921, type: 2}
-  MaxUses: 2
+  InputA: {fileID: 11400000, guid: abe4ef336c634c74c86491509a196c78, type: 2}
+  InputB: {fileID: 11400000, guid: 1b2bc0450edc0874281002631072f32a, type: 2}
+  Result: {fileID: 11400000, guid: 1b7469f645b30a944a55ca9c24a54e09, type: 2}
+  MaxUses: 1

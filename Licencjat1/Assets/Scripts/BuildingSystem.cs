@@ -24,10 +24,10 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private LayerMask buildingLayer;
 
     [Header("Merge System")]
-    [SerializeField] private List<MergeRecipe> mergeRecipes; // Lista recept (przypisz w Inspectorze)
-    [SerializeField] private MergeIndicator mergeIndicatorPrefab; // Prefab z literk?
-    [SerializeField] private float mergeCheckRadius = 1.5f;   // Odleg?o?? ??czenia
-    [SerializeField] private KeyCode mergeKey = KeyCode.M;    // Klawisz do ??czenia
+    [SerializeField] private List<MergeRecipe> mergeRecipes;
+    [SerializeField] private MergeIndicator mergeIndicatorPrefab;
+    [SerializeField] private float mergeCheckRadius = 1.5f;
+    [SerializeField] private KeyCode mergeKey = KeyCode.M;
 
     private BuildingPreview preview;
     private MergeIndicator currentIndicator;
@@ -40,10 +40,12 @@ public class BuildingSystem : MonoBehaviour
 
     private BuildingEQ inventory;
     private List<Building> undoStack = new List<Building>();
+    private Dictionary<MergeRecipe, int> recipeUsageHistory = new Dictionary<MergeRecipe, int>();
 
-    // Zmienne do obs?ugi aktualnego celu mergowania
+
     private Building potentialMergeTarget = null;
     private MergeRecipe activeRecipe = null;
+    private bool hasMerged = false;
 
     private void Start()
     {
@@ -53,7 +55,7 @@ public class BuildingSystem : MonoBehaviour
             inventory.Initialize(new List<BuildingData> { buildingData1, buildingData2, buildingData3, buildingData4, buildingData5 });
         }
 
-        // Instancjonujemy wska?nik raz i go ukrywamy
+
         if (mergeIndicatorPrefab != null)
         {
             currentIndicator = Instantiate(mergeIndicatorPrefab);
@@ -69,16 +71,13 @@ public class BuildingSystem : MonoBehaviour
         {
             HandlePreview(mousePos);
 
-            // --- LOGIKA MERGOWANIA ---
             CheckForMergePossibility();
 
-            // 1. Obs?uga klawisza MERGE (np. "M")
             if (potentialMergeTarget != null && Input.GetKeyDown(mergeKey))
             {
                 PerformMerge();
-                return; // Przerywamy, aby nie postawi? budynku
+                return;
             }
-            // -------------------------
 
             if (Input.GetKeyDown(KeyCode.R))
                 preview.AddRotation(90);
@@ -89,7 +88,6 @@ public class BuildingSystem : MonoBehaviour
                 return;
             }
 
-            // 2. Obs?uga MYSZKI (Standardowe stawianie)
             if (isMovingBuilding)
             {
                 if (Input.GetMouseButtonUp(0))
@@ -107,7 +105,6 @@ public class BuildingSystem : MonoBehaviour
                 }
                 return;
             }
-            // (Je?li to nie przenoszenie, tylko stawianie z EQ)
             else if (Input.GetMouseButtonUp(0))
             {
                 if (preview.State == BuildingPreview.BuildingPreviewState.POSITIVE)
@@ -120,28 +117,42 @@ public class BuildingSystem : MonoBehaviour
         }
     }
 
-    // --- NOWA METODA: Sprawdza otoczenie ---
     private void CheckForMergePossibility()
     {
+        if (hasMerged)
+        {
+            potentialMergeTarget = null;
+            if (currentIndicator != null) currentIndicator.Hide();
+            return;
+        }
+
+        potentialMergeTarget = null;
+        activeRecipe = null;
+
+        if (preview == null) return;
         potentialMergeTarget = null;
         activeRecipe = null;
 
         if (preview == null) return;
 
-        // Szukamy budynków w pobli?u preview
         Collider[] hits = Physics.OverlapSphere(preview.transform.position, mergeCheckRadius, buildingLayer);
 
         foreach (var hit in hits)
         {
             Building nearbyBuilding = hit.GetComponentInParent<Building>();
 
-            // Ignorujemy null i ewentualnie obiekt, który w?a?nie przenosimy (je?li mia?by collider w??czony)
             if (nearbyBuilding == null) continue;
 
-            // Sprawdzamy wszystkie recepty
             foreach (var recipe in mergeRecipes)
             {
-                // Sprawdzenie A+B lub B+A
+                if (recipe.MaxUses > 0)
+                {
+                    if (recipeUsageHistory.ContainsKey(recipe) && recipeUsageHistory[recipe] >= recipe.MaxUses)
+                    {
+                        continue;
+                    }
+                }
+
                 bool matchA = (recipe.InputA == preview.Data && recipe.InputB == nearbyBuilding.Data);
                 bool matchB = (recipe.InputB == preview.Data && recipe.InputA == nearbyBuilding.Data);
 
@@ -153,10 +164,9 @@ public class BuildingSystem : MonoBehaviour
                 }
             }
 
-            if (potentialMergeTarget != null) break; // Znaleziono, przerywamy szukanie
+            if (potentialMergeTarget != null) break;
         }
 
-        // Obs?uga wizualna
         if (currentIndicator != null)
         {
             if (potentialMergeTarget != null)
@@ -171,29 +181,23 @@ public class BuildingSystem : MonoBehaviour
         }
     }
 
-    // --- NOWA METODA: Wykonuje po??czenie ---
     private void PerformMerge()
     {
         if (potentialMergeTarget == null || activeRecipe == null) return;
-
-        // Pozycja po?rodku
+        if (potentialMergeTarget == null || activeRecipe == null) return;
         Vector3 mergePosition = (potentialMergeTarget.transform.position + preview.transform.position) / 2f;
 
-        // Usu? stary budynek ze sceny
         if (useGrid)
         {
-            // Opcjonalnie: Czyszczenie grida dla starego budynku, je?li grid jest u?ywany
-            // grid.ClearBuilding(potentialMergeTarget); 
+
         }
         Destroy(potentialMergeTarget.gameObject);
 
-        // Usu? preview
         Destroy(preview.gameObject);
         preview = null;
 
         if (currentIndicator != null) currentIndicator.Hide();
 
-        // Stwórz wynik
         Building newBuilding = Instantiate(buildingPrefab, mergePosition, Quaternion.identity);
         newBuilding.Setup(activeRecipe.Result, 0);
 
@@ -203,6 +207,19 @@ public class BuildingSystem : MonoBehaviour
         isMovingBuilding = false;
 
         Debug.Log($"Po??czono budynki w: {activeRecipe.Result.name}");
+
+        if (recipeUsageHistory.ContainsKey(activeRecipe))
+        {
+            recipeUsageHistory[activeRecipe]++;
+        }
+        else
+        {
+            recipeUsageHistory.Add(activeRecipe, 1);
+        }
+
+        isMovingBuilding = false;
+
+
     }
 
     public void CancelCurrentPreview()
@@ -378,7 +395,6 @@ public class BuildingSystem : MonoBehaviour
     {
         if (preview != null)
         {
-            // Ta metoda wydaje si? duplikowa? HandlePreview, ale zostawiam dla kompatybilno?ci
             HandlePreview(worldPosition);
         }
     }

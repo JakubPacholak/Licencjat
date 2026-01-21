@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ae7826f80adaea41814ffbbed8ce7b9, type: 3}
-  m_Name: Building A
+  m_Name: Building B
   m_EditorClassIdentifier: 
-  <Description>k__BackingField: MergeModel1
+  <Description>k__BackingField: Merge2
   <Cost>k__BackingField: 3
-  <Model>k__BackingField: {fileID: 730929855026158391, guid: 286b0ae9ec119134e86bde030f166310, type: 3}
+  <Model>k__BackingField: {fileID: 5477779775381755320, guid: 75193c5bab2a56a4c8abfc3a86f77c9f, type: 3}
   <Icon>k__BackingField: {fileID: 0}
   <AllowStacking>k__BackingField: 0
   <CanBeStackedOn>k__BackingField: 0

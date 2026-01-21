@@ -733,6 +733,7 @@ MonoBehaviour:
     m_Bits: 8
   mergeRecipes:
   - {fileID: 11400000, guid: 28b0e5031b721bc42b39d057fd222329, type: 2}
+  - {fileID: 11400000, guid: ab4064fa0b5fc1c449d353c79ccdfa2f, type: 2}
   mergeIndicatorPrefab: {fileID: 0}
   mergeCheckRadius: 1.5
   mergeKey: 109

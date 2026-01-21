@@ -8,6 +8,9 @@ public class MergeRecipe : ScriptableObject
     public BuildingData InputB;
 
     [Header("Wynik")]
-    [Tooltip("Jaki budynek powstanie po po??czeniu?")]
     public BuildingData Result;
+
+    [Header("Ograniczenia")]
+    [Tooltip("Ile razy mo?na wykona? to po??czenie w trakcie gry? 0 = bez limitu.")]
+    public int MaxUses = 0;
 }
