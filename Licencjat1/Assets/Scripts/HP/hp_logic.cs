@@ -1,9 +1,12 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class hp_logic : MonoBehaviour
 {
     public TextMeshProUGUI hp_label;
+    public Image image;
+    public int MaxPoints;
 
     int hp = 0;
 
@@ -18,6 +21,7 @@ public class hp_logic : MonoBehaviour
     {
         hp = CalculateHP();
         hp_label.SetText(hp.ToString());
+        image.fillAmount = (float)hp / (float)MaxPoints;
     }
 
     int CalculateHP()
