@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Data/Building")]
@@ -15,4 +16,11 @@ public class BuildingData : ScriptableObject
     [field: SerializeField]
     [Tooltip("Czy inne budynki mog? sta? na tym budynku")]
     public bool CanBeStackedOn { get; private set; } = false;
+
+    [CreateAssetMenu(menuName = "Data/MergeRecipe")]
+    public class MergeRecipe : ScriptableObject
+    {
+        public List<BuildingData> Ingredients; // Lista budynków potrzebnych do merga
+        public BuildingData Result;             // Co powstanie w wyniku
+    }
 }
