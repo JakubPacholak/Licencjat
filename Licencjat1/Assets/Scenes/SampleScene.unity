@@ -205,6 +205,7 @@ GameObject:
   - component: {fileID: 206333456}
   - component: {fileID: 206333457}
   - component: {fileID: 206333458}
+  - component: {fileID: 206333459}
   m_Layer: 5
   m_Name: InventoryPanel
   m_TagString: Untagged
@@ -271,6 +272,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 2
+--- !u!222 &206333459
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206333455}
+  m_CullTransparentMesh: 1
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -997,7 +1006,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.7058824}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1958,6 +1967,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 56132cd31ddd60b4a9ddce1688976688, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1925417514}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 56132cd31ddd60b4a9ddce1688976688, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1925417518}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 56132cd31ddd60b4a9ddce1688976688, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1925417517}
   m_SourcePrefab: {fileID: 100100000, guid: 56132cd31ddd60b4a9ddce1688976688, type: 3}
 --- !u!1001 &1412554160
 PrefabInstance:
@@ -2446,6 +2461,39 @@ Animation:
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
+--- !u!65 &1925417517
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1925417507}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2, y: 4, z: 2}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1925417518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1925417507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4bff7d195edb324ba3d40a7052cdac8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1968076786
 GameObject:
   m_ObjectHideFlags: 0

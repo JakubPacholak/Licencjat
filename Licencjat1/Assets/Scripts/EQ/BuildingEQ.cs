@@ -25,6 +25,22 @@ public class BuildingEQ : MonoBehaviour
         if (mainCanvas == null) mainCanvas = FindObjectOfType<Canvas>();
     }
 
+    private void Start()
+    {
+        if (inventoryPanel != null)
+        {
+            inventoryPanel.gameObject.SetActive(false);
+        }
+    }
+    public void ToggleInventory()
+    {
+        if (inventoryPanel != null)
+        {
+            bool isActive = inventoryPanel.gameObject.activeSelf;
+            inventoryPanel.gameObject.SetActive(!isActive);
+        }
+    }
+
     public void Initialize(List<BuildingData> availableBuildings)
     {
         buildings = availableBuildings;
@@ -57,8 +73,6 @@ public class BuildingEQ : MonoBehaviour
 
     public void BeginDrag(BuildingData data)
     {
-        if(PauseMenuController.IsPaused)
-            return;
         draggedData = data;
 
         draggingIcon = new GameObject("EQ_DraggingIcon");
@@ -101,26 +115,4 @@ public class BuildingEQ : MonoBehaviour
         currentPreview = null;
         draggedData = null;
     }
-
-    private void StartPreview(BuildingData data)
-    {
-        Vector3 mousePos = buildingSystem.GetMouseWorldPosition();
-        buildingSystem.CreatePreviewFromInventory(data, mousePos);
-    }
-}
-
-public class EQSlotDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
-{
-    private BuildingData data;
-    private BuildingEQ parent;
-
-    public void Setup(BuildingData buildingData, BuildingEQ parentScript)
-    {
-        data = buildingData;
-        parent = parentScript;
-    }
-
-    public void OnBeginDrag(PointerEventData eventData) => parent.BeginDrag(data);
-    public void OnDrag(PointerEventData eventData) => parent.OnDrag(eventData);
-    public void OnEndDrag(PointerEventData eventData) => parent.EndDrag(eventData);
 }
