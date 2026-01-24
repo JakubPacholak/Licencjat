@@ -15,6 +15,6 @@ MonoBehaviour:
   <Description>k__BackingField: Building 2
   <Cost>k__BackingField: 1
   <Model>k__BackingField: {fileID: 6784093326360866280, guid: 05e83912f44c2494fa93609acc11ef4c, type: 3}
-  <Icon>k__BackingField: {fileID: 0}
+  <Icon>k__BackingField: {fileID: 21300000, guid: 9be1174ba6fc66c4cbb20fb94929858c, type: 3}
   <AllowStacking>k__BackingField: 0
   <CanBeStackedOn>k__BackingField: 0
