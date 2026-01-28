@@ -38,6 +38,22 @@ public class BuildingEQ : MonoBehaviour
         }
     }
 
+    public void CloseInventory()
+    {
+        if (inventoryPanel != null)
+        {
+            inventoryPanel.gameObject.SetActive(false);
+        }
+    }
+
+    public void OpenInventory()
+    {
+        if (inventoryPanel != null)
+        {
+            inventoryPanel.gameObject.SetActive(true);
+        }
+    }
+
     public void Initialize(List<BuildingData> availableBuildings)
     {
         buildings = availableBuildings;

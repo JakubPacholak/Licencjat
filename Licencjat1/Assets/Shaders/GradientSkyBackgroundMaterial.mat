@@ -31,7 +31,8 @@ Material:
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
-  disabledShaderPasses: []
+  disabledShaderPasses:
+  - MOTIONVECTORS
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -58,9 +59,11 @@ Material:
     - Vector1_ad97766143834ca4848b1bab63e9db74: -0.5
     - Vector1_c8af298112cf444394ee97ef3e95ab96: 0.3
     - Vector1_ea745bfa2f044670a200ee0fe756ed70: 0.3
+    - _QueueControl: 0
+    - _QueueOffset: 0
     m_Colors:
-    - Color_4f828612097b4e92ad8005356fbf2572: {r: 0.6705883, g: 0.3352941, b: 0.3983194, a: 0}
-    - Color_915234e14bf14936b1378dc25286f6b1: {r: 0.4605263, g: 0.75, b: 0.5482456, a: 0}
-    - Color_99004139a61f42ba99cb363b9369becd: {r: 0.1490196, g: 0.509804, b: 0.6705883, a: 0}
+    - Color_4f828612097b4e92ad8005356fbf2572: {r: 0.29295427, g: 0, b: 0.614, a: 0}
+    - Color_915234e14bf14936b1378dc25286f6b1: {r: 0.16363631, g: 0.432, b: 0.13090907, a: 0}
+    - Color_99004139a61f42ba99cb363b9369becd: {r: 0.34503528, g: 0.564, b: 0.13934118, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

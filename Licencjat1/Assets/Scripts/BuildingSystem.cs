@@ -56,6 +56,8 @@ public class BuildingSystem : MonoBehaviour
     private MergeRecipe activeRecipe = null;
     private bool hasMerged = false;
 
+    public CreatureState creatureState;
+
     private void Start()
     {
         inventory = FindObjectOfType<BuildingEQ>();
@@ -136,6 +138,7 @@ public class BuildingSystem : MonoBehaviour
             List<Vector3> positions = preview.BuildingModels.GetRotatedShapeUnitOffsets()
                 .Select(o => preview.transform.position + o).ToList();
             PlaceBuilding(positions);
+            creatureState.ShowHappyEmoticon();
         }
         else if (isMovingBuilding)
         {
