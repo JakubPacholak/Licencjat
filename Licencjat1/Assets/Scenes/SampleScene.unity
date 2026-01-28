@@ -1973,7 +1973,7 @@ MonoBehaviour:
   emoticonHappy: {fileID: 113766295}
   hp_label: {fileID: 1968076788}
   image: {fileID: 368941748}
-  HP_MaxPoints: 0
+  HP_MaxPoints: 20
   currentState: 2
 --- !u!1 &1244771392
 GameObject:
