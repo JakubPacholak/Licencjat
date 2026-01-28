@@ -43,8 +43,7 @@ public class BuildingPreview : MonoBehaviour
         State = newState;
         SetPreviewMaterial(State);
     }
-
-    public void AddRotation(int rotationStep)
+    public void AddRotation(float rotationStep)
     {
         BuildingModels.AddRotation(rotationStep);
     }

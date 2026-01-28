@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class EQSlotDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class EQSlotDragHandler : MonoBehaviour, IPointerClickHandler
 {
     private BuildingData data;
     private BuildingEQ parent;
@@ -12,18 +12,11 @@ public class EQSlotDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler,
         parent = parentScript;
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    public void OnPointerClick(PointerEventData eventData)
     {
-        if (parent != null) parent.BeginDrag(data);
-    }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        if (parent != null) parent.OnDrag(eventData);
-    }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        if (parent != null) parent.EndDrag(eventData);
+        if (parent != null)
+        {
+            parent.SelectBuilding(data);
+        }
     }
 }

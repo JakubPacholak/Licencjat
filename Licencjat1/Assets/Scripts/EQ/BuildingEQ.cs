@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using System.Collections.Generic;
 
 public class BuildingEQ : MonoBehaviour
@@ -15,9 +14,6 @@ public class BuildingEQ : MonoBehaviour
     [SerializeField] private Sprite defaultIcon;
 
     private List<BuildingData> buildings = new();
-    private GameObject draggingIcon;
-    private BuildingData draggedData;
-    private BuildingPreview currentPreview;
 
     private void Awake()
     {
@@ -32,6 +28,7 @@ public class BuildingEQ : MonoBehaviour
             inventoryPanel.gameObject.SetActive(false);
         }
     }
+
     public void ToggleInventory()
     {
         if (inventoryPanel != null)
@@ -71,48 +68,10 @@ public class BuildingEQ : MonoBehaviour
         }
     }
 
-    public void BeginDrag(BuildingData data)
+    public void SelectBuilding(BuildingData data)
     {
-        draggedData = data;
-
-        draggingIcon = new GameObject("EQ_DraggingIcon");
-        draggingIcon.transform.SetParent(mainCanvas.transform, false);
-        Image img = draggingIcon.AddComponent<Image>();
-        img.sprite = data.Icon != null ? data.Icon : defaultIcon;
-        img.raycastTarget = false;
-        draggingIcon.GetComponent<RectTransform>().sizeDelta = new Vector2(80, 80);
-
+        ToggleInventory();
         Vector3 worldPos = buildingSystem.GetMouseWorldPosition();
-        currentPreview = buildingSystem.CreatePreviewFromInventory(data, worldPos);
-    }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        if (draggingIcon != null)
-            draggingIcon.transform.position = eventData.position;
-
-        if (currentPreview != null)
-        {
-            Vector3 worldPos = buildingSystem.GetMouseWorldPosition();
-            buildingSystem.UpdatePreviewPosition(worldPos);
-        }
-    }
-
-    public void EndDrag(PointerEventData eventData)
-    {
-        if (draggingIcon != null)
-            Destroy(draggingIcon);
-
-        if (currentPreview != null && currentPreview.State == BuildingPreview.BuildingPreviewState.POSITIVE)
-        {
-            buildingSystem.PlaceCurrentPreview();
-        }
-        else
-        {
-            buildingSystem.CancelCurrentPreview();
-        }
-
-        currentPreview = null;
-        draggedData = null;
+        buildingSystem.CreatePreviewFromInventory(data, worldPos);
     }
 }
