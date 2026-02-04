@@ -63,7 +63,7 @@ Material:
     - _QueueOffset: 0
     m_Colors:
     - Color_4f828612097b4e92ad8005356fbf2572: {r: 0.29295427, g: 0, b: 0.614, a: 0}
-    - Color_915234e14bf14936b1378dc25286f6b1: {r: 0.16363631, g: 0.432, b: 0.13090907, a: 0}
-    - Color_99004139a61f42ba99cb363b9369becd: {r: 0.34503528, g: 0.564, b: 0.13934118, a: 0}
+    - Color_915234e14bf14936b1378dc25286f6b1: {r: 0.31383985, g: 0.45911938, b: 0.2930856, a: 0}
+    - Color_99004139a61f42ba99cb363b9369becd: {r: 0.19686717, g: 0.26415092, b: 0.21079278, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
