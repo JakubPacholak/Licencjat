@@ -36,6 +36,7 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private MergeIndicator mergeIndicatorPrefab;
     [SerializeField] private float mergeCheckRadius = 1.5f;
     [SerializeField] private KeyCode mergeKey = KeyCode.M;
+    [SerializeField] private LineRenderer rangeVisualizer;
 
     private BuildingPreview preview;
     private MergeIndicator currentIndicator;
@@ -70,6 +71,13 @@ public class BuildingSystem : MonoBehaviour
             currentIndicator = Instantiate(mergeIndicatorPrefab);
             currentIndicator.Hide();
         }
+
+        if (rangeVisualizer != null)
+        {
+            rangeVisualizer.positionCount = 51;
+            rangeVisualizer.useWorldSpace = true;
+            rangeVisualizer.enabled = false;
+        }
     }
 
     private void Update()
@@ -77,6 +85,10 @@ public class BuildingSystem : MonoBehaviour
         if (preview != null)
         {
             HandlePreviewLogic();
+        }
+        else
+        {
+            if (rangeVisualizer != null) rangeVisualizer.enabled = false;
         }
 
         HandleInput();
@@ -104,11 +116,6 @@ public class BuildingSystem : MonoBehaviour
                 TryPickUpBuilding();
             }
         }
-
-        if (preview != null && potentialMergeTarget != null && Input.GetKeyDown(mergeKey))
-        {
-            PerformMerge();
-        }
     }
 
     private void HandlePreviewLogic()
@@ -120,6 +127,7 @@ public class BuildingSystem : MonoBehaviour
         {
             preview.gameObject.SetActive(false);
             if (currentIndicator != null) currentIndicator.Hide();
+            if (rangeVisualizer != null) rangeVisualizer.enabled = false;
             return;
         }
 
@@ -127,11 +135,46 @@ public class BuildingSystem : MonoBehaviour
 
         HandlePreviewPosition(mousePos);
         HandleRotation();
-        CheckForMergePossibility();
+        CheckForMergePossibility(); // Ta funkcja ustala, czy jest potentialMergeTarget
+        DrawMergeRangeCircle();     // Ta funkcja teraz korzysta z potentialMergeTarget
+    }
+
+    private void DrawMergeRangeCircle()
+    {
+        if (rangeVisualizer == null || preview == null) return;
+
+        // ZMIANA: Rysujemy lini? TYLKO, gdy wykryto cel fuzji (potentialMergeTarget nie jest nullem)
+        if (potentialMergeTarget == null)
+        {
+            rangeVisualizer.enabled = false;
+            return;
+        }
+
+        rangeVisualizer.enabled = true;
+        float angle = 0f;
+        float segmentAngle = 360f / 50f;
+
+        // Rysujemy okr?g wokó? podgl?du, ?eby zaznaczy?, ?e fuzja jest aktywna
+        for (int i = 0; i < 51; i++)
+        {
+            float x = Mathf.Sin(Mathf.Deg2Rad * angle) * mergeCheckRadius;
+            float z = Mathf.Cos(Mathf.Deg2Rad * angle) * mergeCheckRadius;
+
+            Vector3 pos = preview.transform.position + new Vector3(x, 0.2f, z);
+            rangeVisualizer.SetPosition(i, pos);
+
+            angle += segmentAngle;
+        }
     }
 
     private void TryPlaceBuilding()
     {
+        if (potentialMergeTarget != null && activeRecipe != null)
+        {
+            PerformMerge();
+            return;
+        }
+
         if (preview.State == BuildingPreview.BuildingPreviewState.POSITIVE)
         {
             List<Vector3> positions = preview.BuildingModels.GetRotatedShapeUnitOffsets()
@@ -206,7 +249,6 @@ public class BuildingSystem : MonoBehaviour
         isMovingBuilding = true;
     }
 
-
     public Vector3 GetMouseWorldPosition()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -265,7 +307,7 @@ public class BuildingSystem : MonoBehaviour
             if (potentialMergeTarget != null)
             {
                 Vector3 centerPos = (preview.transform.position + potentialMergeTarget.transform.position) / 2f;
-                currentIndicator.Show(centerPos, mergeKey.ToString());
+                currentIndicator.Show(centerPos, "!");
             }
             else
             {
@@ -282,6 +324,7 @@ public class BuildingSystem : MonoBehaviour
         Destroy(preview.gameObject);
         preview = null;
         if (currentIndicator != null) currentIndicator.Hide();
+        if (rangeVisualizer != null) rangeVisualizer.enabled = false;
 
         Building newBuilding = Instantiate(buildingPrefab, mergePosition, Quaternion.identity);
         newBuilding.Setup(activeRecipe.Result, 0);
@@ -312,6 +355,7 @@ public class BuildingSystem : MonoBehaviour
             preview = null;
         }
         if (currentIndicator != null) currentIndicator.Hide();
+        if (rangeVisualizer != null) rangeVisualizer.enabled = false;
     }
 
     private void HandlePreviewPosition(Vector3 mouseWorldPosition)
@@ -363,6 +407,7 @@ public class BuildingSystem : MonoBehaviour
         isMovingBuilding = false;
 
         if (currentIndicator != null) currentIndicator.Hide();
+        if (rangeVisualizer != null) rangeVisualizer.enabled = false;
     }
 
     private Vector3 GetSnappedCenterPosition(List<Vector3> allBuildingPosition)
