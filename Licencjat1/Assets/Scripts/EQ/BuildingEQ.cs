@@ -69,9 +69,13 @@ public class BuildingEQ : MonoBehaviour
             BuildingData data = buildings[i];
             GameObject slot = Instantiate(slotPrefab, inventoryPanel);
 
-            Image iconImg = slot.GetComponentInChildren<Image>();
+            Image iconImg = slot.transform.Find("Icon").GetComponent<Image>();
             if (iconImg != null)
+            {
                 iconImg.sprite = data.Icon != null ? data.Icon : defaultIcon;
+
+                iconImg.preserveAspect = true;
+            }
 
             var handler = slot.AddComponent<EQSlotDragHandler>();
             handler.Setup(data, this);

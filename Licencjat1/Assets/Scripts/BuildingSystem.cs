@@ -12,7 +12,6 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private BuildingData buildingData2;
     [SerializeField] private BuildingData buildingData3;
     [SerializeField] private BuildingData buildingData4;
-    [SerializeField] private BuildingData buildingData5;
 
     [Header("System Prefabs")]
     [SerializeField] private BuildingPreview previewPrefab;
@@ -63,7 +62,7 @@ public class BuildingSystem : MonoBehaviour
         inventory = FindObjectOfType<BuildingEQ>();
         if (inventory != null)
         {
-            inventory.Initialize(new List<BuildingData> { buildingData1, buildingData2, buildingData3, buildingData4, buildingData5 });
+            inventory.Initialize(new List<BuildingData> { buildingData1, buildingData2, buildingData3, buildingData4 });
         }
 
         if (mergeIndicatorPrefab != null)
@@ -142,7 +141,7 @@ public class BuildingSystem : MonoBehaviour
         }
         else if (isMovingBuilding)
         {
-            Debug.Log("Nie mozna tu postawi?.");
+            Debug.Log("Nie mozna tu postawic.");
         }
     }
 
@@ -392,6 +391,12 @@ public class BuildingSystem : MonoBehaviour
     public BuildingPreview CreatePreviewFromInventory(BuildingData data, Vector3 position)
     {
         if (preview != null) Destroy(preview.gameObject);
+
+        if (position.Equals(Vector3.negativeInfinity))
+        {
+            position = Vector3.zero;
+        }
+
         preview = CreatePreview(data, position);
         isMovingBuilding = false;
         return preview;
