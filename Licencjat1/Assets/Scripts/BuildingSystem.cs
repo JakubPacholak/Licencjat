@@ -135,15 +135,14 @@ public class BuildingSystem : MonoBehaviour
 
         HandlePreviewPosition(mousePos);
         HandleRotation();
-        CheckForMergePossibility(); // Ta funkcja ustala, czy jest potentialMergeTarget
-        DrawMergeRangeCircle();     // Ta funkcja teraz korzysta z potentialMergeTarget
+        CheckForMergePossibility();
+        DrawMergeRangeCircle();
     }
 
     private void DrawMergeRangeCircle()
     {
         if (rangeVisualizer == null || preview == null) return;
 
-        // ZMIANA: Rysujemy lini? TYLKO, gdy wykryto cel fuzji (potentialMergeTarget nie jest nullem)
         if (potentialMergeTarget == null)
         {
             rangeVisualizer.enabled = false;
@@ -154,7 +153,6 @@ public class BuildingSystem : MonoBehaviour
         float angle = 0f;
         float segmentAngle = 360f / 50f;
 
-        // Rysujemy okr?g wokó? podgl?du, ?eby zaznaczy?, ?e fuzja jest aktywna
         for (int i = 0; i < 51; i++)
         {
             float x = Mathf.Sin(Mathf.Deg2Rad * angle) * mergeCheckRadius;
@@ -180,7 +178,7 @@ public class BuildingSystem : MonoBehaviour
             List<Vector3> positions = preview.BuildingModels.GetRotatedShapeUnitOffsets()
                 .Select(o => preview.transform.position + o).ToList();
             PlaceBuilding(positions);
-            creatureState.ShowHappyEmoticon();
+            if (creatureState != null) creatureState.ShowHappyEmoticon();
         }
         else if (isMovingBuilding)
         {
@@ -329,6 +327,11 @@ public class BuildingSystem : MonoBehaviour
         Building newBuilding = Instantiate(buildingPrefab, mergePosition, Quaternion.identity);
         newBuilding.Setup(activeRecipe.Result, 0);
 
+        if (activeRecipe.Result.PlacementVFX != null)
+        {
+            Destroy(Instantiate(activeRecipe.Result.PlacementVFX, mergePosition, Quaternion.identity), 5f);
+        }
+
         undoStack.Add(newBuilding);
         if (undoStack.Count > 3) undoStack.RemoveAt(0);
 
@@ -398,6 +401,11 @@ public class BuildingSystem : MonoBehaviour
         building.Setup(preview.Data, preview.BuildingModels.Rotation);
 
         if (useGrid) grid.SetBuilding(building, buildingPositions);
+
+        if (preview.Data.PlacementVFX != null)
+        {
+            Destroy(Instantiate(preview.Data.PlacementVFX, preview.transform.position, Quaternion.identity), 5f);
+        }
 
         undoStack.Add(building);
         if (undoStack.Count > 3) undoStack.RemoveAt(0);
