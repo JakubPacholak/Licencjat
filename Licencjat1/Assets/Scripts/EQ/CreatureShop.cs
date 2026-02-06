@@ -20,15 +20,5 @@ public class CreatureShop : MonoBehaviour
         {
             buildingEQ.OpenInventory();
         }
-
-
-        /*if (buildingEQ != null)
-        {
-            buildingEQ.ToggleInventory();
-
-            Debug.Log("Otwieram/Zamykam EQ!");
-        }*/
     }
-
-
 }
