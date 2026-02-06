@@ -23,7 +23,7 @@ public class PauseMenuController : MonoBehaviour
         }
     }
 
-    private void TogglePauseMenu()
+    public void TogglePauseMenu()
     {
         pauseMenuCanvas.enabled = !pauseMenuCanvas.enabled;
         eqCanvas.enabled = !eqCanvas.enabled;
