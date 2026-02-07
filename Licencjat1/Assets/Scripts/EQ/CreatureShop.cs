@@ -3,7 +3,6 @@ using UnityEngine.EventSystems;
 
 public class CreatureShop : MonoBehaviour
 {
-
     public CreatureState creatureState;
     private BuildingEQ buildingEQ;
 
@@ -11,12 +10,13 @@ public class CreatureShop : MonoBehaviour
     {
         buildingEQ = FindObjectOfType<BuildingEQ>();
     }
+
     private void OnMouseDown()
     {
         if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
             return;
 
-        if (creatureState.currentState == CreatureState.State.Thinking)
+        if (buildingEQ != null)
         {
             buildingEQ.OpenInventory();
         }

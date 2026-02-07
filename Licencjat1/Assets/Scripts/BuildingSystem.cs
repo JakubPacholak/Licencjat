@@ -137,6 +137,11 @@ public class BuildingSystem : MonoBehaviour
         HandleRotation();
         CheckForMergePossibility();
         DrawMergeRangeCircle();
+
+        if (potentialMergeTarget != null)
+        {
+            preview.ChangeState(BuildingPreview.BuildingPreviewState.POSITIVE);
+        }
     }
 
     private void DrawMergeRangeCircle()
@@ -189,7 +194,7 @@ public class BuildingSystem : MonoBehaviour
     private void TryPickUpBuilding()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        if (Physics.Raycast(ray, out RaycastHit hit, 2000f, buildingLayer))
         {
             Building building = hit.collider.GetComponentInParent<Building>();
 
@@ -372,27 +377,51 @@ public class BuildingSystem : MonoBehaviour
             targetPosition = GetStackTopPosition(mouseWorldPosition);
         }
 
+        bool canBuild = false;
+
         if (useGrid)
         {
-            bool canBuild = grid.CanBuild(worldPositionsBasedOnMouse);
+            canBuild = grid.CanBuild(worldPositionsBasedOnMouse);
             if (canBuild)
             {
                 Vector3 snappedCenterPosition = GetSnappedCenterPosition(worldPositionsBasedOnMouse);
                 preview.transform.position = snappedCenterPosition;
-                preview.ChangeState(BuildingPreview.BuildingPreviewState.POSITIVE);
             }
             else
             {
                 preview.transform.position = mouseWorldPosition;
-                preview.ChangeState(BuildingPreview.BuildingPreviewState.NEGATIVE);
             }
         }
         else
         {
-            bool canBuild = CheckCollisionWithoutGrid(worldPositionsBasedOnMouse);
+            canBuild = CheckCollisionWithoutGrid(worldPositionsBasedOnMouse);
             preview.transform.position = targetPosition;
-            preview.ChangeState(canBuild ? BuildingPreview.BuildingPreviewState.POSITIVE : BuildingPreview.BuildingPreviewState.NEGATIVE);
         }
+
+        if (canBuild && preview.Data.OnlyStackOnSameType)
+        {
+            if (!CheckIfStackingOnSameType(preview.transform.position))
+            {
+                canBuild = false;
+            }
+        }
+
+        preview.ChangeState(canBuild ? BuildingPreview.BuildingPreviewState.POSITIVE : BuildingPreview.BuildingPreviewState.NEGATIVE);
+    }
+
+    private bool CheckIfStackingOnSameType(Vector3 currentPos)
+    {
+        Ray ray = new Ray(currentPos + Vector3.up * 0.1f, Vector3.down);
+        if (Physics.Raycast(ray, out RaycastHit hit, 2f, buildingLayer))
+        {
+            Building buildingBelow = hit.collider.GetComponentInParent<Building>();
+            if (buildingBelow != null)
+            {
+                if (buildingBelow.Data == preview.Data) return true;
+                return false;
+            }
+        }
+        return true;
     }
 
     private void PlaceBuilding(List<Vector3> buildingPositions)
@@ -457,7 +486,11 @@ public class BuildingSystem : MonoBehaviour
 
     private bool CheckCollisionWithoutGrid(List<Vector3> worldPositions)
     {
-        if (preview != null && preview.Data.AllowStacking) return true;
+        if (preview != null && preview.Data.IgnoreCollision) return true;
+
+        if (preview != null && preview.Data.AllowStacking && preview.transform.position.y > 0.1f)
+            return true;
+
         float halfCell = CellSize / 2f;
         foreach (var pos in worldPositions)
         {
@@ -474,8 +507,19 @@ public class BuildingSystem : MonoBehaviour
     {
         Vector3 rayOrigin = mousePos + Vector3.up * maxStackSearchHeight;
         Ray ray = new Ray(rayOrigin, Vector3.down);
+
         if (Physics.Raycast(ray, out RaycastHit hit, maxStackSearchHeight * 2f, buildingLayer))
         {
+            Building buildingBelow = hit.collider.GetComponentInParent<Building>();
+
+            if (buildingBelow != null)
+            {
+                if (!buildingBelow.Data.CanBeStackedOn)
+                {
+                    return mousePos;
+                }
+            }
+
             Renderer rend = hit.collider.GetComponentInChildren<Renderer>();
             if (rend != null) return new Vector3(mousePos.x, rend.bounds.max.y + stackOffset, mousePos.z);
             return new Vector3(mousePos.x, hit.point.y + stackOffset, mousePos.z);

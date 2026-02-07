@@ -7,7 +7,7 @@ public class BuildingUndo : MonoBehaviour
     [SerializeField] private BuildingGrid grid;
 
     private BuildingSystem buildingSystem;
-    private const int MaxUndo = 3;
+    private const int MaxUndo = 4;
 
     private void Awake()
     {
