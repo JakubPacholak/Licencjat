@@ -14,6 +14,7 @@ public class BuildingModels : MonoBehaviour
     {
         shapeUnits = GetComponentsInChildren<BuildingShapeUnit>();
     }
+
     public void AddRotation(float rotationStep)
     {
         wrapper.Rotate(new Vector3(0, rotationStep, 0));
@@ -26,14 +27,23 @@ public class BuildingModels : MonoBehaviour
 
     public List<Vector3> GetAllBuldingPosition()
     {
-        return shapeUnits.Select(unit => unit.transform.position).ToList();
-    }
-    public List<Vector3> GetRotatedShapeUnitOffsets()
-    {
-        if (shapeUnits == null)
+        if (shapeUnits == null || shapeUnits.Length == 0)
         {
             shapeUnits = GetComponentsInChildren<BuildingShapeUnit>();
         }
+        if (shapeUnits == null) return new List<Vector3>();
+
+        return shapeUnits.Select(unit => unit.transform.position).ToList();
+    }
+
+    public List<Vector3> GetRotatedShapeUnitOffsets()
+    {
+        if (shapeUnits == null || shapeUnits.Length == 0)
+        {
+            shapeUnits = GetComponentsInChildren<BuildingShapeUnit>();
+        }
+
+        if (shapeUnits == null) return new List<Vector3>();
 
         return shapeUnits.Select(unit => unit.transform.position - transform.position).ToList();
     }

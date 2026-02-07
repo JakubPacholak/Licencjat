@@ -187,16 +187,26 @@ public class BuildingSystem : MonoBehaviour
         }
         else if (isMovingBuilding)
         {
-            Debug.Log("Nie mozna tu postawic.");
         }
     }
 
     private void TryPickUpBuilding()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
         if (Physics.Raycast(ray, out RaycastHit hit, 2000f, buildingLayer))
         {
             Building building = hit.collider.GetComponentInParent<Building>();
+
+            if (building == null)
+            {
+                building = hit.collider.GetComponent<Building>();
+            }
+
+            if (building == null && hit.transform.parent != null)
+            {
+                building = hit.transform.parent.GetComponent<Building>();
+            }
 
             if (building != null)
             {

@@ -19,5 +19,5 @@ MonoBehaviour:
   <PlacementVFX>k__BackingField: {fileID: 0}
   <AllowStacking>k__BackingField: 0
   <CanBeStackedOn>k__BackingField: 0
-  <OnlyStackOnSameType>k__BackingField: 0
-  <IgnoreCollision>k__BackingField: 1
+  <OnlyStackOnSameType>k__BackingField: 1
+  <IgnoreCollision>k__BackingField: 0
