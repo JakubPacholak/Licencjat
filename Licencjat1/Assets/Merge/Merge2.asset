@@ -15,4 +15,4 @@ MonoBehaviour:
   InputA: {fileID: 11400000, guid: 3dac280fb93e8da49be002fe12030ca5, type: 2}
   InputB: {fileID: 11400000, guid: 8ad87d3f1821cfc40ac7d85b2b837bf1, type: 2}
   Result: {fileID: 11400000, guid: 75897eeab7801954a9c1b68a9d280921, type: 2}
-  MaxUses: 1
+  MaxUses: 2
