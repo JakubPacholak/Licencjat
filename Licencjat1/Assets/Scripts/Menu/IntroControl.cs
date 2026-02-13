@@ -6,9 +6,7 @@ using UnityEngine.SceneManagement;
 public class IntroController : MonoBehaviour
 {
     [Header("Konfiguracja")]
-    [Tooltip("Lista ilustracji do wy?wietlenia w kolejno?ci")]
     public Sprite[] introImages;
-    [Tooltip("Nazwa sceny z w?a?ciw? gr?, która ma si? w??czy? po intro")]
     public string gameSceneName = "GameLevel";
 
     [Header("Elementy UI")]
@@ -16,11 +14,19 @@ public class IntroController : MonoBehaviour
     public CanvasGroup fader;
 
     [Header("Ustawienia Czasu")]
-    public float timePerImage = 10f;
+    public float timePerImage = 3f;
     public float fadeDuration = 1.5f;
+    public float blackScreenDuration = 0.5f;
 
     private void Start()
     {
+        PlayerPrefs.DeleteKey("IntroPlayed");
+
+        if (fader != null)
+        {
+            fader.alpha = 1f;
+        }
+
         StartCoroutine(PlayIntroSequence());
     }
 
@@ -29,16 +35,23 @@ public class IntroController : MonoBehaviour
         for (int i = 0; i < introImages.Length; i++)
         {
             displayImage.sprite = introImages[i];
+
+            yield return new WaitForSeconds(blackScreenDuration);
+
             yield return StartCoroutine(FadeRoutine(1f, 0f));
+
             yield return new WaitForSeconds(timePerImage);
+
             yield return StartCoroutine(FadeRoutine(0f, 1f));
         }
+
         FinishIntro();
     }
 
     private IEnumerator FadeRoutine(float startAlpha, float endAlpha)
     {
         float timeElapsed = 0f;
+        fader.alpha = startAlpha;
 
         while (timeElapsed < fadeDuration)
         {
@@ -52,9 +65,6 @@ public class IntroController : MonoBehaviour
 
     private void FinishIntro()
     {
-        PlayerPrefs.SetInt("IntroPlayed", 1);
-        PlayerPrefs.Save();
-
         SceneManager.LoadScene(gameSceneName);
     }
 }
