@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Data/MergeRecipe")]
 public class MergeRecipe : ScriptableObject
 {
-    [Header("Sk?adniki fuzji")]
+    [Header("Skladniki fuzji")]
     public BuildingData InputA;
     public BuildingData InputB;
 
@@ -11,6 +11,6 @@ public class MergeRecipe : ScriptableObject
     public BuildingData Result;
 
     [Header("Ograniczenia")]
-    [Tooltip("Ile razy mo?na wykona? to po??czenie w trakcie gry? 0 = bez limitu.")]
+    [Tooltip("Ile razy mozna wykonac to polaczenie w trakcie gry? 0 = bez limitu.")] 
     public int MaxUses = 0;
 }

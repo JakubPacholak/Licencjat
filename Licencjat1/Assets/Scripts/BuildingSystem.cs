@@ -58,12 +58,10 @@ public class BuildingSystem : MonoBehaviour
 
     public CreatureState creatureState;
 
-    // --- NOWA METODA DLA TUTORIALA ---
     public int GetTotalMerges()
     {
         return recipeUsageHistory.Values.Sum();
     }
-    // -------------------------------
 
     private void Start()
     {
