@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Merge4
   m_EditorClassIdentifier: 
   InputA: {fileID: 11400000, guid: 8ad87d3f1821cfc40ac7d85b2b837bf1, type: 2}
-  InputB: {fileID: 11400000, guid: 1b2bc0450edc0874281002631072f32a, type: 2}
+  InputB: {fileID: 11400000, guid: abe4ef336c634c74c86491509a196c78, type: 2}
   Result: {fileID: 11400000, guid: fcca7dc8c30d525449e9b731f2ba3091, type: 2}
   MaxUses: 1
