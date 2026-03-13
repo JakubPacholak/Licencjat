@@ -2423,63 +2423,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundMeshRenderer: {fileID: 625191708}
   groundTerrain: {fileID: 0}
---- !u!1001 &1028846642
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1905367384501383614, guid: 4696f4beba0d6cb489a2e9db7040d0d4, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 6.663
-      objectReference: {fileID: 0}
-    - target: {fileID: 1905367384501383614, guid: 4696f4beba0d6cb489a2e9db7040d0d4, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.118
-      objectReference: {fileID: 0}
-    - target: {fileID: 1905367384501383614, guid: 4696f4beba0d6cb489a2e9db7040d0d4, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.416
-      objectReference: {fileID: 0}
-    - target: {fileID: 1905367384501383614, guid: 4696f4beba0d6cb489a2e9db7040d0d4, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1905367384501383614, guid: 4696f4beba0d6cb489a2e9db7040d0d4, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1905367384501383614, guid: 4696f4beba0d6cb489a2e9db7040d0d4, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1905367384501383614, guid: 4696f4beba0d6cb489a2e9db7040d0d4, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1905367384501383614, guid: 4696f4beba0d6cb489a2e9db7040d0d4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1905367384501383614, guid: 4696f4beba0d6cb489a2e9db7040d0d4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1905367384501383614, guid: 4696f4beba0d6cb489a2e9db7040d0d4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7477147067944327783, guid: 4696f4beba0d6cb489a2e9db7040d0d4, type: 3}
-      propertyPath: m_Name
-      value: BuildingModel3
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 4696f4beba0d6cb489a2e9db7040d0d4, type: 3}
 --- !u!1 &1042226337
 GameObject:
   m_ObjectHideFlags: 0
@@ -2982,7 +2925,7 @@ MonoBehaviour:
   emoticonHappy: {fileID: 113766295}
   hp_label: {fileID: 1968076788}
   image: {fileID: 368941748}
-  HP_MaxPoints: 20
+  HP_MaxPoints: 100
   currentState: 2
 --- !u!1 &1244771392
 GameObject:
@@ -4760,7 +4703,7 @@ MonoBehaviour:
   animator: {fileID: 1367496160}
   agent: {fileID: 1925417509}
   wanderScript: {fileID: 1925417508}
-  animationInterval: 5
+  animationInterval: 30
   defaultStateName: Armature_Lewitation
   buildingAnimations:
   - requiredBuilding: {fileID: 11400000, guid: 3dac280fb93e8da49be002fe12030ca5, type: 2}
@@ -5097,4 +5040,3 @@ SceneRoots:
   - {fileID: 732331303}
   - {fileID: 374495049}
   - {fileID: 1109944449}
-  - {fileID: 1028846642}

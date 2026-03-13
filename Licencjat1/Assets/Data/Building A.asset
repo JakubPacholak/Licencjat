@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Building A
   m_EditorClassIdentifier: 
   <Description>k__BackingField: MergeModel1
-  <Cost>k__BackingField: 4
+  <Cost>k__BackingField: 12
   <Model>k__BackingField: {fileID: 730929855026158391, guid: 286b0ae9ec119134e86bde030f166310, type: 3}
   <Icon>k__BackingField: {fileID: 0}
   <PlacementVFX>k__BackingField: {fileID: 4784623027721228424, guid: ca284b3bc9085f8488ec2585ce31178b, type: 3}

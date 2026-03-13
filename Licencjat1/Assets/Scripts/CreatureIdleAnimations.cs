@@ -79,7 +79,6 @@ public class CreatureIdleAnimations : MonoBehaviour
         float targetDist = link.interactionDistance > 0f ? link.interactionDistance : 1.5f;
         agent.stoppingDistance = targetDist;
 
-        // Czekaj a? dojdzie
         while (targetBuilding != null && (agent.pathPending || agent.remainingDistance > targetDist + 0.1f))
         {
             yield return null;
@@ -91,10 +90,8 @@ public class CreatureIdleAnimations : MonoBehaviour
             yield break;
         }
 
-        // Zatrzymanie agenta
         agent.isStopped = true;
 
-        // Szukanie dedykowanego punktu na budynku
         Transform interactionPoint = FindInteractionPoint(targetBuilding.transform);
         Vector3 originalPos = transform.position;
         Quaternion originalRot = transform.rotation;
@@ -102,7 +99,6 @@ public class CreatureIdleAnimations : MonoBehaviour
 
         if (interactionPoint != null)
         {
-            // Je?li znaleziono punkt (np. szczyt pomnika), wy??czamy agenta i przypinamy stworka
             agent.enabled = false;
             transform.position = interactionPoint.position;
             transform.rotation = interactionPoint.rotation;
@@ -110,7 +106,6 @@ public class CreatureIdleAnimations : MonoBehaviour
         }
         else
         {
-            // Tradycyjne obracanie w stron? budynku, je?li punktu nie ma
             Vector3 directionToBuilding = (targetBuilding.transform.position - transform.position).normalized;
             directionToBuilding.y = 0;
             if (directionToBuilding != Vector3.zero)
@@ -119,11 +114,9 @@ public class CreatureIdleAnimations : MonoBehaviour
             }
         }
 
-        // Odpalenie animacji
         animator.SetTrigger(link.animationTriggerName);
         yield return new WaitForSeconds(0.5f);
 
-        // Czekanie na koniec animacji
         while (true)
         {
             if (animator == null) break;
@@ -131,18 +124,15 @@ public class CreatureIdleAnimations : MonoBehaviour
             AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
             if (stateInfo.IsName(defaultStateName)) break;
 
-            // Je?li kto? zniszczy budynek w trakcie animacji
             if (snappedToPoint && targetBuilding == null) break;
 
             yield return null;
         }
-
-        // Przywracanie pozycji, je?li stworek by? teleportowany na budynek
         if (snappedToPoint)
         {
             transform.position = originalPos;
             transform.rotation = originalRot;
-            agent.enabled = true; // W??czamy NavMesh z powrotem
+            agent.enabled = true;
         }
 
         EndInteraction(originalStoppingDist);
