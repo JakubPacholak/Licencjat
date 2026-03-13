@@ -2423,6 +2423,63 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundMeshRenderer: {fileID: 625191708}
   groundTerrain: {fileID: 0}
+--- !u!1001 &1028846642
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1905367384501383614, guid: 4696f4beba0d6cb489a2e9db7040d0d4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6.663
+      objectReference: {fileID: 0}
+    - target: {fileID: 1905367384501383614, guid: 4696f4beba0d6cb489a2e9db7040d0d4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.118
+      objectReference: {fileID: 0}
+    - target: {fileID: 1905367384501383614, guid: 4696f4beba0d6cb489a2e9db7040d0d4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.416
+      objectReference: {fileID: 0}
+    - target: {fileID: 1905367384501383614, guid: 4696f4beba0d6cb489a2e9db7040d0d4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1905367384501383614, guid: 4696f4beba0d6cb489a2e9db7040d0d4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1905367384501383614, guid: 4696f4beba0d6cb489a2e9db7040d0d4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1905367384501383614, guid: 4696f4beba0d6cb489a2e9db7040d0d4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1905367384501383614, guid: 4696f4beba0d6cb489a2e9db7040d0d4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1905367384501383614, guid: 4696f4beba0d6cb489a2e9db7040d0d4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1905367384501383614, guid: 4696f4beba0d6cb489a2e9db7040d0d4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7477147067944327783, guid: 4696f4beba0d6cb489a2e9db7040d0d4, type: 3}
+      propertyPath: m_Name
+      value: BuildingModel3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4696f4beba0d6cb489a2e9db7040d0d4, type: 3}
 --- !u!1 &1042226337
 GameObject:
   m_ObjectHideFlags: 0
@@ -3575,14 +3632,19 @@ PrefabInstance:
       addedObject: {fileID: 1925417508}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 56132cd31ddd60b4a9ddce1688976688, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1925417514}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 56132cd31ddd60b4a9ddce1688976688, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1925417518}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 56132cd31ddd60b4a9ddce1688976688, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1925417517}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 56132cd31ddd60b4a9ddce1688976688, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1925417521}
   m_SourcePrefab: {fileID: 100100000, guid: 56132cd31ddd60b4a9ddce1688976688, type: 3}
+--- !u!95 &1367496160 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 56132cd31ddd60b4a9ddce1688976688, type: 3}
+  m_PrefabInstance: {fileID: 1367496159}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1412554160
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4567,6 +4629,8 @@ MonoBehaviour:
   repathTimeout: 6
   sampleTries: 8
   minNextPointDist: 5
+  animator: {fileID: 1367496160}
+  defaultStateName: Armature_Lewitation
 --- !u!195 &1925417509
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -4642,22 +4706,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!111 &1925417514
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1925417507}
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Animation: {fileID: 0}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_UpdateMode: 0
-  m_CullingType: 0
 --- !u!65 &1925417517
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4697,6 +4745,36 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 56132cd31ddd60b4a9ddce1688976688, type: 3}
   m_PrefabInstance: {fileID: 1367496159}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1925417521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1925417507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd057d86e338f1e449a6a79909470aa8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 1367496160}
+  agent: {fileID: 1925417509}
+  wanderScript: {fileID: 1925417508}
+  animationInterval: 5
+  defaultStateName: Armature_Lewitation
+  buildingAnimations:
+  - requiredBuilding: {fileID: 11400000, guid: 3dac280fb93e8da49be002fe12030ca5, type: 2}
+    animationTriggerName: Sit
+    interactionDistance: 0
+  - requiredBuilding: {fileID: 11400000, guid: c8e38fab5b08263449c720d662bf7c2d, type: 2}
+    animationTriggerName: Eat
+    interactionDistance: 0
+  - requiredBuilding: {fileID: 11400000, guid: fcca7dc8c30d525449e9b731f2ba3091, type: 2}
+    animationTriggerName: Lay
+    interactionDistance: 0
+  - requiredBuilding: {fileID: 11400000, guid: fcca7dc8c30d525449e9b731f2ba3091, type: 2}
+    animationTriggerName: Sleep
+    interactionDistance: 0
 --- !u!1 &1968076786
 GameObject:
   m_ObjectHideFlags: 0
@@ -5019,3 +5097,4 @@ SceneRoots:
   - {fileID: 732331303}
   - {fileID: 374495049}
   - {fileID: 1109944449}
+  - {fileID: 1028846642}

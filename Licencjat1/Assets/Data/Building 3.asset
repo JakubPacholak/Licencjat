@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Description>k__BackingField: Building 3
   <Cost>k__BackingField: 2
-  <Model>k__BackingField: {fileID: 6784093326360866280, guid: 4696f4beba0d6cb489a2e9db7040d0d4, type: 3}
+  <Model>k__BackingField: {fileID: 6888692820068790118, guid: 4696f4beba0d6cb489a2e9db7040d0d4, type: 3}
   <Icon>k__BackingField: {fileID: 21300000, guid: a14bf0689ed320743a3f70a18a80a94b, type: 3}
   <PlacementVFX>k__BackingField: {fileID: 0}
   <AllowStacking>k__BackingField: 0
