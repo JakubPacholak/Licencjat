@@ -293,6 +293,9 @@ public class BuildingSystem : MonoBehaviour
         activeRecipe = null;
         if (preview == null) return;
 
+        // Failsafe in case the list was never initialized
+        if (mergeRecipes == null) return;
+
         Collider[] hits = Physics.OverlapSphere(preview.transform.position, mergeCheckRadius, buildingLayer);
 
         foreach (var hit in hits)
@@ -302,6 +305,9 @@ public class BuildingSystem : MonoBehaviour
 
             foreach (var recipe in mergeRecipes)
             {
+                // ADD THIS Failsafe: Ignore empty slots in the Inspector
+                if (recipe == null) continue;
+
                 if (recipe.MaxUses > 0)
                 {
                     if (recipeUsageHistory.ContainsKey(recipe) && recipeUsageHistory[recipe] >= recipe.MaxUses) continue;
@@ -333,7 +339,6 @@ public class BuildingSystem : MonoBehaviour
             }
         }
     }
-
     private void PerformMerge()
     {
         if (potentialMergeTarget == null || activeRecipe == null) return;
