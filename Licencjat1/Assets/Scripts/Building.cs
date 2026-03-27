@@ -10,6 +10,7 @@ public class Building : MonoBehaviour
 
     public BuildingData Data => data;
     public float Rotation => model.Rotation;
+    public Material CurrentVariant { get; private set; }
 
     private BuildingModels model;
     private BuildingData data;
@@ -24,10 +25,25 @@ public class Building : MonoBehaviour
         ActiveBuildings.Remove(this);
     }
 
-    public void Setup(BuildingData data, float rotation)
+    public void Setup(BuildingData data, float rotation, Material variant = null)
     {
         this.data = data;
+        CurrentVariant = variant;
         model = Instantiate(data.Model, transform.position, Quaternion.identity, transform);
         model.SetRotation(rotation);
+
+        if (variant != null)
+        {
+            Renderer[] renderers = model.GetComponentsInChildren<Renderer>();
+            foreach (var rend in renderers)
+            {
+                Material[] mats = new Material[rend.sharedMaterials.Length];
+                for (int i = 0; i < mats.Length; i++)
+                {
+                    mats[i] = variant;
+                }
+                rend.sharedMaterials = mats;
+            }
+        }
     }
 }

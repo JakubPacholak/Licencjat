@@ -9,6 +9,7 @@ public class BuildingData : ScriptableObject
     [field: SerializeField] public BuildingModels Model { get; private set; }
     [field: SerializeField] public Sprite Icon { get; private set; }
     [field: SerializeField] public GameObject PlacementVFX { get; private set; }
+    [field: SerializeField] public List<Material> ColorVariants { get; private set; }
 
     [field: SerializeField] public bool AllowStacking { get; private set; } = false;
     [field: SerializeField] public bool CanBeStackedOn { get; private set; } = false;
@@ -18,7 +19,8 @@ public class BuildingData : ScriptableObject
     [CreateAssetMenu(menuName = "Data/MergeRecipe")]
     public class MergeRecipe : ScriptableObject
     {
-        public List<BuildingData> Ingredients;
+        public BuildingData InputA;
+        public BuildingData InputB;
         public BuildingData Result;
     }
 }

@@ -47,6 +47,7 @@ public class BuildingSystem : MonoBehaviour
     private float oldRotation;
     private Vector3 oldCenterPos;
     private List<Vector3> oldPositions;
+    private Material oldVariant;
 
     private BuildingEQ inventory;
     private List<Building> undoStack = new List<Building>();
@@ -241,6 +242,7 @@ public class BuildingSystem : MonoBehaviour
         oldRotation = buildingToMove.Rotation;
         oldCenterPos = buildingToMove.transform.position;
         oldData = buildingToMove.Data;
+        oldVariant = buildingToMove.CurrentVariant;
 
         if (useGrid)
         {
@@ -261,7 +263,7 @@ public class BuildingSystem : MonoBehaviour
         Vector3 mousePos = GetMouseWorldPosition();
         if (mousePos.Equals(Vector3.negativeInfinity)) mousePos = oldCenterPos;
 
-        preview = CreatePreview(oldData, mousePos);
+        preview = CreatePreview(oldData, mousePos, oldVariant);
         preview.SetRotation(oldRotation);
 
         isMovingBuilding = true;
@@ -293,7 +295,6 @@ public class BuildingSystem : MonoBehaviour
         activeRecipe = null;
         if (preview == null) return;
 
-        // Failsafe in case the list was never initialized
         if (mergeRecipes == null) return;
 
         Collider[] hits = Physics.OverlapSphere(preview.transform.position, mergeCheckRadius, buildingLayer);
@@ -305,7 +306,6 @@ public class BuildingSystem : MonoBehaviour
 
             foreach (var recipe in mergeRecipes)
             {
-                // ADD THIS Failsafe: Ignore empty slots in the Inspector
                 if (recipe == null) continue;
 
                 if (recipe.MaxUses > 0)
@@ -339,6 +339,7 @@ public class BuildingSystem : MonoBehaviour
             }
         }
     }
+
     private void PerformMerge()
     {
         if (potentialMergeTarget == null || activeRecipe == null) return;
@@ -350,7 +351,14 @@ public class BuildingSystem : MonoBehaviour
         if (rangeVisualizer != null) rangeVisualizer.enabled = false;
 
         Building newBuilding = Instantiate(buildingPrefab, mergePosition, Quaternion.identity);
-        newBuilding.Setup(activeRecipe.Result, 0);
+
+        Material mergeVariant = null;
+        if (activeRecipe.Result.ColorVariants != null && activeRecipe.Result.ColorVariants.Count > 0)
+        {
+            mergeVariant = activeRecipe.Result.ColorVariants[Random.Range(0, activeRecipe.Result.ColorVariants.Count)];
+        }
+
+        newBuilding.Setup(activeRecipe.Result, 0, mergeVariant);
 
         if (activeRecipe.Result.PlacementVFX != null)
         {
@@ -372,7 +380,7 @@ public class BuildingSystem : MonoBehaviour
         if (isMovingBuilding)
         {
             Building restoredBuilding = Instantiate(buildingPrefab, oldCenterPos, Quaternion.identity);
-            restoredBuilding.Setup(oldData, oldRotation);
+            restoredBuilding.Setup(oldData, oldRotation, oldVariant);
             if (useGrid) grid.SetBuilding(restoredBuilding, oldPositions);
             isMovingBuilding = false;
         }
@@ -447,7 +455,7 @@ public class BuildingSystem : MonoBehaviour
     private void PlaceBuilding(List<Vector3> buildingPositions)
     {
         Building building = Instantiate(buildingPrefab, preview.transform.position, Quaternion.identity);
-        building.Setup(preview.Data, preview.BuildingModels.Rotation);
+        building.Setup(preview.Data, preview.BuildingModels.Rotation, preview.ChosenVariant);
 
         if (useGrid) grid.SetBuilding(building, buildingPositions);
 
@@ -480,10 +488,10 @@ public class BuildingSystem : MonoBehaviour
         return new Vector3(centerX, grid.transform.position.y, centerZ);
     }
 
-    private BuildingPreview CreatePreview(BuildingData data, Vector3 position)
+    private BuildingPreview CreatePreview(BuildingData data, Vector3 position, Material variant = null)
     {
         BuildingPreview buildingPreview = Instantiate(previewPrefab, position, Quaternion.identity);
-        buildingPreview.Setup(data);
+        buildingPreview.Setup(data, variant);
         return buildingPreview;
     }
 
@@ -499,7 +507,13 @@ public class BuildingSystem : MonoBehaviour
             position = Vector3.zero;
         }
 
-        preview = CreatePreview(data, position);
+        Material randomVariant = null;
+        if (data.ColorVariants != null && data.ColorVariants.Count > 0)
+        {
+            randomVariant = data.ColorVariants[Random.Range(0, data.ColorVariants.Count)];
+        }
+
+        preview = CreatePreview(data, position, randomVariant);
         isMovingBuilding = false;
         return preview;
     }

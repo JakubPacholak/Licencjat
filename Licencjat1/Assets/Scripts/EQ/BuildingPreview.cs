@@ -15,13 +15,15 @@ public class BuildingPreview : MonoBehaviour
     public BuildingPreviewState State { get; private set; } = BuildingPreviewState.NEGATIVE;
     public BuildingData Data { get; private set; }
     public BuildingModels BuildingModels { get; private set; }
+    public Material ChosenVariant { get; private set; }
 
     private readonly List<Renderer> renderers = new();
     private readonly List<Collider> colliders = new();
 
-    public void Setup(BuildingData data)
+    public void Setup(BuildingData data, Material variant = null)
     {
         Data = data;
+        ChosenVariant = variant;
         BuildingModels = Instantiate(data.Model, transform.position, Quaternion.identity, transform);
 
         renderers.AddRange(BuildingModels.GetComponentsInChildren<Renderer>());
@@ -43,6 +45,7 @@ public class BuildingPreview : MonoBehaviour
         State = newState;
         SetPreviewMaterial(State);
     }
+
     public void AddRotation(float rotationStep)
     {
         BuildingModels.AddRotation(rotationStep);

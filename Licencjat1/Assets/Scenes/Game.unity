@@ -1841,7 +1841,6 @@ MonoBehaviour:
     m_Bits: 64
   mergeRecipes:
   - {fileID: 11400000, guid: 28b0e5031b721bc42b39d057fd222329, type: 2}
-  - {fileID: 11400000, guid: ab4064fa0b5fc1c449d353c79ccdfa2f, type: 2}
   - {fileID: 11400000, guid: 8e60532847a511a459dcd5d429f83e47, type: 2}
   - {fileID: 11400000, guid: 4bdc6fe15c698b840b87109e3c8aacfa, type: 2}
   mergeIndicatorPrefab: {fileID: 0}

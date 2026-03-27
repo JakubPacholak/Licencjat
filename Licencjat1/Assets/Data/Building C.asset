@@ -17,6 +17,10 @@ MonoBehaviour:
   <Model>k__BackingField: {fileID: 691532674333599952, guid: a3f0f9aaa4a2e21489b9284a12f574cf, type: 3}
   <Icon>k__BackingField: {fileID: 0}
   <PlacementVFX>k__BackingField: {fileID: 5357791965988481265, guid: 5549f7069515aaf46ab547d9c5a9c9b2, type: 3}
+  <ColorVariants>k__BackingField:
+  - {fileID: 2100000, guid: 0d045054e6e0ba742b9bf0a662843263, type: 2}
+  - {fileID: 2100000, guid: 140f83abe9a3de149a61714e01038efa, type: 2}
+  - {fileID: 2100000, guid: 77f8397dbe083744bacd31ac74e5f6d7, type: 2}
   <AllowStacking>k__BackingField: 0
   <CanBeStackedOn>k__BackingField: 0
   <OnlyStackOnSameType>k__BackingField: 0
