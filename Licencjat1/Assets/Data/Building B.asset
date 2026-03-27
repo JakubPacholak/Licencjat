@@ -16,7 +16,7 @@ MonoBehaviour:
   <Cost>k__BackingField: 12
   <Model>k__BackingField: {fileID: 6165822610156845547, guid: e9d4e4e1311fd174ab7320d719f5b266, type: 3}
   <Icon>k__BackingField: {fileID: 0}
-  <PlacementVFX>k__BackingField: {fileID: 4784623027721228424, guid: ca284b3bc9085f8488ec2585ce31178b, type: 3}
+  <PlacementVFX>k__BackingField: {fileID: 5357791965988481265, guid: 5549f7069515aaf46ab547d9c5a9c9b2, type: 3}
   <AllowStacking>k__BackingField: 0
   <CanBeStackedOn>k__BackingField: 0
   <OnlyStackOnSameType>k__BackingField: 0
