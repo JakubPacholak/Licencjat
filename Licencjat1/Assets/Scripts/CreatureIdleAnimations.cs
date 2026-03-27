@@ -11,6 +11,16 @@ public class CreatureIdleAnimations : MonoBehaviour
         public BuildingData requiredBuilding;
         public string animationTriggerName;
         public float interactionDistance;
+
+        [Header("Korekty Pozycji i Rotacji (Dostosuj w Inspektorze)")]
+        [Tooltip("Przesuni?cie wzgl?dem punktu. X/Z to przód/bok, Y to góra/dó?.")]
+        public Vector3 positionOffset;
+
+        [Tooltip("Dodatkowy obrót stworka (w stopniach).")]
+        public Vector3 rotationOffset;
+
+        [Tooltip("Zaznacz dla grzybów/spania, by stworek le?a? idealnie p?asko ignoruj?c pochylenie budynku.")]
+        public bool forceFlatRotation;
     }
 
     [Header("Components")]
@@ -100,8 +110,21 @@ public class CreatureIdleAnimations : MonoBehaviour
         if (interactionPoint != null)
         {
             agent.enabled = false;
-            transform.position = interactionPoint.position;
-            transform.rotation = interactionPoint.rotation;
+
+            transform.position = interactionPoint.position + interactionPoint.TransformDirection(link.positionOffset);
+
+            Quaternion baseRot;
+            if (link.forceFlatRotation)
+            {
+                baseRot = Quaternion.Euler(0, interactionPoint.rotation.eulerAngles.y, 0);
+            }
+            else
+            {
+                baseRot = interactionPoint.rotation;
+            }
+
+            transform.rotation = baseRot * Quaternion.Euler(link.rotationOffset);
+
             snappedToPoint = true;
         }
         else
@@ -128,6 +151,7 @@ public class CreatureIdleAnimations : MonoBehaviour
 
             yield return null;
         }
+
         if (snappedToPoint)
         {
             transform.position = originalPos;

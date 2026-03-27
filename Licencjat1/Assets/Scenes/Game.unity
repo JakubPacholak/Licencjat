@@ -4703,21 +4703,33 @@ MonoBehaviour:
   animator: {fileID: 1367496160}
   agent: {fileID: 1925417509}
   wanderScript: {fileID: 1925417508}
-  animationInterval: 30
+  animationInterval: 10
   defaultStateName: Armature_Lewitation
   buildingAnimations:
   - requiredBuilding: {fileID: 11400000, guid: 3dac280fb93e8da49be002fe12030ca5, type: 2}
     animationTriggerName: Sit
     interactionDistance: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    forceFlatRotation: 0
   - requiredBuilding: {fileID: 11400000, guid: c8e38fab5b08263449c720d662bf7c2d, type: 2}
     animationTriggerName: Eat
     interactionDistance: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    forceFlatRotation: 0
   - requiredBuilding: {fileID: 11400000, guid: fcca7dc8c30d525449e9b731f2ba3091, type: 2}
     animationTriggerName: Lay
     interactionDistance: 0
+    positionOffset: {x: 0, y: 1.5, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    forceFlatRotation: 0
   - requiredBuilding: {fileID: 11400000, guid: fcca7dc8c30d525449e9b731f2ba3091, type: 2}
     animationTriggerName: Sleep
     interactionDistance: 0
+    positionOffset: {x: 0, y: 1.5, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    forceFlatRotation: 0
 --- !u!1 &1968076786
 GameObject:
   m_ObjectHideFlags: 0
