@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using System.Text;
 
 public enum TutorialPhase
 {
@@ -179,7 +180,7 @@ public class TutorialManager : MonoBehaviour
     {
         if (instructionText != null)
         {
-            instructionText.text = "Tutorial Completed! Have fun creating your world!";
+            instructionText.text = "<color=#55FF55><b>Tutorial Completed!</b></color>\nHave fun creating your world!";
         }
 
         yield return new WaitForSeconds(6.0f);
@@ -198,36 +199,63 @@ public class TutorialManager : MonoBehaviour
     {
         if (instructionText == null) return;
 
+        string[] taskNames = new string[]
+        {
+            "Move camera (RMB)",
+            "Zoom camera (Scroll)",
+            "Open inventory",
+            "Place an item",
+            "Rotate an item (Q/E)",
+            "Merge two items",
+            "Fill happiness bar"
+        };
+
+        StringBuilder sb = new StringBuilder();
+        sb.AppendLine("<b>TUTORIAL TASKS:</b>\n");
+
+        for (int i = 0; i < taskNames.Length; i++)
+        {
+            if ((int)currentPhase > i)
+            {
+                sb.AppendLine($"<color=#888888><s>[X] {taskNames[i]}</s></color>");
+            }
+            else if ((int)currentPhase == i)
+            {
+                sb.AppendLine($"<b><color=#FFFFFF>[ ] {taskNames[i]}</color></b>");
+            }
+            else
+            {
+                sb.AppendLine($"<color=#AAAAAA>[ ] {taskNames[i]}</color>");
+            }
+        }
+
+        sb.AppendLine("\n<b>TIP:</b>");
         switch (currentPhase)
         {
             case TutorialPhase.MoveCamera:
-                instructionText.text = "You can use your mouse (RMB) to move camera around.";
+                sb.Append("<color=#DDDDDD><size=80%>Use your mouse (RMB) to move camera around.</size></color>");
                 break;
-
             case TutorialPhase.ZoomCamera:
-                instructionText.text = "Using mouse scroll will let you to zoom in and out.";
+                sb.Append("<color=#DDDDDD><size=80%>Using mouse scroll will let you zoom in and out.</size></color>");
                 break;
-
             case TutorialPhase.OpenInventory:
-                instructionText.text = "Click on the creature to see what items it wants in the environment.";
+                sb.Append("<color=#DDDDDD><size=80%>Click on the creature to see what items it wants.</size></color>");
                 break;
-
             case TutorialPhase.PlaceItem:
-                instructionText.text = "Now you can click on any item in the cloud and place it on the ground.";
+                sb.Append("<color=#DDDDDD><size=80%>Click on any item in the inventory and place it.</size></color>");
                 break;
-
             case TutorialPhase.RotateItem:
-                instructionText.text = "Pick another object, but before you place it, pressing Q or E will let you rotate objects.";
+                sb.Append("<color=#DDDDDD><size=80%>Pick an object, but before placing, press Q or E.</size></color>");
                 break;
-
             case TutorialPhase.MergeItems:
-                instructionText.text = "Some things will fuse together into new variants, try finding out which ones!";
+                sb.Append("<color=#DDDDDD><size=80%>Some things will fuse together into new variants!</size></color>");
                 break;
-
             case TutorialPhase.FillHappiness:
-                instructionText.text = "Happiness bar in the bottom left corner lets you know how creature feels. Fill it up to finish!";
+                sb.Append("<color=#DDDDDD><size=80%>Happiness bar lets you know how creature feels.</size></color>");
                 break;
         }
+
+        instructionText.text = sb.ToString();
     }
 
     private int CountBuildings()

@@ -34,6 +34,19 @@ public class BuildingPreview : MonoBehaviour
             col.enabled = false;
         }
 
+        Animator[] animators = BuildingModels.GetComponentsInChildren<Animator>();
+        foreach (var anim in animators)
+        {
+            anim.enabled = false;
+        }
+
+
+        Animation[] legacyAnimations = BuildingModels.GetComponentsInChildren<Animation>();
+        foreach (var anim in legacyAnimations)
+        {
+            anim.enabled = false;
+        }
+
         SetPreviewMaterial(State);
     }
 
