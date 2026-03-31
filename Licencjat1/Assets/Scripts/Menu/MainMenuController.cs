@@ -14,12 +14,10 @@ public class MainMenuController : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("IntroPlayed"))
         {
-            Debug.Log("Intro by?o ju? odtworzone. ?aduj? gr?...");
             SceneManager.LoadScene(gameSceneName);
         }
         else
         {
-            Debug.Log("Pierwsze uruchomienie. ?aduj? intro...");
             SceneManager.LoadScene(introSceneName);
         }
     }
@@ -31,5 +29,20 @@ public class MainMenuController : MonoBehaviour
 #else
         Application.Quit();
 #endif
+    }
+
+    public void OpenLevels()
+    {
+        Debug.Log("Otwieram panel poziomów...");
+    }
+
+    public void OpenCollections()
+    {
+        Debug.Log("Otwieram panel kolekcji...");
+    }
+
+    public void OpenOptions()
+    {
+        Debug.Log("Otwieram panel opcji...");
     }
 }

@@ -1,14 +1,21 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseMenuController : MonoBehaviour
 {
+    [Header("Referencje")]
     public Canvas pauseMenuCanvas;
     public Canvas eqCanvas;
     public TextMeshProUGUI triviaText;
-    public static bool IsPaused { get; private set; } = false;
+
+    [Header("Ustawienia Menu")]
+    [Tooltip("Wpisz tutaj nazw? sceny Twojego menu g?ównego")]
+    public string mainMenuSceneName = "MainMenu";
+
     [TextArea] public string[] facts = new string[5];
 
+    public static bool IsPaused { get; private set; } = false;
 
     void Start()
     {
@@ -17,7 +24,7 @@ public class PauseMenuController : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             TogglePauseMenu();
         }
@@ -26,31 +33,46 @@ public class PauseMenuController : MonoBehaviour
     public void TogglePauseMenu()
     {
         pauseMenuCanvas.enabled = !pauseMenuCanvas.enabled;
-        eqCanvas.enabled = !eqCanvas.enabled;
+
+        if (eqCanvas != null)
+            eqCanvas.enabled = !eqCanvas.enabled;
+
         if (pauseMenuCanvas.enabled)
         {
-            Time.timeScale = 0f; // Pause the game
+            Time.timeScale = 0f;
             IsPaused = true;
             if (facts.Length > 0)
             {
-                // Losowanie indeksu od 0 do d³ugoœci tablicy
                 int randomIndex = Random.Range(0, facts.Length);
                 triviaText.text = facts[randomIndex];
             }
         }
         else
         {
-            Time.timeScale = 1f; // Resume the game
+            Time.timeScale = 1f;
             IsPaused = false;
         }
     }
 
-    public void ExitGame()
+    public void ReturnToMainMenu()
     {
-        Application.Quit();
+        Time.timeScale = 1f;
+        IsPaused = false;
+        SceneManager.LoadScene(mainMenuSceneName);
+    }
 
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#endif
+    public void OpenLevels()
+    {
+        Debug.Log("Otwieram panel poziomów w pauzie...");
+    }
+
+    public void OpenCollections()
+    {
+        Debug.Log("Otwieram panel kolekcji w pauzie...");
+    }
+
+    public void OpenOptions()
+    {
+        Debug.Log("Otwieram panel opcji w pauzie...");
     }
 }

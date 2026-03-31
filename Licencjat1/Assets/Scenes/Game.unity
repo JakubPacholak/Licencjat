@@ -2327,7 +2327,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2006090556}
         m_TargetAssemblyTypeName: PauseMenuController, Assembly-CSharp
-        m_MethodName: ExitGame
+        m_MethodName: ReturnToMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4896,6 +4896,7 @@ MonoBehaviour:
   pauseMenuCanvas: {fileID: 2128365647}
   eqCanvas: {fileID: 1244771395}
   triviaText: {fileID: 134027025}
+  mainMenuSceneName: MainMenu
   facts:
   - The Holocene is the only epoch where climate is driven by humans, not the Sun
     or volcanoes.
