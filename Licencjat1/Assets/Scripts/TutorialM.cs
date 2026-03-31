@@ -69,6 +69,8 @@ public class TutorialManager : MonoBehaviour
     {
         if (!isSystemReady || isFinished) return;
 
+        if (PauseMenuController.IsPaused) return;
+
         if (phaseCooldown > 0f)
         {
             phaseCooldown -= Time.deltaTime;
