@@ -1171,8 +1171,8 @@ Camera:
   near clip plane: 0.3
   far clip plane: 80
   field of view: 60
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1261,12 +1261,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 670373032}
   autoFindTarget: 0
+  elevationAngle: 35.264
   YRotationMaxSpeed: 90
-  YPositionMax: 15
   zoomSpeed: 200
   minZoomDistance: 2
   maxZoomDistance: 50
-  panYSpeed: 1
   smoothTime: 0.5
   mouseSensitivity: 1
 --- !u!82 &330585549
