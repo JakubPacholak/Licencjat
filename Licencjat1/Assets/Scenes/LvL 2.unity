@@ -219,6 +219,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Views
       objectReference: {fileID: 0}
+    - target: {fileID: 9039082832385492857, guid: 54783ba6bf0144f44983cb603a5329b3, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e059b34cd7440da4b994a55db0a5dede, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -715,7 +719,7 @@ PrefabInstance:
     - target: {fileID: 6766619141199347140, guid: 2d04e3eb8b4b5a644904d1d92446c51b, type: 3}
       propertyPath: buildingData4
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: 61f8c9fd7e65b584fa9306540fdeb33a, type: 2}
     - target: {fileID: 6766619141199347140, guid: 2d04e3eb8b4b5a644904d1d92446c51b, type: 3}
       propertyPath: creatureState
       value: 
