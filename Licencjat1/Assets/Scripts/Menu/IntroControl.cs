@@ -65,6 +65,6 @@ public class IntroController : MonoBehaviour
 
     private void FinishIntro()
     {
-        SceneManager.LoadScene(gameSceneName);
+        SceneManager.LoadScene("LvL 1");
     }
 }

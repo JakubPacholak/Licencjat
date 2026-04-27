@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class MainMenuController : MonoBehaviour
@@ -10,6 +11,9 @@ public class MainMenuController : MonoBehaviour
     public GameObject panelCollectionDetails;
     public GameObject panelOptions;
     public GameObject panelKeybinds;
+
+    [Header("Ustawienia Gry")]
+    public string gameSceneName = "GameScene";
 
     [Header("Przyciski Opcji (Teksty)")]
     public TextMeshProUGUI musicButtonText;
@@ -23,6 +27,7 @@ public class MainMenuController : MonoBehaviour
         ShowPanel(panelMainMenu);
         UpdateOptionsUI();
     }
+
     private void ShowPanel(GameObject panelToShow)
     {
         panelMainMenu.SetActive(false);
@@ -33,6 +38,12 @@ public class MainMenuController : MonoBehaviour
         panelKeybinds.SetActive(false);
 
         panelToShow.SetActive(true);
+    }
+
+    public void StartGame()
+    {
+        Debug.Log("?adowanie sceny gry...");
+        SceneManager.LoadScene("Intro");
     }
 
     public void OpenMainMenu() => ShowPanel(panelMainMenu);
