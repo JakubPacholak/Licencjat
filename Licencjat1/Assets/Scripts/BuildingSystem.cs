@@ -26,7 +26,7 @@ public class BuildingSystem : MonoBehaviour
 
     [SerializeField] private LayerMask placementLayer;
 
-    [SerializeField] private List<BuildingData.MergeRecipe> mergeRecipes;
+    [SerializeField] private List<MergeRecipe> mergeRecipes;
     [SerializeField] private MergeIndicator mergeIndicatorPrefab;
     [SerializeField] private float mergeCheckRadius = 1.5f;
     [SerializeField] private KeyCode mergeKey = KeyCode.M;
@@ -45,10 +45,10 @@ public class BuildingSystem : MonoBehaviour
 
     private BuildingEQ inventory;
     private List<Building> undoStack = new List<Building>();
-    private Dictionary<BuildingData.MergeRecipe, int> recipeUsageHistory = new Dictionary<BuildingData.MergeRecipe, int>();
+    private Dictionary<MergeRecipe, int> recipeUsageHistory = new Dictionary<MergeRecipe, int>();
 
     private Building potentialMergeTarget = null;
-    private BuildingData.MergeRecipe activeRecipe = null;
+    private MergeRecipe activeRecipe = null;
     private bool hasMerged = false;
     private Vector3 currentSurfaceNormal = Vector3.up;
 

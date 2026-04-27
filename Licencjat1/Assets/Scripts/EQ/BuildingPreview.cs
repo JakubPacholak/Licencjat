@@ -25,7 +25,9 @@ public class BuildingPreview : MonoBehaviour
         Data = data;
         ChosenVariant = variant;
 
-        BuildingModels = Instantiate(data.Model, transform, false);
+        BuildingModels = Instantiate(data.Model, transform);
+        BuildingModels.transform.localPosition = Vector3.zero;
+        BuildingModels.transform.localRotation = Quaternion.identity;
 
         renderers.AddRange(BuildingModels.GetComponentsInChildren<Renderer>());
         colliders.AddRange(BuildingModels.GetComponentsInChildren<Collider>());

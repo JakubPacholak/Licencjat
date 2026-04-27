@@ -30,7 +30,9 @@ public class Building : MonoBehaviour
         this.data = data;
         CurrentVariant = variant;
 
-        model = Instantiate(data.Model, transform, false);
+        model = Instantiate(data.Model, transform);
+        model.transform.localPosition = Vector3.zero;
+        model.transform.localRotation = Quaternion.identity;
 
         model.SetRotation(rotation);
 

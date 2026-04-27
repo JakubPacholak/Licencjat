@@ -15,12 +15,4 @@ public class BuildingData : ScriptableObject
     [field: SerializeField] public bool CanBeStackedOn { get; private set; } = false;
     [field: SerializeField] public bool OnlyStackOnSameType { get; private set; } = false;
     [field: SerializeField] public bool IgnoreCollision { get; private set; } = false;
-
-    [CreateAssetMenu(menuName = "Data/MergeRecipe")]
-    public class MergeRecipe : ScriptableObject
-    {
-        public BuildingData InputA;
-        public BuildingData InputB;
-        public BuildingData Result;
-    }
 }
