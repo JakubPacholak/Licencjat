@@ -24,7 +24,8 @@ public class BuildingPreview : MonoBehaviour
     {
         Data = data;
         ChosenVariant = variant;
-        BuildingModels = Instantiate(data.Model, transform.position, Quaternion.identity, transform);
+
+        BuildingModels = Instantiate(data.Model, transform, false);
 
         renderers.AddRange(BuildingModels.GetComponentsInChildren<Renderer>());
         colliders.AddRange(BuildingModels.GetComponentsInChildren<Collider>());
@@ -39,7 +40,6 @@ public class BuildingPreview : MonoBehaviour
         {
             anim.enabled = false;
         }
-
 
         Animation[] legacyAnimations = BuildingModels.GetComponentsInChildren<Animation>();
         foreach (var anim in legacyAnimations)

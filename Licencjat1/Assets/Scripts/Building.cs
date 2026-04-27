@@ -29,7 +29,9 @@ public class Building : MonoBehaviour
     {
         this.data = data;
         CurrentVariant = variant;
-        model = Instantiate(data.Model, transform.position, Quaternion.identity, transform);
+
+        model = Instantiate(data.Model, transform, false);
+
         model.SetRotation(rotation);
 
         if (variant != null)

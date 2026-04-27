@@ -7,32 +7,26 @@ public class BuildingSystem : MonoBehaviour
 {
     public const float CellSize = 1f;
 
-    [Header("Data References")]
     [SerializeField] private BuildingData buildingData1;
     [SerializeField] private BuildingData buildingData2;
     [SerializeField] private BuildingData buildingData3;
     [SerializeField] private BuildingData buildingData4;
 
-    [Header("System Prefabs")]
     [SerializeField] private BuildingPreview previewPrefab;
     [SerializeField] private Building buildingPrefab;
     [SerializeField] private BuildingGrid grid;
 
     [SerializeField] private bool useGrid = true;
 
-    [Header("Rotation Settings")]
     [SerializeField] private float rotationSpeed = 100f;
 
-    [Header("Stacking & Collision")]
     [SerializeField] private float stackOffset = 0.05f;
     [SerializeField] private float maxStackSearchHeight = 10f;
     [SerializeField] private LayerMask buildingLayer;
 
-    [Header("Ground Restriction")]
     [SerializeField] private LayerMask placementLayer;
 
-    [Header("Merge System")]
-    [SerializeField] private List<MergeRecipe> mergeRecipes;
+    [SerializeField] private List<BuildingData.MergeRecipe> mergeRecipes;
     [SerializeField] private MergeIndicator mergeIndicatorPrefab;
     [SerializeField] private float mergeCheckRadius = 1.5f;
     [SerializeField] private KeyCode mergeKey = KeyCode.M;
@@ -51,11 +45,12 @@ public class BuildingSystem : MonoBehaviour
 
     private BuildingEQ inventory;
     private List<Building> undoStack = new List<Building>();
-    private Dictionary<MergeRecipe, int> recipeUsageHistory = new Dictionary<MergeRecipe, int>();
+    private Dictionary<BuildingData.MergeRecipe, int> recipeUsageHistory = new Dictionary<BuildingData.MergeRecipe, int>();
 
     private Building potentialMergeTarget = null;
-    private MergeRecipe activeRecipe = null;
+    private BuildingData.MergeRecipe activeRecipe = null;
     private bool hasMerged = false;
+    private Vector3 currentSurfaceNormal = Vector3.up;
 
     public CreatureState creatureState;
 
@@ -148,6 +143,11 @@ public class BuildingSystem : MonoBehaviour
         {
             preview.ChangeState(BuildingPreview.BuildingPreviewState.POSITIVE);
         }
+
+        if (preview != null)
+        {
+            preview.transform.up = Vector3.Lerp(preview.transform.up, currentSurfaceNormal, Time.deltaTime * 15f);
+        }
     }
 
     private void DrawMergeRangeCircle()
@@ -190,9 +190,6 @@ public class BuildingSystem : MonoBehaviour
                 .Select(o => preview.transform.position + o).ToList();
             PlaceBuilding(positions);
             if (creatureState != null) creatureState.ShowHappyEmoticon();
-        }
-        else if (isMovingBuilding)
-        {
         }
     }
 
@@ -276,9 +273,11 @@ public class BuildingSystem : MonoBehaviour
         {
             if (Vector3.Angle(hit.normal, Vector3.up) < 45f)
             {
+                currentSurfaceNormal = hit.normal;
                 return hit.point;
             }
         }
+        currentSurfaceNormal = Vector3.up;
         return Vector3.negativeInfinity;
     }
 
@@ -307,11 +306,6 @@ public class BuildingSystem : MonoBehaviour
             foreach (var recipe in mergeRecipes)
             {
                 if (recipe == null) continue;
-
-                if (recipe.MaxUses > 0)
-                {
-                    if (recipeUsageHistory.ContainsKey(recipe) && recipeUsageHistory[recipe] >= recipe.MaxUses) continue;
-                }
 
                 bool matchA = (recipe.InputA == preview.Data && recipe.InputB == nearbyBuilding.Data);
                 bool matchB = (recipe.InputB == preview.Data && recipe.InputA == nearbyBuilding.Data);
@@ -350,7 +344,8 @@ public class BuildingSystem : MonoBehaviour
         if (currentIndicator != null) currentIndicator.Hide();
         if (rangeVisualizer != null) rangeVisualizer.enabled = false;
 
-        Building newBuilding = Instantiate(buildingPrefab, mergePosition, Quaternion.identity);
+        Quaternion surfaceRotation = Quaternion.FromToRotation(Vector3.up, currentSurfaceNormal);
+        Building newBuilding = Instantiate(buildingPrefab, mergePosition, surfaceRotation);
 
         Material mergeVariant = null;
         if (activeRecipe.Result.ColorVariants != null && activeRecipe.Result.ColorVariants.Count > 0)
@@ -412,7 +407,7 @@ public class BuildingSystem : MonoBehaviour
             canBuild = grid.CanBuild(worldPositionsBasedOnMouse);
             if (canBuild)
             {
-                Vector3 snappedCenterPosition = GetSnappedCenterPosition(worldPositionsBasedOnMouse);
+                Vector3 snappedCenterPosition = GetSnappedCenterPosition(worldPositionsBasedOnMouse, mouseWorldPosition);
                 preview.transform.position = snappedCenterPosition;
             }
             else
@@ -454,7 +449,10 @@ public class BuildingSystem : MonoBehaviour
 
     private void PlaceBuilding(List<Vector3> buildingPositions)
     {
-        Building building = Instantiate(buildingPrefab, preview.transform.position, Quaternion.identity);
+        Quaternion surfaceRotation = Quaternion.FromToRotation(Vector3.up, currentSurfaceNormal);
+
+        Building building = Instantiate(buildingPrefab, preview.transform.position, surfaceRotation);
+
         building.Setup(preview.Data, preview.BuildingModels.Rotation, preview.ChosenVariant);
 
         if (useGrid) grid.SetBuilding(building, buildingPositions);
@@ -475,7 +473,7 @@ public class BuildingSystem : MonoBehaviour
         if (rangeVisualizer != null) rangeVisualizer.enabled = false;
     }
 
-    private Vector3 GetSnappedCenterPosition(List<Vector3> allBuildingPosition)
+    private Vector3 GetSnappedCenterPosition(List<Vector3> allBuildingPosition, Vector3 mousePos)
     {
         List<int> xs = allBuildingPosition.Select(p => Mathf.FloorToInt(p.x)).ToList();
         List<int> zs = allBuildingPosition.Select(p => Mathf.FloorToInt(p.z)).ToList();
@@ -485,7 +483,17 @@ public class BuildingSystem : MonoBehaviour
         int minZ = zs.Min();
         int maxZ = zs.Max();
         float centerZ = minZ + (maxZ - minZ) / 2f + CellSize / 2f;
-        return new Vector3(centerX, grid.transform.position.y, centerZ);
+
+        float yPos = mousePos.y;
+
+        Vector3 rayOrigin = new Vector3(centerX, mousePos.y + 100f, centerZ);
+        if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, 200f, placementLayer))
+        {
+            yPos = hit.point.y;
+            currentSurfaceNormal = hit.normal;
+        }
+
+        return new Vector3(centerX, yPos, centerZ);
     }
 
     private BuildingPreview CreatePreview(BuildingData data, Vector3 position, Material variant = null)

@@ -15,6 +15,11 @@ public class NavMeshWander : MonoBehaviour
     public Animator animator;
     public string defaultStateName = "Armature_Lewitation";
 
+    [Header("Ground Alignment")]
+    public LayerMask groundLayer;
+    public float rotationSpeed = 10f;
+    public float raycastStartHeight = 1f;
+
     NavMeshAgent agent;
     Vector3 home;
     float pauseTimer;
@@ -69,6 +74,20 @@ public class NavMeshWander : MonoBehaviour
                 TrySetNewDestination();
                 stuckTimer = 0f;
                 lastRemaining = Mathf.Infinity;
+            }
+        }
+    }
+
+    void LateUpdate()
+    {
+        if (agent != null && !agent.isStopped)
+        {
+            Vector3 rayStart = transform.position + (Vector3.up * raycastStartHeight);
+
+            if (Physics.Raycast(rayStart, Vector3.down, out RaycastHit hit, raycastStartHeight + 1.5f, groundLayer))
+            {
+                Quaternion targetRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
             }
         }
     }
