@@ -307,6 +307,11 @@ public class BuildingSystem : MonoBehaviour
             {
                 if (recipe == null) continue;
 
+                if (recipe.MaxUses > 0 && recipeUsageHistory.ContainsKey(recipe) && recipeUsageHistory[recipe] >= recipe.MaxUses)
+                {
+                    continue;
+                }
+
                 bool matchA = (recipe.InputA == preview.Data && recipe.InputB == nearbyBuilding.Data);
                 bool matchB = (recipe.InputB == preview.Data && recipe.InputA == nearbyBuilding.Data);
 
