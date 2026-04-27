@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Building 1
   m_EditorClassIdentifier: 
   <Description>k__BackingField: Building 1
-  <Cost>k__BackingField: 4
+  <Cost>k__BackingField: 8
   <Model>k__BackingField: {fileID: 7600599964900018983, guid: eae43dd509a0985419b155fadd39e2d6, type: 3}
   <Icon>k__BackingField: {fileID: 0}
   <PlacementVFX>k__BackingField: {fileID: 0}

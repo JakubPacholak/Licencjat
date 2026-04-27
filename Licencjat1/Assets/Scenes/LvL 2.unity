@@ -148,7 +148,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9129285295025468487, guid: ca284b3bc9085f8488ec2585ce31178b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.95
+      value: 4.11
       objectReference: {fileID: 0}
     - target: {fileID: 9129285295025468487, guid: ca284b3bc9085f8488ec2585ce31178b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1206,6 +1206,10 @@ PrefabInstance:
       propertyPath: rangeVisualizer
       value: 
       objectReference: {fileID: 732331302}
+    - target: {fileID: 6766619141199347140, guid: 2d04e3eb8b4b5a644904d1d92446c51b, type: 3}
+      propertyPath: mergeRecipes.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6766619141199347140, guid: 2d04e3eb8b4b5a644904d1d92446c51b, type: 3}
       propertyPath: 'mergeRecipes.Array.data[0]'
       value: 
