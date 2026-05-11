@@ -438,11 +438,11 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 536046541}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 56132cd31ddd60b4a9ddce1688976688, type: 3}
-  m_Controller: {fileID: 9100000, guid: bfb7bcc7571f89d47b398a286e2ee2c5, type: 2}
+  m_Avatar: {fileID: 9000000, guid: 2a5e6af9603fe6e4ab59ef82aa4a1634, type: 3}
+  m_Controller: {fileID: 9100000, guid: 7d1ec837cd5dcf64a9128c71ab3e89f3, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
@@ -466,8 +466,8 @@ MonoBehaviour:
   animator: {fileID: 536046548}
   agent: {fileID: 536046546}
   wanderScript: {fileID: 536046545}
-  animationInterval: 10
-  defaultStateName: Kulka
+  animationInterval: 1
+  defaultStateName: Chodzenie
   buildingAnimations: []
 --- !u!120 &732331302 stripped
 LineRenderer:
