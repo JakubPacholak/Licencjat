@@ -264,11 +264,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2374624701762066788, guid: 459af2cb2bec2a146948dc9f54a16f2c, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.00990099
       objectReference: {fileID: 0}
     - target: {fileID: 2374624701762066788, guid: 459af2cb2bec2a146948dc9f54a16f2c, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2546224128263168010, guid: 459af2cb2bec2a146948dc9f54a16f2c, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -304,11 +304,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4858114162761379749, guid: 459af2cb2bec2a146948dc9f54a16f2c, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.00990099
       objectReference: {fileID: 0}
     - target: {fileID: 4858114162761379749, guid: 459af2cb2bec2a146948dc9f54a16f2c, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4976482810779037175, guid: 459af2cb2bec2a146948dc9f54a16f2c, type: 3}
       propertyPath: m_Pivot.x
@@ -408,7 +408,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5411157321037597763, guid: 459af2cb2bec2a146948dc9f54a16f2c, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6193034365537122239, guid: 459af2cb2bec2a146948dc9f54a16f2c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -438,17 +438,37 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: MainMenuController, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 6847799181221785132, guid: 459af2cb2bec2a146948dc9f54a16f2c, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6847799181221785132, guid: 459af2cb2bec2a146948dc9f54a16f2c, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6847799181221785132, guid: 459af2cb2bec2a146948dc9f54a16f2c, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 24100000, guid: ca15a44b3a187eb43b1ef9dca68d039a, type: 2}
+    - target: {fileID: 6847799181221785132, guid: 459af2cb2bec2a146948dc9f54a16f2c, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6847799181221785132, guid: 459af2cb2bec2a146948dc9f54a16f2c, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEditor.Audio.AudioMixerController, UnityEditor.CoreModule
+      objectReference: {fileID: 0}
     - target: {fileID: 7030073103676741990, guid: 459af2cb2bec2a146948dc9f54a16f2c, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.00990099
       objectReference: {fileID: 0}
     - target: {fileID: 7030073103676741990, guid: 459af2cb2bec2a146948dc9f54a16f2c, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7030073103676741990, guid: 459af2cb2bec2a146948dc9f54a16f2c, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.00990099
       objectReference: {fileID: 0}
     - target: {fileID: 7316098352005789349, guid: 459af2cb2bec2a146948dc9f54a16f2c, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -520,15 +540,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9093846451316449699, guid: 459af2cb2bec2a146948dc9f54a16f2c, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.00990099
       objectReference: {fileID: 0}
     - target: {fileID: 9093846451316449699, guid: 459af2cb2bec2a146948dc9f54a16f2c, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9093846451316449699, guid: 459af2cb2bec2a146948dc9f54a16f2c, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.00990099
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
