@@ -1485,16 +1485,16 @@ PrefabInstance:
       objectReference: {fileID: 732331302}
     - target: {fileID: 6766619141199347140, guid: 2d04e3eb8b4b5a644904d1d92446c51b, type: 3}
       propertyPath: mergeRecipes.Array.size
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6766619141199347140, guid: 2d04e3eb8b4b5a644904d1d92446c51b, type: 3}
       propertyPath: 'mergeRecipes.Array.data[0]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: e0b2382b28ecf9542aa8287deabd711b, type: 2}
     - target: {fileID: 6766619141199347140, guid: 2d04e3eb8b4b5a644904d1d92446c51b, type: 3}
       propertyPath: 'mergeRecipes.Array.data[1]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: 95256ad31e35c3441b8f81024ba592f4, type: 2}
     - target: {fileID: 6766619141199347140, guid: 2d04e3eb8b4b5a644904d1d92446c51b, type: 3}
       propertyPath: 'mergeRecipes.Array.data[2]'
       value: 

@@ -57,24 +57,19 @@ public class CreatureState : MonoBehaviour
 
     private IEnumerator DelayedNextLevel()
     {
-        isTransitioning = true; // Blokujemy ponowne wywo?anie
+        isTransitioning = true; 
 
-        Debug.Log("Poziom uko?czony! Przej?cie za 7 sekund...");
+        Debug.Log("Nextlevel in 7 seconds");
 
-        // Tutaj mo?esz doda? co? ekstra, np. dzi?kujemy graczowi albo odpalamy konfetti
         ShowHappyEmoticon();
 
-        yield return new WaitForSeconds(7f); // Czekamy dok?adnie 7 sekund
+        yield return new WaitForSeconds(7f);
 
         int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
 
         if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
         {
             SceneManager.LoadScene(nextSceneIndex);
-        }
-        else
-        {
-            Debug.LogWarning("To by? ostatni poziom w Build Settings!");
         }
     }
 

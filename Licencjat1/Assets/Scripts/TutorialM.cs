@@ -292,11 +292,6 @@ public class TutorialManager : MonoBehaviour
         {
             tutorialPanel.SetActive(false);
         }
-
-        if (creatureState != null)
-        {
-            creatureState.ShowLevelUpPrompt();
-        }
     }
 
     private void UpdateInstructionText()
