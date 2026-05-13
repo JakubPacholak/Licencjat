@@ -26,9 +26,6 @@ public class TutorialManager : MonoBehaviour
     public TextMeshProUGUI dialogueText;
     public float dialogueDuration = 4.0f;
 
-    [Header("Level Up UI")]
-    public GameObject levelUpPanel;
-
     [Header("References")]
     public GameObject uiInventoryPanel;
     public BuildingSystem buildingSystem;
@@ -59,7 +56,6 @@ public class TutorialManager : MonoBehaviour
     private void Start()
     {
         if (dialoguePanel != null) dialoguePanel.SetActive(false);
-        if (levelUpPanel != null) levelUpPanel.SetActive(false);
         StartCoroutine(InitializeTutorialRoutine());
     }
 
@@ -87,17 +83,7 @@ public class TutorialManager : MonoBehaviour
 
     private void Update()
     {
-        if (isFinished)
-        {
-            if (Input.GetKeyDown(KeyCode.Y))
-            {
-                if (levelUpPanel != null)
-                {
-                    levelUpPanel.SetActive(!levelUpPanel.activeSelf);
-                }
-            }
-            return;
-        }
+        if (isFinished) return;
 
         if (!isSystemReady) return;
 
@@ -307,9 +293,9 @@ public class TutorialManager : MonoBehaviour
             tutorialPanel.SetActive(false);
         }
 
-        if (levelUpPanel != null)
+        if (creatureState != null)
         {
-            levelUpPanel.SetActive(true);
+            creatureState.ShowLevelUpPrompt();
         }
     }
 
@@ -393,18 +379,5 @@ public class TutorialManager : MonoBehaviour
     private int CountBuildings()
     {
         return FindObjectsByType<Building>(FindObjectsSortMode.None).Length;
-    }
-
-    public void CloseLevelUpPanel()
-    {
-        if (levelUpPanel != null)
-        {
-            levelUpPanel.SetActive(false);
-        }
-    }
-
-    public void ConfirmLevelUp()
-    {
-        Debug.Log("Przechodz? do nast?pnego poziomu!");
     }
 }

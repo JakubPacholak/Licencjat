@@ -56,6 +56,17 @@ public class CreatureState : MonoBehaviour
         {
             ShowLevelUpPrompt();
         }
+        if (levelUpPromptShown && Input.GetKeyDown(KeyCode.Y))
+        {
+            if (levelUpPanel != null && levelUpPanel.activeSelf)
+            {
+                StayOnCurrentLevel();
+            }
+            else
+            {
+                ShowLevelUpPrompt();
+            }
+        }
 
         if (currentState == State.Thinking)
             return;
@@ -69,7 +80,7 @@ public class CreatureState : MonoBehaviour
         }
     }
 
-    void ShowLevelUpPrompt()
+    public void ShowLevelUpPrompt()
     {
         levelUpPromptShown = true;
 
@@ -83,14 +94,13 @@ public class CreatureState : MonoBehaviour
     public void GoToNextLevel()
     {
         Time.timeScale = 1f;
-
         int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
         SceneManager.LoadScene(nextSceneIndex);
     }
+
     public void StayOnCurrentLevel()
     {
         Time.timeScale = 1f;
-
         if (levelUpPanel != null)
         {
             levelUpPanel.SetActive(false);
