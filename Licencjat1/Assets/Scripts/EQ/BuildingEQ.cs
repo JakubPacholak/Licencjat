@@ -29,6 +29,17 @@ public class BuildingEQ : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            TutorialManager tutorial = FindObjectOfType<TutorialManager>();
+            if (tutorial != null && tutorial.IsDialogueActive) return;
+
+            ToggleInventory();
+        }
+    }
+
     public void ToggleInventory()
     {
         if (inventoryPanel != null)
@@ -73,7 +84,6 @@ public class BuildingEQ : MonoBehaviour
             if (iconImg != null)
             {
                 iconImg.sprite = data.Icon != null ? data.Icon : defaultIcon;
-
                 iconImg.preserveAspect = true;
             }
 
@@ -90,6 +100,27 @@ public class BuildingEQ : MonoBehaviour
 
     public void SelectBuilding(BuildingData data)
     {
+        TutorialManager tutorial = FindObjectOfType<TutorialManager>();
+
+        if (tutorial != null)
+        {
+            if (tutorial.IsDialogueActive) return;
+
+            if (tutorial.IsStatueBlocked && data.name.ToLower().Contains("statue"))
+            {
+                return;
+            }
+
+            if (tutorial.IsFirstTaskActive)
+            {
+                int objectIndex = buildings.IndexOf(data);
+                if (objectIndex == 2)
+                {
+                    return;
+                }
+            }
+        }
+
         ToggleInventory();
         Vector3 worldPos = buildingSystem.GetMouseWorldPosition();
         buildingSystem.CreatePreviewFromInventory(data, worldPos);

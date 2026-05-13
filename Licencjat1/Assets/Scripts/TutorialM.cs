@@ -7,11 +7,12 @@ public enum TutorialPhase
 {
     MoveCamera,
     ZoomCamera,
-    OpenInventory,
-    PlaceItem,
-    RotateItem,
-    MergeItems,
-    FillHappiness
+    ToggleInventory,
+    Quest1_PlaceObjects,
+    Quest2_MergeStatue,
+    Quest3_MergeMushroom,
+    Quest4_MergeBarrel,
+    Quest5_FreeBuild
 }
 
 public class TutorialManager : MonoBehaviour
@@ -19,6 +20,14 @@ public class TutorialManager : MonoBehaviour
     [Header("UI")]
     public TextMeshProUGUI instructionText;
     public GameObject tutorialPanel;
+
+    [Header("Dialogue UI")]
+    public GameObject dialoguePanel;
+    public TextMeshProUGUI dialogueText;
+    public float dialogueDuration = 4.0f;
+
+    [Header("Level Up UI")]
+    public GameObject levelUpPanel;
 
     [Header("References")]
     public GameObject uiInventoryPanel;
@@ -34,12 +43,22 @@ public class TutorialManager : MonoBehaviour
     private int startBuildingCount;
     private int startMergeCount;
 
+    private int targetBuildingCount;
+    private int targetMergeCount;
+
     private bool isSystemReady = false;
     private bool isFinished = false;
     private float phaseCooldown = 0f;
+    private bool hasOpenedInventory = false;
+
+    public bool IsStatueBlocked => currentPhase == TutorialPhase.Quest1_PlaceObjects;
+    public bool IsFirstTaskActive => currentPhase == TutorialPhase.Quest1_PlaceObjects;
+    public bool IsDialogueActive { get; private set; } = false;
 
     private void Start()
     {
+        if (dialoguePanel != null) dialoguePanel.SetActive(false);
+        if (levelUpPanel != null) levelUpPanel.SetActive(false);
         StartCoroutine(InitializeTutorialRoutine());
     }
 
@@ -67,9 +86,22 @@ public class TutorialManager : MonoBehaviour
 
     private void Update()
     {
-        if (!isSystemReady || isFinished) return;
+        if (isFinished)
+        {
+            if (Input.GetKeyDown(KeyCode.Y))
+            {
+                if (levelUpPanel != null)
+                {
+                    levelUpPanel.SetActive(!levelUpPanel.activeSelf);
+                }
+            }
+            return;
+        }
+
+        if (!isSystemReady) return;
 
         if (PauseMenuController.IsPaused) return;
+        if (IsDialogueActive) return;
 
         if (phaseCooldown > 0f)
         {
@@ -87,60 +119,61 @@ public class TutorialManager : MonoBehaviour
             case TutorialPhase.MoveCamera:
                 if (cameraTransform == null) return;
                 float dist = Vector3.Distance(startCameraPos, cameraTransform.position);
-
-                if (dist > moveThreshold)
-                {
-                    NextPhase();
-                }
+                if (dist > moveThreshold) NextPhase();
                 break;
 
             case TutorialPhase.ZoomCamera:
                 float scrollInput = Input.GetAxis("Mouse ScrollWheel");
-                if (Mathf.Abs(scrollInput) > 0.01f)
-                {
-                    NextPhase();
-                }
+                if (Mathf.Abs(scrollInput) > 0.01f) NextPhase();
                 break;
 
-            case TutorialPhase.OpenInventory:
-                if (uiInventoryPanel != null && uiInventoryPanel.activeSelf && Input.GetMouseButtonDown(0))
+            case TutorialPhase.ToggleInventory:
+                if (Input.GetKeyDown(KeyCode.I))
                 {
-                    NextPhase();
-                }
-                break;
-
-            case TutorialPhase.PlaceItem:
-                int currentBuildings = CountBuildings();
-                if (currentBuildings > startBuildingCount)
-                {
-                    startBuildingCount = currentBuildings;
-                    NextPhase();
-                }
-                break;
-
-            case TutorialPhase.RotateItem:
-                if (buildingSystem != null && buildingSystem.HasActivePreview())
-                {
-                    if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.E))
+                    if (!hasOpenedInventory)
+                    {
+                        hasOpenedInventory = true;
+                        UpdateInstructionText();
+                    }
+                    else
                     {
                         NextPhase();
                     }
                 }
                 break;
 
-            case TutorialPhase.MergeItems:
-                if (buildingSystem != null)
+            case TutorialPhase.Quest1_PlaceObjects:
+                if (CountBuildings() >= targetBuildingCount)
                 {
-                    if (buildingSystem.GetTotalMerges() > startMergeCount)
-                    {
-                        NextPhase();
-                    }
+                    NextPhase();
                 }
                 break;
 
-            case TutorialPhase.FillHappiness:
+            case TutorialPhase.Quest2_MergeStatue:
+                if (buildingSystem != null && buildingSystem.GetTotalMerges() >= targetMergeCount)
+                {
+                    NextPhase();
+                }
+                break;
+
+            case TutorialPhase.Quest3_MergeMushroom:
+                if (buildingSystem != null && buildingSystem.GetTotalMerges() >= targetMergeCount)
+                {
+                    NextPhase();
+                }
+                break;
+
+            case TutorialPhase.Quest4_MergeBarrel:
+                if (buildingSystem != null && buildingSystem.GetTotalMerges() >= targetMergeCount)
+                {
+                    NextPhase();
+                }
+                break;
+
+            case TutorialPhase.Quest5_FreeBuild:
                 if (creatureState != null)
                 {
+                    UpdateInstructionText();
                     if (creatureState.image.fillAmount >= 0.95f)
                     {
                         NextPhase();
@@ -152,48 +185,95 @@ public class TutorialManager : MonoBehaviour
 
     private void NextPhase()
     {
-        if (currentPhase == TutorialPhase.FillHappiness)
+        if (currentPhase == TutorialPhase.Quest5_FreeBuild)
         {
             if (!isFinished)
             {
                 isFinished = true;
-                StartCoroutine(FinishTutorialSequence());
+                FinishTutorialImmediately();
             }
             return;
         }
 
         currentPhase++;
-        phaseCooldown = 1.5f;
+        phaseCooldown = 1.0f;
 
-        if (currentPhase == TutorialPhase.MergeItems && buildingSystem != null)
+        if (currentPhase == TutorialPhase.Quest1_PlaceObjects)
         {
-            startMergeCount = buildingSystem.GetTotalMerges();
+            startBuildingCount = CountBuildings();
+            targetBuildingCount = startBuildingCount + 4;
+        }
+        else if (currentPhase >= TutorialPhase.Quest2_MergeStatue && currentPhase <= TutorialPhase.Quest4_MergeBarrel)
+        {
+            if (buildingSystem != null)
+            {
+                startMergeCount = buildingSystem.GetTotalMerges();
+                targetMergeCount = startMergeCount + 1;
+            }
         }
 
-        if (cameraTransform != null)
+        if (cameraTransform != null && currentPhase <= TutorialPhase.ZoomCamera)
         {
             startCameraPos = cameraTransform.position;
         }
 
+        if (currentPhase >= TutorialPhase.Quest1_PlaceObjects && currentPhase <= TutorialPhase.Quest5_FreeBuild)
+        {
+            StartCoroutine(ShowDialogueRoutine(currentPhase));
+        }
+        else
+        {
+            UpdateInstructionText();
+        }
+    }
+
+    private IEnumerator ShowDialogueRoutine(TutorialPhase phase)
+    {
+        IsDialogueActive = true;
+
+        if (instructionText != null) instructionText.text = "";
+
+        string text = "";
+        switch (phase)
+        {
+            case TutorialPhase.Quest1_PlaceObjects:
+                text = "The specimen is terrified. I have to give it some stability - use those objects on the side, I'll pick 4 for now.";
+                break;
+            case TutorialPhase.Quest2_MergeStatue:
+                text = "I see the glowing mushroom and the runic statue longing to merge together...";
+                break;
+            case TutorialPhase.Quest3_MergeMushroom:
+                text = "This specimen is exhausted from the journey from it's planet. Let's make a nest for it.";
+                break;
+            case TutorialPhase.Quest4_MergeBarrel:
+                text = "The creature is well rested now, but hungry. I should take care of that...";
+                break;
+            case TutorialPhase.Quest5_FreeBuild:
+                text = "I think little one needs more enrichment in its enclosure. I'll work on it.";
+                break;
+        }
+
+        if (dialogueText != null) dialogueText.text = text;
+        if (dialoguePanel != null) dialoguePanel.SetActive(true);
+
+        yield return new WaitForSeconds(dialogueDuration);
+
+        if (dialoguePanel != null) dialoguePanel.SetActive(false);
+        IsDialogueActive = false;
+
         UpdateInstructionText();
     }
 
-    private IEnumerator FinishTutorialSequence()
+    private void FinishTutorialImmediately()
     {
-        if (instructionText != null)
-        {
-            instructionText.text = "<color=#55FF55><b>Tutorial Completed!</b></color>\nHave fun creating your world!";
-        }
-
-        yield return new WaitForSeconds(6.0f);
-
         if (tutorialPanel != null)
         {
             tutorialPanel.SetActive(false);
         }
-        else if (instructionText != null)
+
+        if (levelUpPanel != null)
         {
-            instructionText.gameObject.SetActive(false);
+            levelUpPanel.SetActive(true);
         }
     }
 
@@ -201,60 +281,74 @@ public class TutorialManager : MonoBehaviour
     {
         if (instructionText == null) return;
 
-        string[] taskNames = new string[]
-        {
-            "Move camera (RMB)",
-            "Zoom camera (Scroll)",
-            "Open inventory",
-            "Place an item",
-            "Rotate an item (Q/E)",
-            "Merge two items",
-            "Fill happiness bar"
-        };
-
         StringBuilder sb = new StringBuilder();
-        sb.AppendLine("<b>TUTORIAL TASKS:</b>\n");
 
-        for (int i = 0; i < taskNames.Length; i++)
+        if (currentPhase < TutorialPhase.Quest1_PlaceObjects)
         {
-            if ((int)currentPhase > i)
-            {
-                sb.AppendLine($"<color=#888888><s>[X] {taskNames[i]}</s></color>");
-            }
-            else if ((int)currentPhase == i)
-            {
-                sb.AppendLine($"<b><color=#FFFFFF>[ ] {taskNames[i]}</color></b>");
-            }
+            sb.AppendLine("<b>TUTORIAL:</b>\n");
+
+            sb.AppendLine(currentPhase == TutorialPhase.MoveCamera ? "<b><color=#FFFFFF>[ ] Move camera (RMB)</color></b>" : "<color=#888888><s>[X] Move camera (RMB)</s></color>");
+
+            if (currentPhase < TutorialPhase.ZoomCamera)
+                sb.AppendLine("<color=#AAAAAA>[ ] Zoom camera (Scroll)</color>");
+            else if (currentPhase == TutorialPhase.ZoomCamera)
+                sb.AppendLine("<b><color=#FFFFFF>[ ] Zoom camera (Scroll)</color></b>");
             else
+                sb.AppendLine("<color=#888888><s>[X] Zoom camera (Scroll)</s></color>");
+
+            if (currentPhase < TutorialPhase.ToggleInventory)
             {
-                sb.AppendLine($"<color=#AAAAAA>[ ] {taskNames[i]}</color>");
+                sb.AppendLine("<color=#AAAAAA>[ ] Open & Close inventory (I)</color>");
             }
+            else if (currentPhase == TutorialPhase.ToggleInventory)
+            {
+                if (!hasOpenedInventory)
+                    sb.AppendLine("<b><color=#FFFFFF>[ ] Open inventory (I)</color></b>");
+                else
+                    sb.AppendLine("<b><color=#FFFFFF>[ ] Close inventory (I)</color></b>");
+            }
+
+            instructionText.text = sb.ToString();
+            return;
         }
 
-        sb.AppendLine("\n<b>TIP:</b>");
+        sb.AppendLine("<b>OBJECTIVE:</b>\n");
+
+        string mainText = "";
+        string subText = "";
+
         switch (currentPhase)
         {
-            case TutorialPhase.MoveCamera:
-                sb.Append("<color=#DDDDDD><size=80%>Use your mouse (RMB) to move camera around.</size></color>");
+            case TutorialPhase.Quest1_PlaceObjects:
+                mainText = "Place objects to decorate the terrarium.";
                 break;
-            case TutorialPhase.ZoomCamera:
-                sb.Append("<color=#DDDDDD><size=80%>Using mouse scroll will let you zoom in and out.</size></color>");
+
+            case TutorialPhase.Quest2_MergeStatue:
+                mainText = "Place 2 specific objects close to each other.";
+                subText = "(try merging statue with mushroom)";
                 break;
-            case TutorialPhase.OpenInventory:
-                sb.Append("<color=#DDDDDD><size=80%>Click on the creature to see what items it wants.</size></color>");
+
+            case TutorialPhase.Quest3_MergeMushroom:
+                mainText = "Place 2 specific objects close to each other.";
+                subText = "(try merging mushroom with pole plant)";
                 break;
-            case TutorialPhase.PlaceItem:
-                sb.Append("<color=#DDDDDD><size=80%>Click on any item in the inventory and place it.</size></color>");
+
+            case TutorialPhase.Quest4_MergeBarrel:
+                mainText = "Place 2 specific objects close to each other.";
+                subText = "(try merging old barrel with pole plant)";
                 break;
-            case TutorialPhase.RotateItem:
-                sb.Append("<color=#DDDDDD><size=80%>Pick an object, but before placing, press Q or E.</size></color>");
+
+            case TutorialPhase.Quest5_FreeBuild:
+                float fillPercent = creatureState != null ? creatureState.image.fillAmount * 100f : 0f;
+                mainText = $"Fill the happiness bar ({fillPercent:0}% / 100%)";
+                subText = "(add more of any objects you like in the terrarium)";
                 break;
-            case TutorialPhase.MergeItems:
-                sb.Append("<color=#DDDDDD><size=80%>Some things will fuse together into new variants!</size></color>");
-                break;
-            case TutorialPhase.FillHappiness:
-                sb.Append("<color=#DDDDDD><size=80%>Happiness bar lets you know how creature feels.</size></color>");
-                break;
+        }
+
+        sb.AppendLine($"<color=#FFFFFF>[ ] {mainText}</color>");
+        if (!string.IsNullOrEmpty(subText))
+        {
+            sb.AppendLine($"<color=#AAAAAA><size=80%>{subText}</size></color>");
         }
 
         instructionText.text = sb.ToString();
@@ -263,5 +357,18 @@ public class TutorialManager : MonoBehaviour
     private int CountBuildings()
     {
         return FindObjectsByType<Building>(FindObjectsSortMode.None).Length;
+    }
+
+    public void CloseLevelUpPanel()
+    {
+        if (levelUpPanel != null)
+        {
+            levelUpPanel.SetActive(false);
+        }
+    }
+
+    public void ConfirmLevelUp()
+    {
+        Debug.Log("Przechodz? do nast?pnego poziomu!");
     }
 }

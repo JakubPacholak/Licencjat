@@ -7,10 +7,7 @@ public class BuildingSystem : MonoBehaviour
 {
     public const float CellSize = 1f;
 
-    [SerializeField] private BuildingData buildingData1;
-    [SerializeField] private BuildingData buildingData2;
-    [SerializeField] private BuildingData buildingData3;
-    [SerializeField] private BuildingData buildingData4;
+    [SerializeField] private List<BuildingData> availableBuildings = new List<BuildingData>();
 
     [SerializeField] private BuildingPreview previewPrefab;
     [SerializeField] private Building buildingPrefab;
@@ -27,13 +24,10 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private LayerMask placementLayer;
 
     [SerializeField] private List<MergeRecipe> mergeRecipes;
-    [SerializeField] private MergeIndicator mergeIndicatorPrefab;
     [SerializeField] private float mergeCheckRadius = 1.5f;
-    [SerializeField] private KeyCode mergeKey = KeyCode.M;
     [SerializeField] private LineRenderer rangeVisualizer;
 
     private BuildingPreview preview;
-    private MergeIndicator currentIndicator;
 
     private bool isMovingBuilding = false;
 
@@ -64,13 +58,7 @@ public class BuildingSystem : MonoBehaviour
         inventory = FindObjectOfType<BuildingEQ>();
         if (inventory != null)
         {
-            inventory.Initialize(new List<BuildingData> { buildingData1, buildingData2, buildingData3, buildingData4 });
-        }
-
-        if (mergeIndicatorPrefab != null)
-        {
-            currentIndicator = Instantiate(mergeIndicatorPrefab);
-            currentIndicator.Hide();
+            inventory.Initialize(availableBuildings);
         }
 
         if (rangeVisualizer != null)
@@ -127,7 +115,6 @@ public class BuildingSystem : MonoBehaviour
         if (!isValidPosition)
         {
             preview.gameObject.SetActive(false);
-            if (currentIndicator != null) currentIndicator.Hide();
             if (rangeVisualizer != null) rangeVisualizer.enabled = false;
             return;
         }
@@ -286,7 +273,6 @@ public class BuildingSystem : MonoBehaviour
         if (hasMerged)
         {
             potentialMergeTarget = null;
-            if (currentIndicator != null) currentIndicator.Hide();
             return;
         }
 
@@ -324,19 +310,6 @@ public class BuildingSystem : MonoBehaviour
             }
             if (potentialMergeTarget != null) break;
         }
-
-        if (currentIndicator != null)
-        {
-            if (potentialMergeTarget != null)
-            {
-                Vector3 centerPos = (preview.transform.position + potentialMergeTarget.transform.position) / 2f;
-                currentIndicator.Show(centerPos, "!");
-            }
-            else
-            {
-                currentIndicator.Hide();
-            }
-        }
     }
 
     private void PerformMerge()
@@ -346,7 +319,6 @@ public class BuildingSystem : MonoBehaviour
         Destroy(potentialMergeTarget.gameObject);
         Destroy(preview.gameObject);
         preview = null;
-        if (currentIndicator != null) currentIndicator.Hide();
         if (rangeVisualizer != null) rangeVisualizer.enabled = false;
 
         Quaternion surfaceRotation = Quaternion.FromToRotation(Vector3.up, currentSurfaceNormal);
@@ -390,7 +362,6 @@ public class BuildingSystem : MonoBehaviour
             Destroy(preview.gameObject);
             preview = null;
         }
-        if (currentIndicator != null) currentIndicator.Hide();
         if (rangeVisualizer != null) rangeVisualizer.enabled = false;
     }
 
@@ -474,7 +445,6 @@ public class BuildingSystem : MonoBehaviour
         preview = null;
         isMovingBuilding = false;
 
-        if (currentIndicator != null) currentIndicator.Hide();
         if (rangeVisualizer != null) rangeVisualizer.enabled = false;
     }
 
