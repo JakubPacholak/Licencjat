@@ -2,20 +2,21 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections; // Wymagane do dzia?ania Coroutine
 
 public class CreatureState : MonoBehaviour
 {
+    [Header("Emoticons")]
     public GameObject emoticonThinking;
     public GameObject emoticonHappy;
 
+    [Header("Happiness Bar UI")]
     public TextMeshProUGUI hp_label;
     public Image image;
     public int HP_MaxPoints;
     int HP_CurrentPoints = 0;
 
-    [Header("Level Up UI")]
-    public GameObject levelUpPanel;
-    private bool levelUpPromptShown = false;
+    private bool isTransitioning = false;
 
     public enum State
     {
@@ -25,7 +26,6 @@ public class CreatureState : MonoBehaviour
     }
 
     public State currentState = State.Idle;
-    private float nextThinkingTime = 0f;
     private float thinkingCounter = 5f;
 
     void Start()
@@ -33,46 +33,56 @@ public class CreatureState : MonoBehaviour
         emoticonHappy.SetActive(false);
         emoticonThinking.SetActive(false);
 
-        if (levelUpPanel != null)
-        {
-            levelUpPanel.SetActive(false);
-        }
-
-        hp_label.SetText(HP_CurrentPoints.ToString());
-        nextThinkingTime = Random.Range(10f, 30f);
+        if (hp_label != null) hp_label.SetText(HP_CurrentPoints.ToString());
     }
 
     void Update()
     {
         HP_CurrentPoints = CalculateHP();
-        hp_label.SetText(HP_CurrentPoints.ToString());
+        if (hp_label != null) hp_label.SetText(HP_CurrentPoints.ToString());
 
-        if (HP_MaxPoints > 0)
+        if (HP_MaxPoints > 0 && image != null)
         {
             image.fillAmount = (float)HP_CurrentPoints / (float)HP_MaxPoints;
         }
 
-        if (HP_CurrentPoints >= 100 && !levelUpPromptShown)
+        // Je?li punkty osi?gn? 100 i jeszcze nie zacz?li?my odliczania
+        if (HP_CurrentPoints >= 100 && !isTransitioning)
         {
-            ShowLevelUpPrompt();
-        }
-        if (levelUpPromptShown && Input.GetKeyDown(KeyCode.Y))
-        {
-            if (levelUpPanel != null && levelUpPanel.activeSelf)
-            {
-                StayOnCurrentLevel();
-            }
-            else
-            {
-                ShowLevelUpPrompt();
-            }
+            StartCoroutine(DelayedNextLevel());
         }
 
-        if (currentState == State.Thinking)
-            return;
+        HandleEmoticons();
+    }
+
+    private IEnumerator DelayedNextLevel()
+    {
+        isTransitioning = true; // Blokujemy ponowne wywo?anie
+
+        Debug.Log("Poziom uko?czony! Przej?cie za 7 sekund...");
+
+        // Tutaj mo?esz doda? co? ekstra, np. dzi?kujemy graczowi albo odpalamy konfetti
+        ShowHappyEmoticon();
+
+        yield return new WaitForSeconds(7f); // Czekamy dok?adnie 7 sekund
+
+        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+
+        if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
+        {
+            SceneManager.LoadScene(nextSceneIndex);
+        }
+        else
+        {
+            Debug.LogWarning("To by? ostatni poziom w Build Settings!");
+        }
+    }
+
+    private void HandleEmoticons()
+    {
+        if (currentState == State.Thinking) return;
 
         thinkingCounter -= Time.deltaTime;
-
         if (thinkingCounter <= 0f)
         {
             ShowThinkingEmoticon();
@@ -80,50 +90,23 @@ public class CreatureState : MonoBehaviour
         }
     }
 
-    public void ShowLevelUpPrompt()
-    {
-        levelUpPromptShown = true;
-
-        if (levelUpPanel != null)
-        {
-            levelUpPanel.SetActive(true);
-            Time.timeScale = 0f;
-        }
-    }
-
-    public void GoToNextLevel()
-    {
-        Time.timeScale = 1f;
-        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
-        SceneManager.LoadScene(nextSceneIndex);
-    }
-
-    public void StayOnCurrentLevel()
-    {
-        Time.timeScale = 1f;
-        if (levelUpPanel != null)
-        {
-            levelUpPanel.SetActive(false);
-        }
-    }
-
     void ShowThinkingEmoticon()
     {
-        emoticonThinking.SetActive(true);
+        if (emoticonThinking != null) emoticonThinking.SetActive(true);
         currentState = State.Thinking;
     }
 
     public void ShowHappyEmoticon()
     {
-        emoticonThinking.SetActive(false);
-        emoticonHappy.SetActive(true);
+        if (emoticonThinking != null) emoticonThinking.SetActive(false);
+        if (emoticonHappy != null) emoticonHappy.SetActive(true);
         currentState = State.Happy;
         Invoke("HideHappyEmoticon", 4f);
     }
 
     private void HideHappyEmoticon()
     {
-        emoticonHappy.SetActive(false);
+        if (emoticonHappy != null) emoticonHappy.SetActive(false);
         currentState = State.Idle;
     }
 
@@ -131,7 +114,6 @@ public class CreatureState : MonoBehaviour
     {
         int hp = 0;
         int buildingLayer = LayerMask.NameToLayer("Building");
-
         GameObject[] allObjects = FindObjectsByType<GameObject>(FindObjectsSortMode.None);
 
         foreach (GameObject obj in allObjects)
@@ -139,13 +121,9 @@ public class CreatureState : MonoBehaviour
             if (obj.layer == buildingLayer)
             {
                 Building b = obj.GetComponent<Building>();
-                if (b != null)
-                {
-                    hp += b.Cost;
-                }
+                if (b != null) hp += b.Cost;
             }
         }
-
         return hp;
     }
 }
