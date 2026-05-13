@@ -51,6 +51,7 @@ public class TutorialManager : MonoBehaviour
     private float phaseCooldown = 0f;
     private bool hasOpenedInventory = false;
 
+    public bool IsBuildingBlocked => currentPhase < TutorialPhase.Quest1_PlaceObjects;
     public bool IsStatueBlocked => currentPhase == TutorialPhase.Quest1_PlaceObjects;
     public bool IsFirstTaskActive => currentPhase == TutorialPhase.Quest1_PlaceObjects;
     public bool IsDialogueActive { get; private set; } = false;

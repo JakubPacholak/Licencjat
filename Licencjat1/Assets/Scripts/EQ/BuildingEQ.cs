@@ -106,6 +106,8 @@ public class BuildingEQ : MonoBehaviour
         {
             if (tutorial.IsDialogueActive) return;
 
+            if (tutorial.IsBuildingBlocked) return;
+
             if (tutorial.IsStatueBlocked && data.name.ToLower().Contains("statue"))
             {
                 return;

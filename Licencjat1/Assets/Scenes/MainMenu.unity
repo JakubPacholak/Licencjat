@@ -119,6 +119,28 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &92007533 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6847799181221785132, guid: 459af2cb2bec2a146948dc9f54a16f2c, type: 3}
+  m_PrefabInstance: {fileID: 143098318}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &112040953 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8830832896217978367, guid: 459af2cb2bec2a146948dc9f54a16f2c, type: 3}
+  m_PrefabInstance: {fileID: 143098318}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &119826825
 GameObject:
   m_ObjectHideFlags: 0
@@ -440,7 +462,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6847799181221785132, guid: 459af2cb2bec2a146948dc9f54a16f2c, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6847799181221785132, guid: 459af2cb2bec2a146948dc9f54a16f2c, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -449,14 +471,14 @@ PrefabInstance:
     - target: {fileID: 6847799181221785132, guid: 459af2cb2bec2a146948dc9f54a16f2c, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 24100000, guid: ca15a44b3a187eb43b1ef9dca68d039a, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 6847799181221785132, guid: 459af2cb2bec2a146948dc9f54a16f2c, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6847799181221785132, guid: 459af2cb2bec2a146948dc9f54a16f2c, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UnityEditor.Audio.AudioMixerController, UnityEditor.CoreModule
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7030073103676741990, guid: 459af2cb2bec2a146948dc9f54a16f2c, type: 3}
       propertyPath: m_AnchorMax.x
@@ -937,6 +959,7 @@ GameObject:
   m_Component:
   - component: {fileID: 871129090}
   - component: {fileID: 871129089}
+  - component: {fileID: 871129091}
   m_Layer: 0
   m_Name: MainMenuController
   m_TagString: Untagged
@@ -980,6 +1003,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &871129091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871129088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d807a5d94804bf41adec8ae811a4a57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainMixer: {fileID: 24100000, guid: ca15a44b3a187eb43b1ef9dca68d039a, type: 2}
+  musicSlider: {fileID: 92007533}
+  soundSlider: {fileID: 112040953}
 --- !u!1 &896969750
 GameObject:
   m_ObjectHideFlags: 0
