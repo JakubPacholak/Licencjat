@@ -680,8 +680,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -26, y: 43}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 340, y: 96}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1275537698
 MonoBehaviour:
@@ -2126,7 +2126,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 4bdc6fe15c698b840b87109e3c8aacfa, type: 2}
     - target: {fileID: 6766619141199347140, guid: 2d04e3eb8b4b5a644904d1d92446c51b, type: 3}
       propertyPath: availableBuildings.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6766619141199347140, guid: 2d04e3eb8b4b5a644904d1d92446c51b, type: 3}
       propertyPath: 'availableBuildings.Array.data[0]'
@@ -2144,6 +2144,10 @@ PrefabInstance:
       propertyPath: 'availableBuildings.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: 1b2bc0450edc0874281002631072f32a, type: 2}
+    - target: {fileID: 6766619141199347140, guid: 2d04e3eb8b4b5a644904d1d92446c51b, type: 3}
+      propertyPath: 'availableBuildings.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: f012d93396199754a8026a123b406325, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

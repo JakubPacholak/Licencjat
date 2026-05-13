@@ -100,6 +100,8 @@ public class TutorialManager : MonoBehaviour
 
         if (!isSystemReady) return;
 
+        ClampHappinessBar();
+
         if (PauseMenuController.IsPaused) return;
         if (IsDialogueActive) return;
 
@@ -110,6 +112,39 @@ public class TutorialManager : MonoBehaviour
         }
 
         CheckCurrentObjective();
+    }
+
+    private void ClampHappinessBar()
+    {
+        if (creatureState == null || creatureState.image == null) return;
+
+        float maxFill = 1.0f;
+        switch (currentPhase)
+        {
+            case TutorialPhase.MoveCamera:
+            case TutorialPhase.ZoomCamera:
+            case TutorialPhase.ToggleInventory:
+            case TutorialPhase.Quest1_PlaceObjects:
+                maxFill = 0.32f;
+                break;
+            case TutorialPhase.Quest2_MergeStatue:
+                maxFill = 0.44f;
+                break;
+            case TutorialPhase.Quest3_MergeMushroom:
+                maxFill = 0.59f;
+                break;
+            case TutorialPhase.Quest4_MergeBarrel:
+                maxFill = 0.71f;
+                break;
+            case TutorialPhase.Quest5_FreeBuild:
+                maxFill = 1.0f;
+                break;
+        }
+
+        if (creatureState.image.fillAmount > maxFill)
+        {
+            creatureState.image.fillAmount = maxFill;
+        }
     }
 
     private void CheckCurrentObjective()
@@ -174,7 +209,7 @@ public class TutorialManager : MonoBehaviour
                 if (creatureState != null)
                 {
                     UpdateInstructionText();
-                    if (creatureState.image.fillAmount >= 0.95f)
+                    if (creatureState.image.fillAmount >= 0.99f)
                     {
                         NextPhase();
                     }
