@@ -13,11 +13,14 @@ MonoBehaviour:
   m_Name: Building 4
   m_EditorClassIdentifier: 
   <Description>k__BackingField: Building 4
-  <Cost>k__BackingField: 5
-  <Model>k__BackingField: {fileID: 5866552328699426344, guid: 43920b71f3fb17d4b8ec6b79cb6bef0b, type: 3}
+  <Cost>k__BackingField: 8
+  <Model>k__BackingField: {fileID: 6866654026622293276, guid: b38b60f3f8c2d5447bf62ddc094aebd6, type: 3}
   <Icon>k__BackingField: {fileID: 0}
   <PlacementVFX>k__BackingField: {fileID: 0}
-  <ColorVariants>k__BackingField: []
+  <ColorVariants>k__BackingField:
+  - {fileID: 2100000, guid: 808dbe0f2455494409d8de737bd7d602, type: 2}
+  - {fileID: 2100000, guid: 0256f03050f47a9458fb7cd156f7c2ef, type: 2}
+  - {fileID: 2100000, guid: 55c4e4688fb36704ea8a02f046701819, type: 2}
   <AllowStacking>k__BackingField: 0
   <CanBeStackedOn>k__BackingField: 0
   <OnlyStackOnSameType>k__BackingField: 0

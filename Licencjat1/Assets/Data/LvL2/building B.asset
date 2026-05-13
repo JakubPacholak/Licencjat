@@ -10,16 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ae7826f80adaea41814ffbbed8ce7b9, type: 3}
-  m_Name: Building 2
+  m_Name: building B
   m_EditorClassIdentifier: 
-  <Description>k__BackingField: Building 2
-  <Cost>k__BackingField: 8
-  <Model>k__BackingField: {fileID: 7943729716548566250, guid: 1e3f45f7b42bc9d4e895b2e37418f66f, type: 3}
+  <Description>k__BackingField: 
+  <Cost>k__BackingField: 12
+  <Model>k__BackingField: {fileID: 3071561581310345414, guid: 375e39223857aaf438cddb4cb56f31ea, type: 3}
   <Icon>k__BackingField: {fileID: 0}
   <PlacementVFX>k__BackingField: {fileID: 0}
-  <ColorVariants>k__BackingField:
-  - {fileID: 2100000, guid: 2fd3069e31b956e498146fe892343a41, type: 2}
-  - {fileID: 2100000, guid: e721b427bf525dd469346221af8a9ac1, type: 2}
+  <ColorVariants>k__BackingField: []
   <AllowStacking>k__BackingField: 0
   <CanBeStackedOn>k__BackingField: 0
   <OnlyStackOnSameType>k__BackingField: 0

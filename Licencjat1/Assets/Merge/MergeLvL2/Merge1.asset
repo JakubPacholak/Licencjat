@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72a6a7147864f93479afd8ffc9e2323e, type: 3}
+  m_Name: Merge1
+  m_EditorClassIdentifier: 
+  InputA: {fileID: 11400000, guid: 364bbcf48016b4d4fb016515cd7de409, type: 2}
+  InputB: {fileID: 11400000, guid: 608715d3ab2a6214b9e62e0c037337e1, type: 2}
+  Result: {fileID: 11400000, guid: b366d315ff4c31444861b05539458e93, type: 2}
+  MaxUses: 1
