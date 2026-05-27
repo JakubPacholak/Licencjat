@@ -13,13 +13,13 @@ public class CreatureIdleAnimations : MonoBehaviour
         public float interactionDistance;
 
         [Header("Korekty Pozycji i Rotacji (Dostosuj w Inspektorze)")]
-        [Tooltip("Przesuni?cie wzgl?dem punktu. X/Z to przód/bok, Y to góra/dó?.")]
+        [Tooltip("Przesuniecie wzgledem punktu. X/Z to przód/bok, Y to góra/dól.")]
         public Vector3 positionOffset;
 
         [Tooltip("Dodatkowy obrót stworka (w stopniach).")]
         public Vector3 rotationOffset;
 
-        [Tooltip("Zaznacz dla grzybów/spania, by stworek le?a? idealnie p?asko ignoruj?c pochylenie budynku.")]
+        [Tooltip("Zaznacz dla grzybów/spania, by stworek lezal idealnie plasko ignorujac pochylenie budynku.")]
         public bool forceFlatRotation;
     }
 
