@@ -15,7 +15,7 @@ MonoBehaviour:
   <Description>k__BackingField: Building 5
   <Cost>k__BackingField: 5
   <Model>k__BackingField: {fileID: 5866552328699426344, guid: 43920b71f3fb17d4b8ec6b79cb6bef0b, type: 3}
-  <Icon>k__BackingField: {fileID: 0}
+  <Icon>k__BackingField: {fileID: 21300000, guid: 8fa434974000dd248a1131215842ffea, type: 3}
   <PlacementVFX>k__BackingField: {fileID: 0}
   <ColorVariants>k__BackingField: []
   <AllowStacking>k__BackingField: 0
