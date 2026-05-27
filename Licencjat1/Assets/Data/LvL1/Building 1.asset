@@ -21,6 +21,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 44c448324443eef4c98e136e1b1f5be4, type: 2}
   - {fileID: 2100000, guid: 4a996c16fa893464788a5b03a96c09e3, type: 2}
   - {fileID: 2100000, guid: a4c2b8a4b6843904483159249f1dd68b, type: 2}
+  <PlacementSound>k__BackingField: {fileID: 8300000, guid: ec4d7dc7488824743883104f2bf5af1b, type: 3}
   <AllowStacking>k__BackingField: 1
   <CanBeStackedOn>k__BackingField: 1
   <OnlyStackOnSameType>k__BackingField: 1

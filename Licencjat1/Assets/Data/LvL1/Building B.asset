@@ -17,6 +17,8 @@ MonoBehaviour:
   <Model>k__BackingField: {fileID: 6165822610156845547, guid: e9d4e4e1311fd174ab7320d719f5b266, type: 3}
   <Icon>k__BackingField: {fileID: 0}
   <PlacementVFX>k__BackingField: {fileID: 5357791965988481265, guid: 5549f7069515aaf46ab547d9c5a9c9b2, type: 3}
+  <ColorVariants>k__BackingField: []
+  <PlacementSound>k__BackingField: {fileID: 8300000, guid: ec4d7dc7488824743883104f2bf5af1b, type: 3}
   <AllowStacking>k__BackingField: 0
   <CanBeStackedOn>k__BackingField: 0
   <OnlyStackOnSameType>k__BackingField: 0

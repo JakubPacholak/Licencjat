@@ -10,6 +10,7 @@ public class BuildingData : ScriptableObject
     [field: SerializeField] public Sprite Icon { get; private set; }
     [field: SerializeField] public GameObject PlacementVFX { get; private set; }
     [field: SerializeField] public List<Material> ColorVariants { get; private set; }
+    [field: SerializeField] public AudioClip PlacementSound { get; private set; }
 
     [field: SerializeField] public bool AllowStacking { get; private set; } = false;
     [field: SerializeField] public bool CanBeStackedOn { get; private set; } = false;

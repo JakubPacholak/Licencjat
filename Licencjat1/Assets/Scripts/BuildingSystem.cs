@@ -2,45 +2,39 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Audio;
 
 public class BuildingSystem : MonoBehaviour
 {
     public const float CellSize = 1f;
 
-    [SerializeField] private List<BuildingData> availableBuildings = new List<BuildingData>();
+    [Header("Audio Settings")]
+    [SerializeField] private AudioMixerGroup soundMixerGroup;
 
+    [SerializeField] private List<BuildingData> availableBuildings = new List<BuildingData>();
     [SerializeField] private BuildingPreview previewPrefab;
     [SerializeField] private Building buildingPrefab;
     [SerializeField] private BuildingGrid grid;
-
     [SerializeField] private bool useGrid = true;
-
     [SerializeField] private float rotationSpeed = 100f;
-
     [SerializeField] private float stackOffset = 0.05f;
     [SerializeField] private float maxStackSearchHeight = 10f;
     [SerializeField] private LayerMask buildingLayer;
-
     [SerializeField] private LayerMask placementLayer;
-
     [SerializeField] private List<MergeRecipe> mergeRecipes;
     [SerializeField] private float mergeCheckRadius = 1.5f;
     [SerializeField] private LineRenderer rangeVisualizer;
 
     private BuildingPreview preview;
-
     private bool isMovingBuilding = false;
-
     private BuildingData oldData;
     private float oldRotation;
     private Vector3 oldCenterPos;
     private List<Vector3> oldPositions;
     private Material oldVariant;
-
     private BuildingEQ inventory;
     private List<Building> undoStack = new List<Building>();
     private Dictionary<MergeRecipe, int> recipeUsageHistory = new Dictionary<MergeRecipe, int>();
-
     private Building potentialMergeTarget = null;
     private MergeRecipe activeRecipe = null;
     private bool hasMerged = false;
@@ -96,14 +90,8 @@ public class BuildingSystem : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (preview != null)
-            {
-                TryPlaceBuilding();
-            }
-            else
-            {
-                TryPickUpBuilding();
-            }
+            if (preview != null) TryPlaceBuilding();
+            else TryPickUpBuilding();
         }
     }
 
@@ -155,10 +143,8 @@ public class BuildingSystem : MonoBehaviour
         {
             float x = Mathf.Sin(Mathf.Deg2Rad * angle) * mergeCheckRadius;
             float z = Mathf.Cos(Mathf.Deg2Rad * angle) * mergeCheckRadius;
-
             Vector3 pos = preview.transform.position + new Vector3(x, 0.2f, z);
             rangeVisualizer.SetPosition(i, pos);
-
             angle += segmentAngle;
         }
     }
@@ -187,35 +173,17 @@ public class BuildingSystem : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, 2000f, buildingLayer))
         {
             Building building = hit.collider.GetComponentInParent<Building>();
+            if (building == null) building = hit.collider.GetComponent<Building>();
+            if (building == null && hit.transform.parent != null) building = hit.transform.parent.GetComponent<Building>();
 
-            if (building == null)
-            {
-                building = hit.collider.GetComponent<Building>();
-            }
-
-            if (building == null && hit.transform.parent != null)
-            {
-                building = hit.transform.parent.GetComponent<Building>();
-            }
-
-            if (building != null)
-            {
-                StartMovingBuilding(building);
-            }
+            if (building != null) StartMovingBuilding(building);
         }
     }
 
     private void HandleRotation()
     {
-        if (Input.GetKey(KeyCode.Q))
-        {
-            preview.AddRotation(-rotationSpeed * Time.deltaTime);
-        }
-
-        if (Input.GetKey(KeyCode.E))
-        {
-            preview.AddRotation(rotationSpeed * Time.deltaTime);
-        }
+        if (Input.GetKey(KeyCode.Q)) preview.AddRotation(-rotationSpeed * Time.deltaTime);
+        if (Input.GetKey(KeyCode.E)) preview.AddRotation(rotationSpeed * Time.deltaTime);
     }
 
     public void StartMovingBuilding(Building buildingToMove)
@@ -249,7 +217,6 @@ public class BuildingSystem : MonoBehaviour
 
         preview = CreatePreview(oldData, mousePos, oldVariant);
         preview.SetRotation(oldRotation);
-
         isMovingBuilding = true;
     }
 
@@ -278,9 +245,7 @@ public class BuildingSystem : MonoBehaviour
 
         potentialMergeTarget = null;
         activeRecipe = null;
-        if (preview == null) return;
-
-        if (mergeRecipes == null) return;
+        if (preview == null || mergeRecipes == null) return;
 
         Collider[] hits = Physics.OverlapSphere(preview.transform.position, mergeCheckRadius, buildingLayer);
 
@@ -292,11 +257,7 @@ public class BuildingSystem : MonoBehaviour
             foreach (var recipe in mergeRecipes)
             {
                 if (recipe == null) continue;
-
-                if (recipe.MaxUses > 0 && recipeUsageHistory.ContainsKey(recipe) && recipeUsageHistory[recipe] >= recipe.MaxUses)
-                {
-                    continue;
-                }
+                if (recipe.MaxUses > 0 && recipeUsageHistory.ContainsKey(recipe) && recipeUsageHistory[recipe] >= recipe.MaxUses) continue;
 
                 bool matchA = (recipe.InputA == preview.Data && recipe.InputB == nearbyBuilding.Data);
                 bool matchB = (recipe.InputB == preview.Data && recipe.InputA == nearbyBuilding.Data);
@@ -337,6 +298,8 @@ public class BuildingSystem : MonoBehaviour
             Destroy(Instantiate(activeRecipe.Result.PlacementVFX, mergePosition, Quaternion.identity), 5f);
         }
 
+        PlaySound(activeRecipe.Result.PlacementSound, mergePosition);
+
         undoStack.Add(newBuilding);
         if (undoStack.Count > 3) undoStack.RemoveAt(0);
 
@@ -371,10 +334,7 @@ public class BuildingSystem : MonoBehaviour
         List<Vector3> worldPositionsBasedOnMouse = rotatedOffsets.Select(offset => mouseWorldPosition + offset).ToList();
         Vector3 targetPosition = mouseWorldPosition;
 
-        if (!useGrid && preview.Data.AllowStacking)
-        {
-            targetPosition = GetStackTopPosition(mouseWorldPosition);
-        }
+        if (!useGrid && preview.Data.AllowStacking) targetPosition = GetStackTopPosition(mouseWorldPosition);
 
         bool canBuild = false;
 
@@ -386,10 +346,7 @@ public class BuildingSystem : MonoBehaviour
                 Vector3 snappedCenterPosition = GetSnappedCenterPosition(worldPositionsBasedOnMouse, mouseWorldPosition);
                 preview.transform.position = snappedCenterPosition;
             }
-            else
-            {
-                preview.transform.position = mouseWorldPosition;
-            }
+            else preview.transform.position = mouseWorldPosition;
         }
         else
         {
@@ -399,10 +356,7 @@ public class BuildingSystem : MonoBehaviour
 
         if (canBuild && preview.Data.OnlyStackOnSameType)
         {
-            if (!CheckIfStackingOnSameType(preview.transform.position))
-            {
-                canBuild = false;
-            }
+            if (!CheckIfStackingOnSameType(preview.transform.position)) canBuild = false;
         }
 
         preview.ChangeState(canBuild ? BuildingPreview.BuildingPreviewState.POSITIVE : BuildingPreview.BuildingPreviewState.NEGATIVE);
@@ -426,9 +380,7 @@ public class BuildingSystem : MonoBehaviour
     private void PlaceBuilding(List<Vector3> buildingPositions)
     {
         Quaternion surfaceRotation = Quaternion.FromToRotation(Vector3.up, currentSurfaceNormal);
-
         Building building = Instantiate(buildingPrefab, preview.transform.position, surfaceRotation);
-
         building.Setup(preview.Data, preview.BuildingModels.Rotation, preview.ChosenVariant);
 
         if (useGrid) grid.SetBuilding(building, buildingPositions);
@@ -438,6 +390,8 @@ public class BuildingSystem : MonoBehaviour
             Destroy(Instantiate(preview.Data.PlacementVFX, preview.transform.position, Quaternion.identity), 5f);
         }
 
+        PlaySound(preview.Data.PlacementSound, preview.transform.position);
+
         undoStack.Add(building);
         if (undoStack.Count > 3) undoStack.RemoveAt(0);
 
@@ -446,6 +400,19 @@ public class BuildingSystem : MonoBehaviour
         isMovingBuilding = false;
 
         if (rangeVisualizer != null) rangeVisualizer.enabled = false;
+    }
+
+    private void PlaySound(AudioClip clip, Vector3 pos)
+    {
+        if (clip == null) return;
+        GameObject audioObj = new GameObject("TempAudio");
+        audioObj.transform.position = pos;
+        AudioSource source = audioObj.AddComponent<AudioSource>();
+        source.clip = clip;
+        source.spatialBlend = 1f;
+        if (soundMixerGroup != null) source.outputAudioMixerGroup = soundMixerGroup;
+        source.Play();
+        Destroy(audioObj, clip.length);
     }
 
     private Vector3 GetSnappedCenterPosition(List<Vector3> allBuildingPosition, Vector3 mousePos)
@@ -484,11 +451,7 @@ public class BuildingSystem : MonoBehaviour
     public BuildingPreview CreatePreviewFromInventory(BuildingData data, Vector3 position)
     {
         if (preview != null) Destroy(preview.gameObject);
-
-        if (position.Equals(Vector3.negativeInfinity))
-        {
-            position = Vector3.zero;
-        }
+        if (position.Equals(Vector3.negativeInfinity)) position = Vector3.zero;
 
         Material randomVariant = null;
         if (data.ColorVariants != null && data.ColorVariants.Count > 0)
@@ -504,9 +467,7 @@ public class BuildingSystem : MonoBehaviour
     private bool CheckCollisionWithoutGrid(List<Vector3> worldPositions)
     {
         if (preview != null && preview.Data.IgnoreCollision) return true;
-
-        if (preview != null && preview.Data.AllowStacking && preview.transform.position.y > 0.1f)
-            return true;
+        if (preview != null && preview.Data.AllowStacking && preview.transform.position.y > 0.1f) return true;
 
         float halfCell = CellSize / 2f;
         foreach (var pos in worldPositions)
@@ -528,13 +489,9 @@ public class BuildingSystem : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, maxStackSearchHeight * 2f, buildingLayer))
         {
             Building buildingBelow = hit.collider.GetComponentInParent<Building>();
-
             if (buildingBelow != null)
             {
-                if (!buildingBelow.Data.CanBeStackedOn)
-                {
-                    return mousePos;
-                }
+                if (!buildingBelow.Data.CanBeStackedOn) return mousePos;
             }
 
             Renderer rend = hit.collider.GetComponentInChildren<Renderer>();

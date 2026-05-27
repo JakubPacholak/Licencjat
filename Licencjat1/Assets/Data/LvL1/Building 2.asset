@@ -20,6 +20,7 @@ MonoBehaviour:
   <ColorVariants>k__BackingField:
   - {fileID: 2100000, guid: b396d492b2d77744ea8b1537cabf5c4a, type: 2}
   - {fileID: 2100000, guid: caea08405a9301b4cac1a0554410005b, type: 2}
+  <PlacementSound>k__BackingField: {fileID: 8300000, guid: 81230dc874d552e40847c8cb206d5308, type: 3}
   <AllowStacking>k__BackingField: 0
   <CanBeStackedOn>k__BackingField: 0
   <OnlyStackOnSameType>k__BackingField: 0

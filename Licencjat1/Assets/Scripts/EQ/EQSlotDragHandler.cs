@@ -1,10 +1,14 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Audio;
 
 public class EQSlotDragHandler : MonoBehaviour, IPointerClickHandler
 {
     private BuildingData data;
     private BuildingEQ parent;
+
+    public AudioClip clickSound;
+    public AudioMixerGroup soundMixerGroup; 
 
     public void Setup(BuildingData buildingData, BuildingEQ parentScript)
     {
@@ -17,20 +21,12 @@ public class EQSlotDragHandler : MonoBehaviour, IPointerClickHandler
         Level2QuestManager lvl2Manager = FindObjectOfType<Level2QuestManager>();
         if (lvl2Manager != null && lvl2Manager.IsSatelliteBlocked)
         {
-            if (transform.GetSiblingIndex() == 3)
-            {
-                Debug.Log("Czwarty przycisk (Satelita) jest zablokowany!");
-                return;
-            }
+            if (transform.GetSiblingIndex() == 3) return;
         }
 
-        TutorialManager lvl1Manager = FindObjectOfType<TutorialManager>();
-        if (lvl1Manager != null && lvl1Manager.IsStatueBlocked)
+        if (clickSound != null && Camera.main != null)
         {
-            if (data != null && data.name == "Statue")
-            {
-                return;
-            }
+            AudioSource.PlayClipAtPoint(clickSound, Camera.main.transform.position, 0.8f);
         }
 
         if (parent != null)
