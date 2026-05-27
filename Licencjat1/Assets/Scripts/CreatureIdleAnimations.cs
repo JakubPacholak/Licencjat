@@ -30,7 +30,9 @@ public class CreatureIdleAnimations : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] private float animationInterval = 30f;
-    [SerializeField] private string defaultStateName = "Armature_Lewitation";
+
+    [Tooltip("Lista stanów, do których Animator wraca po zako?czeniu interakcji (np. rig_Walking).")]
+    [SerializeField] private List<string> returnStateNames = new List<string> { "Armature_Lewitation" };
 
     [SerializeField] private List<BuildingAnimationLink> buildingAnimations;
 
@@ -145,8 +147,18 @@ public class CreatureIdleAnimations : MonoBehaviour
             if (animator == null) break;
 
             AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-            if (stateInfo.IsName(defaultStateName)) break;
+            bool isFinished = false;
 
+            foreach (string state in returnStateNames)
+            {
+                if (stateInfo.IsName(state))
+                {
+                    isFinished = true;
+                    break;
+                }
+            }
+
+            if (isFinished) break;
             if (snappedToPoint && targetBuilding == null) break;
 
             yield return null;

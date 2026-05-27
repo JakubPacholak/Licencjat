@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class NavMeshWander : MonoBehaviour
@@ -13,7 +14,7 @@ public class NavMeshWander : MonoBehaviour
 
     [Header("Animation Control")]
     public Animator animator;
-    public string defaultStateName = "Armature_Lewitation";
+    public List<string> allowedMovementStates = new List<string> { "rig_Walking", "Cat_Ball_Body_BallAnimation" };
 
     [Header("Ground Alignment")]
     public LayerMask groundLayer;
@@ -38,8 +39,21 @@ public class NavMeshWander : MonoBehaviour
     {
         if (animator != null)
         {
+            animator.SetFloat("Speed", agent.velocity.magnitude);
+
             AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-            if (!stateInfo.IsName(defaultStateName))
+            bool canMove = false;
+
+            foreach (string state in allowedMovementStates)
+            {
+                if (stateInfo.IsName(state))
+                {
+                    canMove = true;
+                    break;
+                }
+            }
+
+            if (!canMove)
             {
                 agent.isStopped = true;
                 return;
