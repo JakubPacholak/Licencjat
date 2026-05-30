@@ -1243,6 +1243,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6845838779709011995, guid: 54783ba6bf0144f44983cb603a5329b3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8938060697872258856, guid: 54783ba6bf0144f44983cb603a5329b3, type: 3}
       propertyPath: m_Name
       value: Views
@@ -1435,11 +1439,6 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   m_DirtyAABB: 0
---- !u!4 &1743421404 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5751737285231255613, guid: 54783ba6bf0144f44983cb603a5329b3, type: 3}
-  m_PrefabInstance: {fileID: 1272749839}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1847068372 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d63d7c0997768074bbc002fe9054858e, type: 3}
@@ -32684,7 +32683,15 @@ PrefabInstance:
     - target: {fileID: 168666076505679978, guid: 182c04a33fe80fc49b4cc55b5e6b7082, type: 3}
       propertyPath: target
       value: 
-      objectReference: {fileID: 1743421404}
+      objectReference: {fileID: 0}
+    - target: {fileID: 168666076505679978, guid: 182c04a33fe80fc49b4cc55b5e6b7082, type: 3}
+      propertyPath: autoFindTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 217317629179344894, guid: 182c04a33fe80fc49b4cc55b5e6b7082, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 867456193946651551, guid: ca15a44b3a187eb43b1ef9dca68d039a, type: 2}
     - target: {fileID: 1902736793703942026, guid: 182c04a33fe80fc49b4cc55b5e6b7082, type: 3}
       propertyPath: m_Name
       value: Setup
