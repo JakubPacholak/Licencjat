@@ -198,6 +198,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &212146009 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7908324000813552363, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+  m_PrefabInstance: {fileID: 3214301688729421481}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &308182882
 GameObject:
   m_ObjectHideFlags: 0
@@ -563,7 +568,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -76}
+  m_AnchoredPosition: {x: 0, y: -75}
   m_SizeDelta: {x: 230, y: 79}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &464874019
@@ -609,7 +614,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 464874020}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 871129089}
+        m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
+        m_MethodName: OpenKeybinds
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &464874020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -680,10 +697,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panelMainMenu: {fileID: 3214301688729421488}
   panelLevels: {fileID: 3214301688729421485}
-  panelCollection: {fileID: 3214301688729421487}
+  panelCollection: {fileID: 1615597436}
   panelCollectionDetails: {fileID: 3214301688729421489}
-  panelOptions: {fileID: 3214301688729421486}
-  panelKeybinds: {fileID: 464874017}
+  panelOptions: {fileID: 1304509625}
+  panelKeybinds: {fileID: 212146009}
   gameSceneName: GameScene
   musicButtonText: {fileID: 1678886749}
   soundButtonText: {fileID: 1891775009}
@@ -990,6 +1007,16 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1122072421}
   m_CullTransparentMesh: 1
+--- !u!1 &1304509625 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8558143124437519029, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+  m_PrefabInstance: {fileID: 3214301688729421481}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1615597436 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8335109786151560224, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+  m_PrefabInstance: {fileID: 3214301688729421481}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1678886747
 GameObject:
   m_ObjectHideFlags: 0
@@ -1057,7 +1084,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 0}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1193,7 +1220,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 0}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1282,9 +1309,21 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 7730506b551014c4f92abad4995c094d, type: 3}
+    - target: {fileID: 698576791859781007, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 871129089}
+    - target: {fileID: 698576791859781007, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenCollection
+      objectReference: {fileID: 0}
+    - target: {fileID: 698576791859781007, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainMenuController, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 985258315684475458, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -304
+      value: -270
       objectReference: {fileID: 0}
     - target: {fileID: 1097658423002450816, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1294,6 +1333,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 871129089}
+    - target: {fileID: 2153409098723984395, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 871129089}
+    - target: {fileID: 2153409098723984395, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenMainMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 2153409098723984395, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainMenuController, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 2274946752713670485, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
       propertyPath: m_Name
       value: MainPanel
@@ -1301,6 +1352,18 @@ PrefabInstance:
     - target: {fileID: 2622592522100503491, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 2709865025849459554, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 871129089}
+    - target: {fileID: 2709865025849459554, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenMainMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 2709865025849459554, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainMenuController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2996583791325347380, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1320,7 +1383,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4401269630847443840, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 22
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4483829880262941733, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 871129089}
+    - target: {fileID: 4483829880262941733, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenLevels
+      objectReference: {fileID: 0}
+    - target: {fileID: 4483829880262941733, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainMenuController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 4526666540667782072, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1328,15 +1403,39 @@ PrefabInstance:
       objectReference: {fileID: 871129089}
     - target: {fileID: 4792910268586308137, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 227
+      value: 220
       objectReference: {fileID: 0}
     - target: {fileID: 5289848678988202836, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 871129089}
+    - target: {fileID: 5307305743855696974, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 871129089}
+    - target: {fileID: 5307305743855696974, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenOptions
+      objectReference: {fileID: 0}
+    - target: {fileID: 5307305743855696974, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainMenuController, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 5436503208196891885, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -198
+      value: -175
+      objectReference: {fileID: 0}
+    - target: {fileID: 6273881877527873795, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 871129089}
+    - target: {fileID: 6273881877527873795, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenMainMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 6273881877527873795, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainMenuController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6362194385083089183, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
       propertyPath: m_Name
@@ -1346,6 +1445,18 @@ PrefabInstance:
       propertyPath: m_SpriteState.m_PressedSprite
       value: 
       objectReference: {fileID: 21300000, guid: 4f6aa527fcb24f34ca859fbe5cbf9bd3, type: 3}
+    - target: {fileID: 6604585153310201278, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 871129089}
+    - target: {fileID: 6604585153310201278, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 6604585153310201278, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainMenuController, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 6946755178938803635, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1361,6 +1472,18 @@ PrefabInstance:
     - target: {fileID: 7556843684613370498, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
       propertyPath: m_SizeDelta.y
       value: 220
+      objectReference: {fileID: 0}
+    - target: {fileID: 8211495217610874340, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 871129089}
+    - target: {fileID: 8211495217610874340, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenMainMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 8211495217610874340, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainMenuController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8226697700835882143, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1446,6 +1569,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8865412403238053367, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 871129089}
+    - target: {fileID: 8865412403238053367, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ExitGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 8865412403238053367, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainMenuController, Assembly-CSharp
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 6868579977261126350, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
@@ -1486,16 +1621,6 @@ RectTransform:
 --- !u!1 &3214301688729421485 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8732430733746538331, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
-  m_PrefabInstance: {fileID: 3214301688729421481}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &3214301688729421486 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2956030742552658406, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
-  m_PrefabInstance: {fileID: 3214301688729421481}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &3214301688729421487 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2053322910801343465, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
   m_PrefabInstance: {fileID: 3214301688729421481}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &3214301688729421488 stripped

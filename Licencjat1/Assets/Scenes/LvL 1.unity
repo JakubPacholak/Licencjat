@@ -545,6 +545,81 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5751737285231255613, guid: 54783ba6bf0144f44983cb603a5329b3, type: 3}
   m_PrefabInstance: {fileID: 1084646027953473128}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &689680282
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 689680283}
+  - component: {fileID: 689680285}
+  - component: {fileID: 689680284}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &689680283
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 689680282}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 159419328}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 6000, y: 1000}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &689680284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 689680282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &689680285
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 689680282}
+  m_CullTransparentMesh: 1
 --- !u!120 &732331302 stripped
 LineRenderer:
   m_CorrespondingSourceObject: {fileID: 3574972157207849276, guid: bbc333ee3bc833f4e83f0dd7ae7b6bb7, type: 3}
@@ -1663,13 +1738,24 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7709525643346022171, guid: d8fd98a61a1db2a48a9e164188af9c40, type: 3}
+      propertyPath: m_fontColor.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7709525643346022171, guid: d8fd98a61a1db2a48a9e164188af9c40, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 16777215
+      objectReference: {fileID: 0}
     - target: {fileID: 8236205683655673832, guid: d8fd98a61a1db2a48a9e164188af9c40, type: 3}
       propertyPath: m_Name
       value: DialoguePanel
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 5264742867134380432, guid: d8fd98a61a1db2a48a9e164188af9c40, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 689680283}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8fd98a61a1db2a48a9e164188af9c40, type: 3}
 --- !u!1001 &3753401291805457251
@@ -2452,9 +2538,33 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2445451253942676423, guid: ed6ca9faa1507a5499b38d357d9a7d59, type: 3}
+      propertyPath: spriteQuest1
+      value: 
+      objectReference: {fileID: 21300000, guid: 87e2b8211aec25446a0773e11f795cf5, type: 3}
+    - target: {fileID: 2445451253942676423, guid: ed6ca9faa1507a5499b38d357d9a7d59, type: 3}
+      propertyPath: spriteQuest2
+      value: 
+      objectReference: {fileID: 21300000, guid: 6ade5c7e3ceb4144186000a80bb8f106, type: 3}
+    - target: {fileID: 2445451253942676423, guid: ed6ca9faa1507a5499b38d357d9a7d59, type: 3}
+      propertyPath: spriteQuest3
+      value: 
+      objectReference: {fileID: 21300000, guid: 09bbdfd0b943db040866434d7d34a1eb, type: 3}
+    - target: {fileID: 2445451253942676423, guid: ed6ca9faa1507a5499b38d357d9a7d59, type: 3}
+      propertyPath: spriteQuest4
+      value: 
+      objectReference: {fileID: 21300000, guid: 122858aa50324b949abc675430690581, type: 3}
+    - target: {fileID: 2445451253942676423, guid: ed6ca9faa1507a5499b38d357d9a7d59, type: 3}
+      propertyPath: spriteQuest5
+      value: 
+      objectReference: {fileID: 21300000, guid: 53b4498298b923744868e0b87212af12, type: 3}
+    - target: {fileID: 2445451253942676423, guid: ed6ca9faa1507a5499b38d357d9a7d59, type: 3}
       propertyPath: creatureState
       value: 
       objectReference: {fileID: 1236449058}
+    - target: {fileID: 2445451253942676423, guid: ed6ca9faa1507a5499b38d357d9a7d59, type: 3}
+      propertyPath: dialogueImage
+      value: 
+      objectReference: {fileID: 689680284}
     - target: {fileID: 2445451253942676423, guid: ed6ca9faa1507a5499b38d357d9a7d59, type: 3}
       propertyPath: dialoguePanel
       value: 
@@ -2479,6 +2589,14 @@ PrefabInstance:
       propertyPath: spriteInventory
       value: 
       objectReference: {fileID: 21300000, guid: c68575b4e246bf24286d35204c66490d, type: 3}
+    - target: {fileID: 2445451253942676423, guid: ed6ca9faa1507a5499b38d357d9a7d59, type: 3}
+      propertyPath: spriteMoveCamera
+      value: 
+      objectReference: {fileID: 21300000, guid: 0b411d43580b96a48b9f0e52cddf26eb, type: 3}
+    - target: {fileID: 2445451253942676423, guid: ed6ca9faa1507a5499b38d357d9a7d59, type: 3}
+      propertyPath: spriteZoomCamera
+      value: 
+      objectReference: {fileID: 21300000, guid: 82a4f6daf5f6fa140ac87feb55bb2acb, type: 3}
     - target: {fileID: 2445451253942676423, guid: ed6ca9faa1507a5499b38d357d9a7d59, type: 3}
       propertyPath: uiInventoryPanel
       value: 
