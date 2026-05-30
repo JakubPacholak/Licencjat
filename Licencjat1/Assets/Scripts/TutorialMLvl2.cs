@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 using System.Text;
@@ -14,13 +15,22 @@ public enum Level2Phase
 
 public class Level2QuestManager : MonoBehaviour
 {
-    [Header("UI")]
+    [Header("UI G?ówne")]
     public TextMeshProUGUI instructionText;
     public GameObject tutorialPanel;
 
-    [Header("Dialogue UI")]
+    [Header("UI Dialogów (Podepnij jeden panel)")]
     public GameObject dialoguePanel;
-    public TextMeshProUGUI dialogueText;
+    public Image dialogueImage;
+
+    [Header("Grafiki Dialogów (Przeci?gnij pliki PNG z okna Project)")]
+    public Sprite spriteQuest1;
+    public Sprite spriteQuest2;
+    public Sprite spriteQuest3;
+    public Sprite spriteQuest4;
+    public Sprite spriteQuest5;
+
+    [Header("Ustawienia Dialogów")]
     public float dialogueDuration = 4.0f;
 
     [Header("References")]
@@ -180,39 +190,40 @@ public class Level2QuestManager : MonoBehaviour
 
     private IEnumerator ShowDialogueRoutine(Level2Phase phase)
     {
+        Sprite activeSprite = GetSpriteForPhase(phase);
+
+        if (activeSprite == null || dialoguePanel == null || dialogueImage == null)
+        {
+            UpdateInstructionText();
+            yield break;
+        }
+
         IsDialogueActive = true;
 
         if (instructionText != null) instructionText.text = "";
 
-        string text = "";
-        switch (phase)
-        {
-            case Level2Phase.Quest1_PlaceObjects:
-                text = "The specimen seems to be lost, I should put maybe 4 objects to see how it reacts.";
-                break;
-            case Level2Phase.Quest2_MergeCactusBones:
-                text = "I feel like those bones and cacti could look interesting together...";
-                break;
-            case Level2Phase.Quest3_MergePalmBones:
-                text = "The creature seems to be hungry, I'll figure out something.";
-                break;
-            case Level2Phase.Quest4_MergeCactusSatellite:
-                text = "It looks like the specimen wants to play with something...";
-                break;
-            case Level2Phase.Quest5_FreeBuild:
-                text = "Silly little one seems to like its new home, I'll add some finishing touches here and there.";
-                break;
-        }
-
-        if (dialogueText != null) dialogueText.text = text;
-        if (dialoguePanel != null) dialoguePanel.SetActive(true);
+        dialogueImage.sprite = activeSprite;
+        dialoguePanel.SetActive(true);
 
         yield return new WaitForSeconds(dialogueDuration);
 
-        if (dialoguePanel != null) dialoguePanel.SetActive(false);
+        dialoguePanel.SetActive(false);
         IsDialogueActive = false;
 
         UpdateInstructionText();
+    }
+
+    private Sprite GetSpriteForPhase(Level2Phase phase)
+    {
+        switch (phase)
+        {
+            case Level2Phase.Quest1_PlaceObjects: return spriteQuest1;
+            case Level2Phase.Quest2_MergeCactusBones: return spriteQuest2;
+            case Level2Phase.Quest3_MergePalmBones: return spriteQuest3;
+            case Level2Phase.Quest4_MergeCactusSatellite: return spriteQuest4;
+            case Level2Phase.Quest5_FreeBuild: return spriteQuest5;
+            default: return null;
+        }
     }
 
     private void FinishTutorialImmediately()

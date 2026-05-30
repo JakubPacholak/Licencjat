@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 using System.Text;
@@ -17,13 +18,25 @@ public enum TutorialPhase
 
 public class TutorialManager : MonoBehaviour
 {
-    [Header("UI")]
+    [Header("UI G?ówne")]
     public TextMeshProUGUI instructionText;
     public GameObject tutorialPanel;
 
-    [Header("Dialogue UI")]
+    [Header("UI Dialogów (Podepnij jeden panel)")]
     public GameObject dialoguePanel;
-    public TextMeshProUGUI dialogueText;
+    public Image dialogueImage;
+
+    [Header("Grafiki Dialogów (Przeci?gnij pliki PNG z okna Project)")]
+    public Sprite spriteMoveCamera;
+    public Sprite spriteZoomCamera;
+    public Sprite spriteInventory;
+    public Sprite spriteQuest1;
+    public Sprite spriteQuest2;
+    public Sprite spriteQuest3;
+    public Sprite spriteQuest4;
+    public Sprite spriteQuest5;
+
+    [Header("Ustawienia Dialogów")]
     public float dialogueDuration = 4.0f;
 
     [Header("References")]
@@ -77,14 +90,14 @@ public class TutorialManager : MonoBehaviour
             startMergeCount = buildingSystem.GetTotalMerges();
         }
 
-        UpdateInstructionText();
         isSystemReady = true;
+
+        StartCoroutine(ShowDialogueRoutine(currentPhase));
     }
 
     private void Update()
     {
         if (isFinished) return;
-
         if (!isSystemReady) return;
 
         ClampHappinessBar();
@@ -239,51 +252,48 @@ public class TutorialManager : MonoBehaviour
             startCameraPos = cameraTransform.position;
         }
 
-        if (currentPhase >= TutorialPhase.Quest1_PlaceObjects && currentPhase <= TutorialPhase.Quest5_FreeBuild)
-        {
-            StartCoroutine(ShowDialogueRoutine(currentPhase));
-        }
-        else
-        {
-            UpdateInstructionText();
-        }
+        StartCoroutine(ShowDialogueRoutine(currentPhase));
     }
 
     private IEnumerator ShowDialogueRoutine(TutorialPhase phase)
     {
+        Sprite activeSprite = GetSpriteForPhase(phase);
+
+        if (activeSprite == null || dialoguePanel == null || dialogueImage == null)
+        {
+            UpdateInstructionText();
+            yield break;
+        }
+
         IsDialogueActive = true;
 
         if (instructionText != null) instructionText.text = "";
 
-        string text = "";
-        switch (phase)
-        {
-            case TutorialPhase.Quest1_PlaceObjects:
-                text = "The specimen is terrified. I have to give it some stability - use those objects on the side, I'll pick 4 for now.";
-                break;
-            case TutorialPhase.Quest2_MergeStatue:
-                text = "I see the glowing mushroom and the runic statue longing to merge together...";
-                break;
-            case TutorialPhase.Quest3_MergeMushroom:
-                text = "This specimen is exhausted from the journey from it's planet. Let's make a nest for it.";
-                break;
-            case TutorialPhase.Quest4_MergeBarrel:
-                text = "The creature is well rested now, but hungry. I should take care of that...";
-                break;
-            case TutorialPhase.Quest5_FreeBuild:
-                text = "I think little one needs more enrichment in its enclosure. I'll work on it.";
-                break;
-        }
-
-        if (dialogueText != null) dialogueText.text = text;
-        if (dialoguePanel != null) dialoguePanel.SetActive(true);
+        dialogueImage.sprite = activeSprite;
+        dialoguePanel.SetActive(true);
 
         yield return new WaitForSeconds(dialogueDuration);
 
-        if (dialoguePanel != null) dialoguePanel.SetActive(false);
+        dialoguePanel.SetActive(false);
         IsDialogueActive = false;
 
         UpdateInstructionText();
+    }
+
+    private Sprite GetSpriteForPhase(TutorialPhase phase)
+    {
+        switch (phase)
+        {
+            case TutorialPhase.MoveCamera: return spriteMoveCamera;
+            case TutorialPhase.ZoomCamera: return spriteZoomCamera;
+            case TutorialPhase.ToggleInventory: return spriteInventory;
+            case TutorialPhase.Quest1_PlaceObjects: return spriteQuest1;
+            case TutorialPhase.Quest2_MergeStatue: return spriteQuest2;
+            case TutorialPhase.Quest3_MergeMushroom: return spriteQuest3;
+            case TutorialPhase.Quest4_MergeBarrel: return spriteQuest4;
+            case TutorialPhase.Quest5_FreeBuild: return spriteQuest5;
+            default: return null;
+        }
     }
 
     private void FinishTutorialImmediately()
