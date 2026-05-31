@@ -2662,7 +2662,7 @@ PrefabInstance:
       objectReference: {fileID: 8087984326733669281}
     - target: {fileID: 2274946752713670485, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2709865025849459554, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
       propertyPath: m_SpriteState.m_HighlightedSprite
@@ -2903,6 +2903,10 @@ PrefabInstance:
     - target: {fileID: 7517766607112090362, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
       propertyPath: m_RaycastTarget
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7556843684613370498, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8211495217610874340, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
       propertyPath: m_SpriteState.m_PressedSprite

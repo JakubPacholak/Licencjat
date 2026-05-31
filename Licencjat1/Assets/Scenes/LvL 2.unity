@@ -640,11 +640,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: abfcf5577cf9cfc469b8c8a769d93f72, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -2.413
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: abfcf5577cf9cfc469b8c8a769d93f72, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.31
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: abfcf5577cf9cfc469b8c8a769d93f72, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1071,6 +1071,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OpenCollections
       objectReference: {fileID: 0}
+    - target: {fileID: 2101131160000847762, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2101131160000847762, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2153409098723984395, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
       propertyPath: m_SpriteState.m_HighlightedSprite
       value: 
@@ -1137,6 +1145,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4548807639000165179, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
       propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4895199589848999765, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4895199589848999765, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4895199589848999765, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5139029966659752713, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
@@ -1295,6 +1315,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6652728146721349520, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6652728146721349520, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6652728146721349520, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7121508428283963610, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 0
@@ -1323,6 +1355,10 @@ PrefabInstance:
       propertyPath: m_RaycastTarget
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7556843684613370498, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8211495217610874340, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
       propertyPath: m_SpriteState.m_PressedSprite
       value: 
@@ -1337,7 +1373,11 @@ PrefabInstance:
       objectReference: {fileID: 1342137862}
     - target: {fileID: 8211495217610874340, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ReturnToMainMenu
+      value: OpenPauseMain
+      objectReference: {fileID: 0}
+    - target: {fileID: 8558143124437519029, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8865412403238053367, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
       propertyPath: m_SpriteState.m_HighlightedSprite
@@ -1353,6 +1393,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9037073692072864651, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
       propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9130931879477782867, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9130931879477782867, guid: 6492cd829156c1548ab16a6c44a5f82c, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
