@@ -12,6 +12,7 @@ public class IntroController : MonoBehaviour
     [Header("Elementy UI")]
     public Image displayImage;
     public CanvasGroup fader;
+    public Button skipButton;
 
     [Header("Ustawienia Czasu")]
     public float timePerImage = 3f;
@@ -25,6 +26,11 @@ public class IntroController : MonoBehaviour
         if (fader != null)
         {
             fader.alpha = 1f;
+        }
+
+        if (skipButton != null)
+        {
+            skipButton.onClick.AddListener(SkipIntro);
         }
 
         StartCoroutine(PlayIntroSequence());
@@ -61,6 +67,13 @@ public class IntroController : MonoBehaviour
         }
 
         fader.alpha = endAlpha;
+    }
+
+    public void SkipIntro()
+    {
+        StopAllCoroutines();
+
+        FinishIntro();
     }
 
     private void FinishIntro()
