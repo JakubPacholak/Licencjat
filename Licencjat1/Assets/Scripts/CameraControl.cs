@@ -159,27 +159,12 @@ public class CameraControl : MonoBehaviour
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0f)
         {
+            // Usuni?to Raycast i modyfikacj? targetPosition w kierunku myszki.
+            // Zwyk?a zmiana przybli?enia sprawdza si? du?o lepiej dla kamer izometrycznych.
             float scrollDelta = -scroll * zoomSpeed * Time.deltaTime * 50f;
 
-            // Szukamy punktu 3D, nad którym aktualnie znajduje si? kursor myszy
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-            Plane groundPlane = new Plane(Vector3.up, new Vector3(0, desiredTargetPosition.y, 0));
-
-            if (groundPlane.Raycast(ray, out float distance))
-            {
-                Vector3 mouseWorldPosition = ray.GetPoint(distance);
-
-                float previousTargetZoom = targetZoomDistance;
-                targetZoomDistance += scrollDelta;
-                targetZoomDistance = Mathf.Clamp(targetZoomDistance, minZoomDistance, maxZoomDistance);
-
-                // Obliczamy proporcj? zmiany zooma i przesuwamy punkt docelowy w stron? myszki
-                if (previousTargetZoom != targetZoomDistance)
-                {
-                    float zoomRatio = targetZoomDistance / previousTargetZoom;
-                    desiredTargetPosition = mouseWorldPosition + (desiredTargetPosition - mouseWorldPosition) * zoomRatio;
-                }
-            }
+            targetZoomDistance += scrollDelta;
+            targetZoomDistance = Mathf.Clamp(targetZoomDistance, minZoomDistance, maxZoomDistance);
         }
 
         if (Mathf.Abs(targetZoomDistance - zoomDistance) > 0.001f)
