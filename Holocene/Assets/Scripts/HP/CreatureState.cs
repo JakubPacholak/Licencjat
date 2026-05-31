@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System.Collections; // Wymagane do dzia?ania Coroutine
+using System.Collections;
 
 public class CreatureState : MonoBehaviour
 {
@@ -16,7 +16,15 @@ public class CreatureState : MonoBehaviour
     public int HP_MaxPoints;
     int HP_CurrentPoints = 0;
 
+    [Header("Level Completion UI")]
+    public GameObject levelChoiceWindow;
+    public GameObject reopenWindowButton;
+    public Button btnYes;
+    public Button btnNo;
+    public Button btnReopen;
+
     private bool isTransitioning = false;
+    private bool levelFinished = false;
 
     public enum State
     {
@@ -33,6 +41,13 @@ public class CreatureState : MonoBehaviour
         emoticonHappy.SetActive(false);
         emoticonThinking.SetActive(false);
 
+        if (levelChoiceWindow != null) levelChoiceWindow.SetActive(false);
+        if (reopenWindowButton != null) reopenWindowButton.SetActive(false);
+
+        if (btnYes != null) btnYes.onClick.AddListener(GoToNextLevel);
+        if (btnNo != null) btnNo.onClick.AddListener(CloseChoiceWindow);
+        if (btnReopen != null) btnReopen.onClick.AddListener(OpenChoiceWindow);
+
         if (hp_label != null) hp_label.SetText(HP_CurrentPoints.ToString());
     }
 
@@ -46,25 +61,39 @@ public class CreatureState : MonoBehaviour
             image.fillAmount = (float)HP_CurrentPoints / (float)HP_MaxPoints;
         }
 
-        // Je?li punkty osi?gn? 100 i jeszcze nie zacz?li?my odliczania
-        if (HP_CurrentPoints >= 100 && !isTransitioning)
+        if (HP_CurrentPoints >= 100 && !isTransitioning && !levelFinished)
         {
-            StartCoroutine(DelayedNextLevel());
+            StartCoroutine(DelayedLevelCompletion());
         }
 
         HandleEmoticons();
     }
 
-    private IEnumerator DelayedNextLevel()
+    private IEnumerator DelayedLevelCompletion()
     {
-        isTransitioning = true; 
-
-        Debug.Log("Nextlevel in 7 seconds");
+        isTransitioning = true;
+        levelFinished = true;
 
         ShowHappyEmoticon();
+        OpenChoiceWindow();
 
-        yield return new WaitForSeconds(7f);
+        yield break;
+    }
 
+    public void OpenChoiceWindow()
+    {
+        if (levelChoiceWindow != null) levelChoiceWindow.SetActive(true);
+        if (reopenWindowButton != null) reopenWindowButton.SetActive(false);
+    }
+
+    public void CloseChoiceWindow()
+    {
+        if (levelChoiceWindow != null) levelChoiceWindow.SetActive(false);
+        if (reopenWindowButton != null) reopenWindowButton.SetActive(true);
+    }
+
+    public void GoToNextLevel()
+    {
         int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
 
         if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)

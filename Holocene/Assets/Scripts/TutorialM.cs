@@ -6,14 +6,12 @@ using System.Text;
 
 public enum TutorialPhase
 {
-    // --- 5 ZADA? W SEKCJI TUTORIALU ---
     MoveCamera,
     ZoomCamera,
     ToggleInventory,
     PlaceAndRotate,
     HappinessBarInfo,
 
-    // --- G?ÓWNE CELE (QUESTY Z SCREENÓW) ---
     Quest1_Place4Objects,
     Quest2_MergeStatue,
     Quest3_MergeMushroom,
@@ -32,11 +30,11 @@ public class TutorialManager : MonoBehaviour
     public Image dialogueImage;
 
     [Header("Grafiki Dialogów (Sekcja Tutorialu)")]
-    public Sprite spriteMoveCamera;       // RMB.png
-    public Sprite spriteZoomCamera;       // zoom scroll.png
-    public Sprite spriteInventory;        // Inventory.png
-    public Sprite spritePlaceAndRotate;   // eq.png
-    public Sprite spriteHappiness;        // happines.png
+    public Sprite spriteMoveCamera;
+    public Sprite spriteZoomCamera;
+    public Sprite spriteInventory;
+    public Sprite spritePlaceAndRotate; 
+    public Sprite spriteHappiness; 
 
     [Header("Grafiki Dialogów (Sekcja Questów)")]
     public Sprite spriteQuest1;
@@ -71,11 +69,8 @@ public class TutorialManager : MonoBehaviour
 
     private bool hasOpenedInventory = false;
     private bool hasPlacedObject = false;
-    private bool hasRotatedObject = false;
 
-    // W?a?ciwo?ci dla BuildingEQ.cs
     public bool IsBuildingBlocked => currentPhase < TutorialPhase.PlaceAndRotate;
-    // Blokada statuy a? do zadania z jej ??czeniem:
     public bool IsStatueBlocked => currentPhase < TutorialPhase.Quest2_MergeStatue;
     public bool IsFirstTaskActive => currentPhase == TutorialPhase.PlaceAndRotate;
 
@@ -194,10 +189,11 @@ public class TutorialManager : MonoBehaviour
                 break;
 
             case TutorialPhase.PlaceAndRotate:
-                if (CountBuildings() > startBuildingCount) hasPlacedObject = true;
-                if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.E)) hasRotatedObject = true;
-
-                if (hasPlacedObject && hasRotatedObject) NextPhase();
+                if (CountBuildings() > startBuildingCount)
+                {
+                    hasPlacedObject = true;
+                    NextPhase();
+                }
                 break;
 
             case TutorialPhase.HappinessBarInfo:
@@ -245,7 +241,6 @@ public class TutorialManager : MonoBehaviour
         {
             startBuildingCount = CountBuildings();
             hasPlacedObject = false;
-            hasRotatedObject = false;
         }
         else if (currentPhase == TutorialPhase.Quest1_Place4Objects)
         {
@@ -349,7 +344,8 @@ public class TutorialManager : MonoBehaviour
             else
                 sb.AppendLine("<color=#888888><s>[X] Open & Close inventory (I)</s></color>");
 
-            sb.AppendLine(GetCheckboxText("Place & rotate an object", currentPhase == TutorialPhase.PlaceAndRotate, currentPhase > TutorialPhase.PlaceAndRotate));
+            sb.AppendLine(GetCheckboxText("Place an object", currentPhase == TutorialPhase.PlaceAndRotate, currentPhase > TutorialPhase.PlaceAndRotate));
+
             sb.AppendLine(GetCheckboxText("Locate the happiness bar", currentPhase == TutorialPhase.HappinessBarInfo, currentPhase > TutorialPhase.HappinessBarInfo));
 
             instructionText.text = sb.ToString();
