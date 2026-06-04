@@ -23,6 +23,9 @@ public class CreatureState : MonoBehaviour
     public Button btnNo;
     public Button btnReopen;
 
+    [Header("Outro Settings")]
+    public string outroSceneName = "Outro";
+
     private bool isTransitioning = false;
     private bool levelFinished = false;
 
@@ -75,9 +78,14 @@ public class CreatureState : MonoBehaviour
         levelFinished = true;
 
         ShowHappyEmoticon();
-        OpenChoiceWindow();
 
-        yield break;
+        yield return new WaitForSeconds(7f);
+
+        SceneManager.LoadScene(outroSceneName);
+
+        /* 
+         OpenChoiceWindow(); 
+        */
     }
 
     public void OpenChoiceWindow()
