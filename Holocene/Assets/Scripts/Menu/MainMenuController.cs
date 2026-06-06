@@ -42,7 +42,6 @@ public class MainMenuController : MonoBehaviour
 
     public void StartGame()
     {
-        Debug.Log("?adowanie sceny gry...");
         SceneManager.LoadScene("Intro");
     }
 
@@ -50,6 +49,7 @@ public class MainMenuController : MonoBehaviour
     public void OpenLevels() => ShowPanel(panelLevels);
     public void OpenCollection() => ShowPanel(panelCollection);
     public void OpenCollectionDetails() => ShowPanel(panelCollectionDetails);
+    public void CloseCollectionDetails() => ShowPanel(panelCollection);
     public void OpenOptions() => ShowPanel(panelOptions);
     public void OpenKeybinds() => ShowPanel(panelKeybinds);
 
@@ -76,7 +76,6 @@ public class MainMenuController : MonoBehaviour
 
     public void ExitGame()
     {
-        Debug.Log("Wychodzenie z gry...");
         Application.Quit();
     }
 }

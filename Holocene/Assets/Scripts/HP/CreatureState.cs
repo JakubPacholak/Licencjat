@@ -23,7 +23,9 @@ public class CreatureState : MonoBehaviour
     public Button btnNo;
     public Button btnReopen;
 
-    [Header("Outro Settings")]
+    [Header("Progression Settings")]
+    [Tooltip("Zaznacz to TYLKO na ostatnim poziomie, aby w??czy? Outro")]
+    public bool isFinalLevel = false;
     public string outroSceneName = "Outro";
 
     private bool isTransitioning = false;
@@ -79,13 +81,20 @@ public class CreatureState : MonoBehaviour
 
         ShowHappyEmoticon();
 
+        // Czekamy 7 sekund na nacieszenie si? widokiem
         yield return new WaitForSeconds(7f);
 
-        SceneManager.LoadScene(outroSceneName);
-
-        /* 
-         OpenChoiceWindow(); 
-        */
+        // Sprawdzamy, czy to ostatni poziom
+        if (isFinalLevel)
+        {
+            // Je?li tak, odpalamy Outro
+            SceneManager.LoadScene(outroSceneName);
+        }
+        else
+        {
+            // Je?li nie, otwieramy standardowe okienko przej?cia do nast?pnego poziomu
+            OpenChoiceWindow();
+        }
     }
 
     public void OpenChoiceWindow()

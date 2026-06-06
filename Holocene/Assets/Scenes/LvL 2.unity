@@ -12202,6 +12202,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5070761474387728513, guid: 2908f9b2b2137364386b43644a8b9368, type: 3}
+      propertyPath: isFinalLevel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5070761474387728513, guid: 2908f9b2b2137364386b43644a8b9368, type: 3}
       propertyPath: emoticonHappy
       value: 
       objectReference: {fileID: 1054766268}
