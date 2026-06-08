@@ -14,7 +14,7 @@ public class NavMeshWander : MonoBehaviour
 
     [Header("Animation Control")]
     public Animator animator;
-    public List<string> allowedMovementStates = new List<string> { "rig_Walking", "Cat_Ball_Body_BallAnimation" };
+    public List<string> allowedMovementStates = new List<string> { "rig_Idle", "Cat_Ball_Body_BallAnimation" };
 
     [Header("Ground Alignment")]
     public LayerMask groundLayer;
