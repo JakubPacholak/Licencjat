@@ -4891,7 +4891,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: dfa926e8a664c8f42b3b454d9bf1318f, type: 3}
     - target: {fileID: 2445451253942676423, guid: ed6ca9faa1507a5499b38d357d9a7d59, type: 3}
       propertyPath: dialogueDuration
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2445451253942676423, guid: ed6ca9faa1507a5499b38d357d9a7d59, type: 3}
       propertyPath: spriteMoveCamera
