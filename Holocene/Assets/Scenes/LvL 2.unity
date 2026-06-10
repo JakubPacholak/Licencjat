@@ -784,7 +784,7 @@ MonoBehaviour:
   spriteQuest1: {fileID: 21300000, guid: 758da2961f371664eb62cc4fa77e2de9, type: 3}
   spriteQuest2: {fileID: 21300000, guid: b864ecaa2d6b0374fbe1fddc67b9fbbb, type: 3}
   spriteQuest3: {fileID: 21300000, guid: a4a8fb416858f0d4f928326a672bb7a2, type: 3}
-  spriteQuest4: {fileID: 21300000, guid: 5da4387974ef8664084e252d3210b2cb, type: 3}
+  spriteQuest4: {fileID: 21300000, guid: 1a1e000e1b812e74789b954c3bc64676, type: 3}
   spriteQuest5: {fileID: 21300000, guid: e12c9e2a097e34843b2df8a03cbd58c3, type: 3}
   dialogueDuration: 6
   uiInventoryPanel: {fileID: 4720238932508265712}
