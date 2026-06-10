@@ -43,8 +43,7 @@ public class CollectionManager : MonoBehaviour
     {
         foreach (var card in animalCards)
         {
-            bool isUnlocked = PlayerPrefs.GetInt("UnlockedCard_" + card.cardID, 0) == 1;
-
+            bool isUnlocked = PlayerPrefs.GetInt("UnlockedCard_" + card.cardID, 1) == 1;
             card.thumbnailButton.interactable = isUnlocked;
 
             if (card.lockedOverlay != null)

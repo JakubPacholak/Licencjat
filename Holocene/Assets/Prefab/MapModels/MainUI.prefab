@@ -344,8 +344,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2150821785007545326}
-  - {fileID: 6916018486111933336}
   - {fileID: 8386027221669876556}
+  - {fileID: 6916018486111933336}
   m_Father: {fileID: 3155906041483785116}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -370,6 +370,13 @@ MonoBehaviour:
   hp_label: {fileID: 3305401564923158475}
   image: {fileID: 1094926456710823574}
   HP_MaxPoints: 100
+  levelChoiceWindow: {fileID: 0}
+  reopenWindowButton: {fileID: 0}
+  btnYes: {fileID: 0}
+  btnNo: {fileID: 0}
+  btnReopen: {fileID: 0}
+  isFinalLevel: 0
+  outroSceneName: Outro
   currentState: 2
 --- !u!1 &8565874601747866954
 GameObject:

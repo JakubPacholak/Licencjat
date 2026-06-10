@@ -784,7 +784,7 @@ MonoBehaviour:
   spriteQuest1: {fileID: 21300000, guid: 758da2961f371664eb62cc4fa77e2de9, type: 3}
   spriteQuest2: {fileID: 21300000, guid: b864ecaa2d6b0374fbe1fddc67b9fbbb, type: 3}
   spriteQuest3: {fileID: 21300000, guid: a4a8fb416858f0d4f928326a672bb7a2, type: 3}
-  spriteQuest4: {fileID: 21300000, guid: 75482aec26de7f142b0f1da39084ccc5, type: 3}
+  spriteQuest4: {fileID: 21300000, guid: 5da4387974ef8664084e252d3210b2cb, type: 3}
   spriteQuest5: {fileID: 21300000, guid: e12c9e2a097e34843b2df8a03cbd58c3, type: 3}
   dialogueDuration: 6
   uiInventoryPanel: {fileID: 4720238932508265712}
@@ -1692,7 +1692,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2009577584}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -16.32, y: -179.989, z: -0.079}
 --- !u!212 &1871999337
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1916,8 +1916,7 @@ MonoBehaviour:
   agent: {fileID: 2009577590}
   wanderScript: {fileID: 2009577589}
   animationInterval: 12
-  returnStateNames:
-  - rig|Idle
+  returnStateNames: []
   buildingAnimations:
   - requiredBuilding: {fileID: 11400000, guid: 12476ff21973b524a961f7dd0c9593bf, type: 2}
     animationTriggerName: Sleep
@@ -2007,7 +2006,7 @@ MonoBehaviour:
   animator: {fileID: 2009577583}
   allowedMovementStates:
   - Cat_Ball_Body_BallAnimation
-  - rig|Idle
+  - rig_Idle
   - rig|sleep
   - rig|ScratchingCactus
   - rig|playing
@@ -2178,7 +2177,19 @@ PrefabInstance:
     - target: {fileID: 1094926456710823574, guid: 2908f9b2b2137364386b43644a8b9368, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 567bd515efafedb49b3b84c1173c98f2, type: 3}
+      objectReference: {fileID: 21300000, guid: 735479580e5b4ae45bb2eec2c48da432, type: 3}
+    - target: {fileID: 1094926456710823574, guid: 2908f9b2b2137364386b43644a8b9368, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1094926456710823574, guid: 2908f9b2b2137364386b43644a8b9368, type: 3}
+      propertyPath: m_Color.g
+      value: 0.9433962
+      objectReference: {fileID: 0}
+    - target: {fileID: 1094926456710823574, guid: 2908f9b2b2137364386b43644a8b9368, type: 3}
+      propertyPath: m_Color.r
+      value: 0.21930157
+      objectReference: {fileID: 0}
     - target: {fileID: 3155906041483785116, guid: 2908f9b2b2137364386b43644a8b9368, type: 3}
       propertyPath: m_Pivot.x
       value: 0
