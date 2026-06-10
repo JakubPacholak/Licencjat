@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Building 6
   m_EditorClassIdentifier: 
   <Description>k__BackingField: 
-  <Cost>k__BackingField: 0
+  <Cost>k__BackingField: 8
   <Model>k__BackingField: {fileID: 2746769916016006705, guid: 5c29b402778b4e04fad8d0ef71169fff, type: 3}
   <Icon>k__BackingField: {fileID: 21300000, guid: 7413b12fc9b268b4baeafa991be0bb80, type: 3}
   <PlacementVFX>k__BackingField: {fileID: 0}
@@ -21,6 +21,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 8f2624756c335f94eac56483458d0769, type: 2}
   - {fileID: 2100000, guid: 7615211c53d97ec47b64cf15fd6eea57, type: 2}
   - {fileID: 2100000, guid: 059fbc40dd48f7e4197b09d2689e311b, type: 2}
+  <PlacementSound>k__BackingField: {fileID: 0}
   <AllowStacking>k__BackingField: 0
   <CanBeStackedOn>k__BackingField: 0
   <OnlyStackOnSameType>k__BackingField: 0
