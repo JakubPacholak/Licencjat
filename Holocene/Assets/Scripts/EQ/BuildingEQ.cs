@@ -105,23 +105,17 @@ public class BuildingEQ : MonoBehaviour
         if (tutorial != null)
         {
             if (tutorial.IsDialogueActive) return;
-
             if (tutorial.IsBuildingBlocked) return;
-
-            if (tutorial.IsStatueBlocked && data.name.ToLower().Contains("statue"))
-            {
-                return;
-            }
+            if (tutorial.IsStatueBlocked && data.name.ToLower().Contains("statue")) return;
 
             if (tutorial.IsFirstTaskActive)
             {
                 int objectIndex = buildings.IndexOf(data);
-                if (objectIndex == 2)
-                {
-                    return;
-                }
+                if (objectIndex == 2) return;
             }
         }
+
+        if (buildingSystem != null && buildingSystem.IsLimitReached(data)) return;
 
         ToggleInventory();
         Vector3 worldPos = buildingSystem.GetMouseWorldPosition();

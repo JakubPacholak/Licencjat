@@ -235,6 +235,18 @@ public class BuildingSystem : MonoBehaviour
         return Vector3.negativeInfinity;
     }
 
+    public int GetCurrentBuildingCount(BuildingData data)
+    {
+        if (data == null) return 0;
+        return Building.ActiveBuildings.Count(b => b.Data == data);
+    }
+
+    public bool IsLimitReached(BuildingData data)
+    {
+        if (data == null || data.MaxAllowedOnMap <= 0) return false;
+        return GetCurrentBuildingCount(data) >= data.MaxAllowedOnMap;
+    }
+
     private void CheckForMergePossibility()
     {
         if (hasMerged)
@@ -264,6 +276,8 @@ public class BuildingSystem : MonoBehaviour
 
                 if (matchA || matchB)
                 {
+                    if (IsLimitReached(recipe.Result)) continue;
+
                     potentialMergeTarget = nearbyBuilding;
                     activeRecipe = recipe;
                     break;
@@ -338,25 +352,33 @@ public class BuildingSystem : MonoBehaviour
 
         bool canBuild = false;
 
-        if (useGrid)
+        if (IsLimitReached(preview.Data))
         {
-            canBuild = grid.CanBuild(worldPositionsBasedOnMouse);
-            if (canBuild)
-            {
-                Vector3 snappedCenterPosition = GetSnappedCenterPosition(worldPositionsBasedOnMouse, mouseWorldPosition);
-                preview.transform.position = snappedCenterPosition;
-            }
-            else preview.transform.position = mouseWorldPosition;
+            canBuild = false;
+            preview.transform.position = mouseWorldPosition;
         }
         else
         {
-            canBuild = CheckCollisionWithoutGrid(worldPositionsBasedOnMouse);
-            preview.transform.position = targetPosition;
-        }
+            if (useGrid)
+            {
+                canBuild = grid.CanBuild(worldPositionsBasedOnMouse);
+                if (canBuild)
+                {
+                    Vector3 snappedCenterPosition = GetSnappedCenterPosition(worldPositionsBasedOnMouse, mouseWorldPosition);
+                    preview.transform.position = snappedCenterPosition;
+                }
+                else preview.transform.position = mouseWorldPosition;
+            }
+            else
+            {
+                canBuild = CheckCollisionWithoutGrid(worldPositionsBasedOnMouse);
+                preview.transform.position = targetPosition;
+            }
 
-        if (canBuild && preview.Data.OnlyStackOnSameType)
-        {
-            if (!CheckIfStackingOnSameType(preview.transform.position)) canBuild = false;
+            if (canBuild && preview.Data.OnlyStackOnSameType)
+            {
+                if (!CheckIfStackingOnSameType(preview.transform.position)) canBuild = false;
+            }
         }
 
         preview.ChangeState(canBuild ? BuildingPreview.BuildingPreviewState.POSITIVE : BuildingPreview.BuildingPreviewState.NEGATIVE);

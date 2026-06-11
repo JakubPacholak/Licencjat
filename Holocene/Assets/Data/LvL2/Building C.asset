@@ -18,6 +18,8 @@ MonoBehaviour:
   <Icon>k__BackingField: {fileID: 0}
   <PlacementVFX>k__BackingField: {fileID: 0}
   <ColorVariants>k__BackingField: []
+  <PlacementSound>k__BackingField: {fileID: 0}
+  <MaxAllowedOnMap>k__BackingField: 1
   <AllowStacking>k__BackingField: 0
   <CanBeStackedOn>k__BackingField: 0
   <OnlyStackOnSameType>k__BackingField: 0

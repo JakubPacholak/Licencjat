@@ -12,6 +12,9 @@ public class BuildingData : ScriptableObject
     [field: SerializeField] public List<Material> ColorVariants { get; private set; }
     [field: SerializeField] public AudioClip PlacementSound { get; private set; }
 
+    [Header("Placement Limits")]
+    [field: SerializeField] public int MaxAllowedOnMap { get; private set; } = 0;
+
     [field: SerializeField] public bool AllowStacking { get; private set; } = false;
     [field: SerializeField] public bool CanBeStackedOn { get; private set; } = false;
     [field: SerializeField] public bool OnlyStackOnSameType { get; private set; } = false;
